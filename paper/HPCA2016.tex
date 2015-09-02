@@ -1,0 +1,53 @@
+\documentclass[pageno]{jpaper}
+\newcommand{\CLASSINPUTtoptextmargin}{0.75in}
+\newcommand{\CLASSINPUTbottomtextmargin}{0.75in}
+\setlength{\pdfpagewidth}{8.5in}
+\setlength{\pdfpageheight}{11in}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{citesort}
+\usepackage{balance}
+\usepackage{url}
+\usepackage{subfig}
+
+%% commands
+\newcommand{\TODO}[1]{\textcolor{red}{\todo{#1}}}
+
+
+\input{macros}
+
+%replace XXX with the submission number you are given from the HPCA submission site.
+\newcommand{\hpcasubmissionnumber}{XXX}
+
+\usepackage[normalem]{ulem}
+
+\begin{document}
+
+\title{HPCA 2016 - HW assisted migration for hybrid memories}
+
+\date{}
+\maketitle
+
+\thispagestyle{empty}
+
+\begin{abstract}
+  Die-stacked DRAM is an emerging technology that has been annoruced to be included with off-package memories resulting in a hybrid memory system. A large body of recent research has investigated the use of die-stacked DRAM as a hardware-manged last-level cache. This approach comes does not expose die-stacked memory for application use which could be beneifical to memory capacity constrained workloads. An alternative approach is to manage both memories as flat address space as part of main memory. Performance of flat addresss space requires efficient page placement and migrations such that most memory access are from the higher performance die-stacked memory. One apporach is for the operating system (OS) to monitor memory access and periodically migrate pages, however OS is limited to coarser granularities migration periods due to overheads of page table updates, and TLB shootdowns. In this paper we describe a clustered hardware migration architecture that transparently migrates pages that can scale to arbutrary number of channels. We also design scalable solutions to storing page access tracking and page remapping tables that can scale to future systems with terabytes of memory. Our results for evaluation of  multi-programmed workloads of parsec CPU and rodinia GPU applications show that our solution has \TODO{XX\%} better performance over recent flat-address space management schemes. 
+\end{abstract}
+
+\noindent \textbf{Keywords:} Memory architecture, Die-stacked memory
+
+\input{sections/Introduction.tex}
+\input{sections/Background.tex}
+\input{sections/RelatedWork.tex}
+\input{sections/Architecture.tex}
+\input{sections/Results.tex}
+\input{sections/Conclusions.tex}
+
+\bstctlcite{bstctl:etal, bstctl:nodash, bstctl:simpurl} 
+\bibliographystyle{IEEEtranS}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,121 @@
+\usepackage{ifthen}
+\usepackage{calc}
+\usepackage{pifont}
+\usepackage{color}
+\usepackage{fancyhdr}
+
+\newcounter{hours}
+\newcounter{minutes}
+\newcommand{\printtime}{%
+  \setcounter{hours}{\time/60}%
+  \setcounter{minutes}{\time-\value{hours}*60}%
+  \thehours:\theminutes}
+
+\newcommand{\myspacing}{1.62}
+\newcommand{\linespacing}[1]{\renewcommand{\baselinestretch}{#1}\normalsize}
+
+% Set timeofmake to 'true' to print the time the file was compiled
+\newboolean{timeofmake}
+\setboolean{timeofmake}{false}
+
+
+\newcommand{\todo}[1]{{\color{red}\sf\bfseries #1}}
+\newcommand{\dontinclude}[1]{ }
+\newcommand{\myfootnote}[1]{\footnote{\renewcommand{\baselinestretch}{1.0}\scriptsize #1}}
+
+
+\newcommand{\putsec}[2]{\vspace{-0.1in}\section{#2}\label{sec:#1}\vspace{-0.0in}}
+\newcommand{\putssec}[2]{\vspace{-0.05in}\subsection{#2}\label{ssec:#1}\vspace{-0.0in}}
+\newcommand{\putsssec}[2]{\vspace{0.0in}\subsubsection{#2}\label{sssec:#1}\vspace{0.0in}}
+\newcommand{\putsssecX}[1]{\vspace{0.0in}\subsubsection*{#1}\vspace{0.0in}}
+
+\renewcommand{\figurename}{\renewcommand{\baselinestretch}{1.0}\vspace{-0.0in}\footnotesize Figure}
+\renewcommand{\tablename}{\renewcommand{\baselinestretch}{1.0}\vspace{-0.0in}\footnotesize TABLE}
+ 
+\newcommand{\tabput}[3]{
+\begin{table}[t]
+\renewcommand{\baselinestretch}{0.95}
+%\small %also for forcing a baselinestretch update
+\begin{center}
+{
+#2
+\vspace{-0.1in}
+}
+\caption{\footnotesize #3 \label{tab:#1}\vspace{-0.2in}}
+\renewcommand{\baselinestretch}{\myspacing}\normalsize
+\end{center}
+\end{table}
+}
+  
+\newcommand{\tabputW}[3]{
+\begin{table*}[h]
+\begin{center}
+{
+#2
+}
+\end{center}
+\caption{\footnotesize #3 \label{tab:#1}}
+\end{table*}
+}
+
+\newcommand{\figput}[4][1.0\linewidth]{
+\begin{figure}[t]
+\begin{minipage}{\linewidth}
+\footnotesize %also for forcing a baselinestretch update
+\begin{center}
+\includegraphics[trim=#3, clip, width=#1]{plots/#2}
+\end{center}
+\vspace{-0.1in}
+\caption{\footnotesize #4 \label{fig:#2} \vspace{-0.0in}}
+\end{minipage}
+\end{figure}
+}
+
+
+\newcommand{\figputW}[4][1.0\linewidth]{
+\begin{figure*}
+\begin{minipage}{\linewidth}
+\footnotesize %also for forcing a baselinestretch update
+\begin{center}
+\includegraphics[trim=#3, clip, width=#1]{plots/#2}
+\end{center}
+\vspace{-0.1in}
+\caption{\footnotesize #4 \label{fig:#2}}
+\end{minipage}
+\end{figure*}
+}
+
+\newcommand{\figputT}[3]{
+\begin{figure}[t]
+\begin{minipage}{\linewidth}
+\footnotesize %also for forcing a baselinestretch update
+\begin{center}
+\includegraphics[trim=#2, clip, width=1.0\linewidth]{plots/#1}
+\end{center}
+\vspace{-0.1in}
+\caption{\footnotesize #3 \label{fig:#1}}
+\end{minipage}
+\end{figure}
+}
+
+\newcommand{\figputJ}[4][1.0\linewidth]{
+\begin{figure}[htb]
+\begin{minipage}{\linewidth}
+\footnotesize %also for forcing a baselinestretch update
+\begin{center}
+\includegraphics[trim=#3, clip, width=#1]{plots/#2}
+\end{center}
+\caption{\footnotesize #4 \label{fig:#2}}
+\end{minipage}
+\end{figure}
+}
+
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\tabref}[1]{Table~\ref{tab:#1}}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\ssecref}[1]{Section~\ref{ssec:#1}}
+\newcommand{\sssecref}[1]{Section~\ref{sssec:#1}}
+
+\newcommand{\ignore}[1]{}
+
+

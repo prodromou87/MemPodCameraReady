@@ -1,0 +1,23 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: HPCA2016.aux
+The style file: IEEEtranS.bst
+Database file #1: references.bib
+Warning--string name "monthdate2013" is undefined
+--line 8223 of file references.bib
+Warning--string name "addrdate2013" is undefined
+--line 8224 of file references.bib
+Warning--string name "cases" is undefined
+--line 8231 of file references.bib
+Warning--string name "addrcases2013" is undefined
+--line 8232 of file references.bib
+Warning--string name "monthcases2013" is undefined
+--line 8233 of file references.bib
+Warning--I didn't find a database entry for "bstctl:etal"
+Warning--I didn't find a database entry for "bstctl:nodash"
+Warning--I didn't find a database entry for "bstctl:simpurl"
+-- IEEEtranS.bst version 1.13 (2008/09/30) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+** Sorting version - not for normal IEEE work.
+
+Done.
+(There were 8 warnings)
