@@ -105,6 +105,12 @@ Moin Qureshi and Gabriel~H. Loh, ``{Fundamental Latency Trade-offs in
   and Practical Design},'' in \emph{Proc.~of the 45th Intl.~Symp.~on
   Microarchitecture}, Vancouver, Canada, December 2012.
 
+\bibitem{sim-micro2014}
+Jaewoong Sim, Alaa~R. Alameldeen, Zeshan Chishti, Chris Wilkerson, and Hyesoon
+  Kim, ``Transparent hardware management of stacked dram as part of memory,''
+  in \emph{Proceedings of the 47th Annual IEEE/ACM International Symposium on
+  Microarchitecture}, ser. MICRO-47, 2014.
+
 \bibitem{sim-micro2012}
 Jaewoong Sim, Gabriel~H. Loh, Hyesoon Kim, Mike O'Connor, and Mithuna
   Thottethodi, ``{A Mostly-Clean DRAM Cache for Effective Hit Speculation and

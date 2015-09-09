@@ -1,23 +1,68 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: HPCA2016.aux
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: HPCA2016.aux
 The style file: IEEEtranS.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: references.bib
 Warning--string name "monthdate2013" is undefined
---line 8223 of file references.bib
+--line 16445 of file references.bib
 Warning--string name "addrdate2013" is undefined
---line 8224 of file references.bib
+--line 16447 of file references.bib
 Warning--string name "cases" is undefined
---line 8231 of file references.bib
+--line 16461 of file references.bib
 Warning--string name "addrcases2013" is undefined
---line 8232 of file references.bib
+--line 16463 of file references.bib
 Warning--string name "monthcases2013" is undefined
---line 8233 of file references.bib
-Warning--I didn't find a database entry for "bstctl:etal"
-Warning--I didn't find a database entry for "bstctl:nodash"
-Warning--I didn't find a database entry for "bstctl:simpurl"
+--line 16465 of file references.bib
 -- IEEEtranS.bst version 1.13 (2008/09/30) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 ** Sorting version - not for normal IEEE work.
 
 Done.
-(There were 8 warnings)
+You've used 20 entries,
+            4498 wiz_defined-function locations,
+            1834 strings with 25618 characters,
+and the built_in function-call counts, 14200 in all, are:
+= -- 1185
+> -- 457
+< -- 36
++ -- 217
+- -- 132
+* -- 730
+:= -- 2172
+add.period$ -- 40
+call.type$ -- 20
+change.case$ -- 126
+chr.to.int$ -- 81
+cite$ -- 20
+duplicate$ -- 972
+empty$ -- 1234
+format.name$ -- 146
+if$ -- 3144
+int.to.chr$ -- 0
+int.to.str$ -- 20
+missing$ -- 203
+newline$ -- 83
+num.names$ -- 40
+pop$ -- 625
+preamble$ -- 1
+purify$ -- 106
+quote$ -- 2
+skip$ -- 997
+stack$ -- 0
+substring$ -- 310
+swap$ -- 602
+text.length$ -- 9
+text.prefix$ -- 0
+top$ -- 6
+type$ -- 216
+warning$ -- 0
+while$ -- 58
+width$ -- 22
+write$ -- 188
+(There were 5 warnings)
