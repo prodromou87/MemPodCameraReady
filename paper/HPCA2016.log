@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.8.10)  9 SEP 2015 16:28
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.8.10)  10 SEP 2015 17:15
 entering extended mode
 **C:/Users/aprodrom/Documents/NLM/HPCA2016/paper/HPCA2016.tex
 (C:/Users/aprodrom/Documents/NLM/HPCA2016/paper/HPCA2016.tex
@@ -587,60 +587,104 @@ File: figures/dummy.pdf Graphic file (type pdf)
 Package pdftex.def Info: figures/dummy.pdf used on input line 57.
 (pdftex.def)             Requested size: 231.84338pt x 130.41121pt.
 
-Overfull \hbox (6.10786pt too wide) in paragraph at lines 68--69
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (1.22809pt too wide) in paragraph at lines 72--73
+\T1/ptm/m/n/10 area over-head but ben-e-fits in ac-cu-racy. Iden-ti-fy-ing the 
+hottest
+ []
+
+[4]
+Overfull \hbox (11.5272pt too wide) in paragraph at lines 82--83
+[][][]\T1/aess/bx/n/10 IDF:[][] \T1/ptm/m/n/10 With the re-cent growth in PIM (
+Processing-In-Memory,
+ []
+
+
+Overfull \hbox (6.10786pt too wide) in paragraph at lines 85--86
 \T1/ptm/m/n/10 very com-mon trig-gers are used through-out the lit-er-a-ture wh
 en-
  []
 
 
-Overfull \hbox (4.71803pt too wide) in paragraph at lines 68--69
+Overfull \hbox (4.71803pt too wide) in paragraph at lines 85--86
 \T1/ptm/m/n/10 (or epoch-based) trig-gers oc-cur with a steady fre-quency, whil
 e
  []
 
 
-Overfull \hbox (9.58714pt too wide) in paragraph at lines 70--71
+Overfull \hbox (9.58714pt too wide) in paragraph at lines 87--88
 \T1/ptm/m/n/10 the same chal-lenge of iden-ti-fy-ing the op-ti-mal in-ter-val o
 r thresh-
  []
 
-[4]
-Overfull \hbox (7.6175pt too wide) in paragraph at lines 84--85
+[5]
+Overfull \hbox (4.7172pt too wide) in paragraph at lines 98--99
+\T1/ptm/m/n/10 her-ently ``as-sume'' a cen-tral-ized mi-gra-tion con-troller in
+ charge
+ []
+
+
+Overfull \hbox (1.61815pt too wide) in paragraph at lines 102--103
+[]\T1/ptm/m/n/10 Even though not clearly stated in the THM
+ []
+
+
+Overfull \hbox (2.58777pt too wide) in paragraph at lines 103--104
+\T1/ptm/m/n/10 will mon-i-tor the ac-tiv-ity of its own pages. When HMA's
+ []
+
+
+Overfull \hbox (1.98792pt too wide) in paragraph at lines 104--105
+[]\T1/ptm/m/n/10 Clustering mem-ory chan-nels into Pods
+ []
+
+
+Overfull \hbox (4.72731pt too wide) in paragraph at lines 104--105
+\T1/ptm/m/n/10 lelism, each Pod can hold all the migration-related struc-
+ []
+
+[6]
+Overfull \hbox (7.6175pt too wide) in paragraph at lines 124--125
 [][][]\T1/aess/bx/n/10 Talk about lim-its in the size of remap ta-bles/counters
 
  []
 
 ) (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\sections/Results.tex)
 (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\sections/Conclusions.tex)
-(C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\HPCA2016.bbl)
+(C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\HPCA2016.bbl [7])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 95.
- [5]
+ [8
+
+]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 95.
 
 (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\HPCA2016.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 95.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 95.
 Package rerunfilecheck Info: File `HPCA2016.out' has not changed.
-(rerunfilecheck)             Checksum: 0B24CD6A1BFDF427886D496ECD744683;1227.
+(rerunfilecheck)             Checksum: ADCD5859FA471D24E1E5E9ECB06E13BF;1223.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 95.
  ) 
 Here is how much of TeX's memory you used:
- 6931 strings out of 493921
- 98244 string characters out of 3144867
- 183604 words of memory out of 3000000
- 10014 multiletter control sequences out of 15000+200000
+ 6928 strings out of 493921
+ 98241 string characters out of 3144867
+ 184670 words of memory out of 3000000
+ 10015 multiletter control sequences out of 15000+200000
  76814 words of font info for 108 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 41i,11n,43p,1680b,417s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,11n,43p,1795b,485s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files 
 (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTe
 X 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
 /type1/urw/times/utmri8a.pfb>
-Output written on HPCA2016.pdf (5 pages, 226707 bytes).
+Output written on HPCA2016.pdf (8 pages, 243206 bytes).
 PDF statistics:
- 214 PDF objects out of 1000 (max. 8388607)
- 60 named destinations out of 1000 (max. 500000)
+ 223 PDF objects out of 1000 (max. 8388607)
+ 56 named destinations out of 1000 (max. 500000)
  158 words of extra memory for PDF output out of 10000 (max. 10000000)
 
