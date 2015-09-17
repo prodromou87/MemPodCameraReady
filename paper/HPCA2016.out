@@ -7,13 +7,14 @@
 \BOOKMARK [2][-]{subsection.4.3}{Activity Tracking Mechanism}{section.4}% 7
 \BOOKMARK [2][-]{subsection.4.4}{Migration triggers}{section.4}% 8
 \BOOKMARK [2][-]{subsection.4.5}{Decentralization of migration logic}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.6}{Migration Cost}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.7}{Scalability to Future Memory Capacities}{section.4}% 11
-\BOOKMARK [2][-]{subsection.4.8}{Discussion and comparison}{section.4}% 12
-\BOOKMARK [1][-]{section.5}{Results}{}% 13
-\BOOKMARK [2][-]{subsection.5.1}{Experimental Methodology}{section.5}% 14
-\BOOKMARK [2][-]{subsection.5.2}{Result1}{section.5}% 15
-\BOOKMARK [2][-]{subsection.5.3}{Result2}{section.5}% 16
-\BOOKMARK [2][-]{subsection.5.4}{Result3}{section.5}% 17
-\BOOKMARK [1][-]{section.6}{Conclusions and Future Work}{}% 18
-\BOOKMARK [1][-]{section.7}{References}{}% 19
+\BOOKMARK [2][-]{subsection.4.6}{Migration Datapath}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.7}{Migration Cost}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.8}{Scalability to Future Memory Capacities}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.9}{Discussion and comparison}{section.4}% 13
+\BOOKMARK [1][-]{section.5}{Results}{}% 14
+\BOOKMARK [2][-]{subsection.5.1}{Experimental Methodology}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.2}{Result1}{section.5}% 16
+\BOOKMARK [2][-]{subsection.5.3}{Result2}{section.5}% 17
+\BOOKMARK [2][-]{subsection.5.4}{Result3}{section.5}% 18
+\BOOKMARK [1][-]{section.6}{Conclusions and Future Work}{}% 19
+\BOOKMARK [1][-]{section.7}{References}{}% 20

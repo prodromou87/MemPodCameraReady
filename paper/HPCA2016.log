@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.8.10)  10 SEP 2015 17:15
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.8.10)  10 SEP 2015 22:01
 entering extended mode
 **C:/Users/aprodrom/Documents/NLM/HPCA2016/paper/HPCA2016.tex
 (C:/Users/aprodrom/Documents/NLM/HPCA2016/paper/HPCA2016.tex
@@ -370,22 +370,41 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip54
 )
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
+Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen130
+\extrarowheight=\dimen131
+\NC@list=\toks35
+\extratabsurround=\skip55
+\backup@length=\skip56
+)
+\TX@col@width=\dimen132
+\TX@old@table=\dimen133
+\TX@old@col=\dimen134
+\TX@target=\dimen135
+\TX@delta=\dimen136
+\TX@cols=\count119
+\TX@ftn=\toks36
+)
 (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\macros.tex
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\calc.sty"
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count119
-\calc@Bcount=\count120
-\calc@Adimen=\dimen130
-\calc@Bdimen=\dimen131
-\calc@Askip=\skip55
-\calc@Bskip=\skip56
+\calc@Acount=\count120
+\calc@Bcount=\count121
+\calc@Adimen=\dimen137
+\calc@Bdimen=\dimen138
+\calc@Askip=\skip57
+\calc@Bskip=\skip58
 LaTeX Info: Redefining \setlength on input line 76.
 LaTeX Info: Redefining \addtolength on input line 77.
-\calc@Ccount=\count121
-\calc@Cskip=\skip57
+\calc@Ccount=\count122
+\calc@Cskip=\skip59
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\pifont.sty"
 Package: pifont 2005/04/12 PSNFSS-v9.2a Pi font support (SPQR) 
@@ -407,42 +426,42 @@ File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: pdftex.def on input line 130.
 )
-\c@hours=\count122
-\c@minutes=\count123
+\c@hours=\count123
+\c@minutes=\count124
 )
 (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\HPCA2016.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 73.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 75.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\t1ptm.fd"
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count124
-\scratchdimen=\dimen132
+\scratchcounter=\count125
+\scratchdimen=\dimen139
 \scratchbox=\box33
-\nofMPsegments=\count125
-\nofMParguments=\count126
-\everyMPshowfont=\toks35
-\MPscratchCnt=\count127
-\MPscratchDim=\dimen133
-\MPnumerator=\count128
-\makeMPintoPDFobject=\count129
-\everyMPtoPDFconversion=\toks36
+\nofMPsegments=\count126
+\nofMParguments=\count127
+\everyMPshowfont=\toks37
+\MPscratchCnt=\count128
+\MPscratchDim=\dimen140
+\MPnumerator=\count129
+\makeMPintoPDFobject=\count130
+\everyMPtoPDFconversion=\toks38
 )
 \AtBeginShipoutBox=\box34
 
@@ -450,74 +469,74 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 Package hyperref Warning: Height of page (\paperheight) is invalid (0.0pt),
 (hyperref)                using 11in.
 
-Package hyperref Info: Link coloring OFF on input line 73.
+Package hyperref Info: Link coloring OFF on input line 75.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count130
+\c@section@level=\count131
 )
-LaTeX Info: Redefining \ref on input line 73.
-LaTeX Info: Redefining \pageref on input line 73.
-LaTeX Info: Redefining \nameref on input line 73.
+LaTeX Info: Redefining \ref on input line 75.
+LaTeX Info: Redefining \pageref on input line 75.
+LaTeX Info: Redefining \nameref on input line 75.
 
 (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\HPCA2016.out)
 (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\HPCA2016.out)
 \@outlinefile=\write3
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 75
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 77
 .
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\ot1ztmcm.fd"
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 75
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 77
 .
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\omlztmcm.fd"
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 75
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 77
 .
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\omsztmcm.fd"
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 75
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 77
 .
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\omxztmcm.fd"
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 75.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 77.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ulasy.fd"
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 75.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 77.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\ot1ptm.fd"
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
-LaTeX Font Info:    Try loading font information for T1+aess on input line 79.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+LaTeX Font Info:    Try loading font information for T1+aess on input line 81.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aess.fd"
 File: t1aess.fd 1997/11/16 Font definitions for T1/aess.
 )
-Overfull \hbox (6.56783pt too wide) in paragraph at lines 79--81
+Overfull \hbox (6.56783pt too wide) in paragraph at lines 81--83
 \T1/ptm/m/n/10 does not ex-pose die-stacked mem-ory for ap-pli-ca-tion use whic
 h
  []
 
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 82.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 84.
 (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\sections/Introduction.tex
 Overfull \hbox (4.20692pt too wide) in paragraph at lines 31--33
 \T1/ptm/m/n/10 many chal-lenges that OS or any run-time im-ple-men-ta-tion face
@@ -536,7 +555,7 @@ Overfull \hbox (2.80788pt too wide) in paragraph at lines 34--35
 chem
  []
 
-<figures/dummy.pdf, id=131, 963.6pt x 542.025pt>
+<figures/dummy.pdf, id=135, 963.6pt x 542.025pt>
 File: figures/dummy.pdf Graphic file (type pdf)
  <use figures/dummy.pdf>
 Package pdftex.def Info: figures/dummy.pdf used on input line 37.
@@ -561,130 +580,142 @@ Overfull \hbox (1.0175pt too wide) in paragraph at lines 5--6
 rob-
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+[]|\T1/ptm/m/n/10 Tracking Or-ga-ni-za-
+ []
+
+
+Underfull \hbox (badness 1810) in paragraph at lines 18--18
+[]|\T1/ptm/m/n/10 Simplicity Vs Par-al-
+ []
+
+
+Underfull \hbox (badness 3291) in paragraph at lines 18--18
+[]|\T1/ptm/m/n/10 HW + SW + cold
+ []
+
 File: figures/dummy.pdf Graphic file (type pdf)
 <use figures/dummy.pdf>
-Package pdftex.def Info: figures/dummy.pdf used on input line 14.
+Package pdftex.def Info: figures/dummy.pdf used on input line 30.
 (pdftex.def)             Requested size: 231.84338pt x 130.41121pt.
 File: figures/dummy.pdf Graphic file (type pdf)
  <use figures/dummy.pdf>
-Package pdftex.def Info: figures/dummy.pdf used on input line 20.
+Package pdftex.def Info: figures/dummy.pdf used on input line 36.
 (pdftex.def)             Requested size: 231.84338pt x 130.41121pt.
  [2 <C:/Users/aprodrom/Documents/NLM/HPCA2016/paper/figures/dummy.pdf>]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 28.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 44.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 28.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 44.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 28.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 44.
+
+Underfull \vbox (badness 7888) has occurred while \output is active []
+
  [3]
-File: figures/dummy.pdf Graphic file (type pdf)
- <use figures/dummy.pdf>
-Package pdftex.def Info: figures/dummy.pdf used on input line 51.
-(pdftex.def)             Requested size: 231.84338pt x 130.41121pt.
 File: figures/dummy.pdf Graphic file (type pdf)
 
 <use figures/dummy.pdf>
-Package pdftex.def Info: figures/dummy.pdf used on input line 57.
+Package pdftex.def Info: figures/dummy.pdf used on input line 67.
 (pdftex.def)             Requested size: 231.84338pt x 130.41121pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Overfull \hbox (1.22809pt too wide) in paragraph at lines 72--73
+File: figures/dummy.pdf Graphic file (type pdf)
+ <use figures/dummy.pdf>
+Package pdftex.def Info: figures/dummy.pdf used on input line 73.
+(pdftex.def)             Requested size: 231.84338pt x 130.41121pt.
+ [4]
+Overfull \hbox (1.22809pt too wide) in paragraph at lines 88--89
 \T1/ptm/m/n/10 area over-head but ben-e-fits in ac-cu-racy. Iden-ti-fy-ing the 
 hottest
  []
 
-[4]
-Overfull \hbox (11.5272pt too wide) in paragraph at lines 82--83
+
+Overfull \hbox (11.5272pt too wide) in paragraph at lines 98--99
 [][][]\T1/aess/bx/n/10 IDF:[][] \T1/ptm/m/n/10 With the re-cent growth in PIM (
 Processing-In-Memory,
  []
 
 
-Overfull \hbox (6.10786pt too wide) in paragraph at lines 85--86
+Overfull \hbox (6.10786pt too wide) in paragraph at lines 101--102
 \T1/ptm/m/n/10 very com-mon trig-gers are used through-out the lit-er-a-ture wh
 en-
  []
 
 
-Overfull \hbox (4.71803pt too wide) in paragraph at lines 85--86
+Overfull \hbox (4.71803pt too wide) in paragraph at lines 101--102
 \T1/ptm/m/n/10 (or epoch-based) trig-gers oc-cur with a steady fre-quency, whil
 e
  []
 
-
-Overfull \hbox (9.58714pt too wide) in paragraph at lines 87--88
+[5]
+Overfull \hbox (9.58714pt too wide) in paragraph at lines 103--104
 \T1/ptm/m/n/10 the same chal-lenge of iden-ti-fy-ing the op-ti-mal in-ter-val o
 r thresh-
  []
 
-[5]
-Overfull \hbox (4.7172pt too wide) in paragraph at lines 98--99
+
+Overfull \hbox (4.7172pt too wide) in paragraph at lines 114--115
 \T1/ptm/m/n/10 her-ently ``as-sume'' a cen-tral-ized mi-gra-tion con-troller in
  charge
  []
 
 
-Overfull \hbox (1.61815pt too wide) in paragraph at lines 102--103
+Overfull \hbox (1.61815pt too wide) in paragraph at lines 118--119
 []\T1/ptm/m/n/10 Even though not clearly stated in the THM
  []
 
 
-Overfull \hbox (2.58777pt too wide) in paragraph at lines 103--104
+Overfull \hbox (2.58777pt too wide) in paragraph at lines 119--120
 \T1/ptm/m/n/10 will mon-i-tor the ac-tiv-ity of its own pages. When HMA's
  []
 
 
-Overfull \hbox (1.98792pt too wide) in paragraph at lines 104--105
+Overfull \hbox (1.98792pt too wide) in paragraph at lines 120--121
 []\T1/ptm/m/n/10 Clustering mem-ory chan-nels into Pods
  []
 
 
-Overfull \hbox (4.72731pt too wide) in paragraph at lines 104--105
+Overfull \hbox (4.72731pt too wide) in paragraph at lines 120--121
 \T1/ptm/m/n/10 lelism, each Pod can hold all the migration-related struc-
  []
 
-[6]
-Overfull \hbox (7.6175pt too wide) in paragraph at lines 124--125
+[6] [7]
+Overfull \hbox (7.6175pt too wide) in paragraph at lines 148--149
 [][][]\T1/aess/bx/n/10 Talk about lim-its in the size of remap ta-bles/counters
 
  []
 
 ) (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\sections/Results.tex)
 (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\sections/Conclusions.tex)
-(C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\HPCA2016.bbl [7])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 95.
- [8
-
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 95.
+(C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\HPCA2016.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 97.
+ [8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 97.
 
 (C:\Users\aprodrom\Documents\NLM\HPCA2016\paper\HPCA2016.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 95.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 95.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 97.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 97.
 Package rerunfilecheck Info: File `HPCA2016.out' has not changed.
-(rerunfilecheck)             Checksum: ADCD5859FA471D24E1E5E9ECB06E13BF;1223.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 95.
+(rerunfilecheck)             Checksum: 4F89AB714BA97F95DA9552990D2A6B9B;1292.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 97.
  ) 
 Here is how much of TeX's memory you used:
- 6928 strings out of 493921
- 98241 string characters out of 3144867
- 184670 words of memory out of 3000000
- 10015 multiletter control sequences out of 15000+200000
+ 7019 strings out of 493921
+ 99319 string characters out of 3144867
+ 190373 words of memory out of 3000000
+ 10099 multiletter control sequences out of 15000+200000
  76814 words of font info for 108 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 41i,11n,43p,1795b,485s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,11n,43p,1680b,387s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files 
 (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTe
 X 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
 /type1/urw/times/utmri8a.pfb>
-Output written on HPCA2016.pdf (8 pages, 243206 bytes).
+Output written on HPCA2016.pdf (8 pages, 245270 bytes).
 PDF statistics:
- 223 PDF objects out of 1000 (max. 8388607)
- 56 named destinations out of 1000 (max. 500000)
- 158 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 228 PDF objects out of 1000 (max. 8388607)
+ 58 named destinations out of 1000 (max. 500000)
+ 166 words of extra memory for PDF output out of 10000 (max. 10000000)
 

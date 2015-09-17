@@ -4,6 +4,22 @@
 
 Our clustered migration mechanism was carefully designed to address key challenges associated with the migration problem. In this section, we present a complete description of our micro-architectural design, followed by a breakdown of all important design decisions made, along with the corresponding challenge addressed by each one.
 
+\begin{table*}[t]
+\begin{tabularx}{\textwidth}{ |X|X|X|X|X| }
+  \hline
+    \textbf{Challenge} & \textbf{Tradeoff} & \textbf{THM} & \textbf{HMA} & \textbf{MemPod} \\ \hline       
+    Page Relocation & Flexibility Vs Time & Only 1 candidate \newline (Minimum / Very low)& No restrictions \newline (Max / High) & Intra-Pod migration \newline (High / Medium) \\ \hline
+    Remap Table Size & Flexibility Vs Area & 1 entry per fast page \newline \TODO {XXkB} \newline (Minimum / Medium) & No remap table \newline 0 Bytes \newline (Max / Min) & 1 entry per fast page \newline \TODO{XXkB} \newline (High / Medium) \\ \hline
+    Activity Tracking & Accuracy Vs Area & 8 bits per fast page \newline \TODO{XXkB} \newline (Medium / Low) & 16-bits per page \newline \TODO{XXkB} \newline (Max / Max) & 16-bits per fast page \newline \TODO{XXkB} \newline (High / Medium)\\ \hline
+    Migration Trigger & N/A & Threshold based & Interval based & Interval based\\ \hline
+    Tracking Organization & Simplicity Vs Parallelization & Fully Centralized \newline Serialized requests \newline (High / Min) & Fully distributed \newline (High / Max) & Semi-distributed \newline Pods operate independently \newline (High / High)\\ \hline
+    Migration Driver & Communication cost & CPU \newline High latency \newline (Max) & CPU (OS) \newline High latency \newline (Max) & Pod \newline Very low latency \newline (Low)\\ \hline
+    Migration Cost & Time & HW cost + communication \newline (Medium) & HW + SW + cold TLBs \newline (Max) & HW cost \newline (Min)\\ \hline
+\end{tabularx}
+  \caption{Breakdown of state-of-the-art designs}
+  \label{tab:comparison}
+\end{table*}
+
 \subsection{Clustered Migration Architecture}
 
  Figure \ref{fig:architecture_complete} presents an overview of MemPod. MemPod's design was kept modular to facilitate system integration. A number of memory pods are injected between the LLC and the system's MCs. Each pod clusters a number of MCs and restricts migration  within the pod. To the rest of the system, pods are seen as MCs. With MemPod's transparent design, each pod will now be receiving all the requests originally addressed to any of the pod's MCs. 
@@ -104,24 +120,33 @@ As with most of the essential elements for migration presented in this Section, 
 	\item[MemPod approach:] Clustering memory channels into Pods comes with significant benefits. First, assigning exactly one off-chip (slow) memory channel to each independent Pod ensures those channels can still issue requests in parallel. Being the slowest part of our memory hierarchy, keeping slow channels independent does not add delay to a potential bottleneck. Furthermore, each group of two on-chip (fast) channels can still operate in parallel. Some serialization is introduced between sibling fast channels, however with a Pod's light design and the high-bandwidth potential of those channels, the delay is amortized. Beyond channel parallelism, each Pod can hold all the migration-related structures, eliminating the need of retrieving information from each of its MCs at the beginning of a migration interval. \TODO{I'm trying to point out that a Pod keeps the structure size manageable because it handles less controllers. Other policies could hold all the information at a central point, but structures for 12 channels will be a log bigger thus slower. I think I'm not presenting my point correctly here.}
 \end{description}
 
+\subsection {Migration Datapath}
+\TODO {Described later. Just remember to include it in the table.}
+
 \subsection{Migration Cost}
 Regardless of the choice for each migration element described so far, once migration is triggered, any migration manager has to follow the same steps: First, migration candidates need to be identified. Traditionally, one page (or a segment depending on the migration granularity) from the slow memory and one from fast memory. Both candidates need to be swapped. First they will be read and stored in temporary buffers and then written at their remapped locations. 
+
+Describing the actual migration datapath is often overlooked in migration publications. Without dedicated page migration driver hardware, migration will have to be orchestrated by some CPUs. Consequences include communication delay, potentially some delay introduced at the processor's cache levels and the performance degradation caused by stalling those CPUs until migration is over. MemPod implements the migration driver within each Pod. Since the Pod has direct communication with the MCs, added delays are kept to a minimum. In HMA, the OS orchestrates everything. Some CPUs have to be stalled and used to service the OS interrupt, causing the migrated pages to traverse through communication mediums and caches on each way. THM does not describe the datapath in detail. We assume the CPUs are used in this case too.
 
 We assume that channel parallelism is utilized when reading and writing the candidate pages. In other words, the two read commands will be sent in parallel, as well as the write commands that follow. Consequently, The hardware penalty for one page swap is the time required to read from and then write to the slow memory. We also assume that writing the two candidates back occurs a row buffer hit since the page was just opened in the previous step. When consequtive swaps happen, as in the case of HMA and MemPod, all swap reads are assumed to result in row buffer misses. In this study, we evaluate all mechanisms under the same memory organization and as such, the hardware swap penalty is the same regardless of the mechanism. However, each mechanism introduces some unique penalties:
 \begin{description}
 	\item[THM] does not introduce a cost for identifying the candidate pages since it follows a deterministic algorithm. The page that caused the competing counter to exceed the set threshold will be the slow memory candidate, while there is exactly one fast page candidate per segment. Furthermore, only one swap is executed at every triggered migration, setting te cost per migration equal to the hardware cost.
 	\item[HMA ] attempts to fill the entire fast memory with migrated pages. The number of swaps that will be performed per interval can be as high as the number of pages in fast memory. Inevitably some hot pages will already reside in the fast memory. We modeled HMA to not attempt migration of those hot pages. Such an approach could compicate finding a fast-memory candidate page, although with HMA's full activity tracking counters, and since sorting is a necessary operation at every interval, this problem can be reduced to the simple task of following the sorted activity list backwards (i.e. It's easy to find the coldest fast-memory page). Unfortunately, HMA introduces costs that are hard to estimate. Traversing and updating page tables and flushing TLBs is part of the cost introduced by the OS. On top of that, the effect of a cold TLB can penalize severely all running applications.
-	\item[In MemPod,] similar to HMA, each Pod tries to fill the entire fast memory assigned to it. However, MEA counters make it \textit{impossible} to identify the coldest pages. In addition, the algorithm cannot be modified to identify the \textit{least frequently occuring} addresses. In order to overcome this ssue, MemPod follows a naive algorithm. Each Pod will receive the list of N hottest pages, where N is the number of fast pages in a single Pod. Then it will iteratively switch all pages in order, even the pages ehich are already in fast memory. To introduce some amount of parallelism, the fast memory page candidates are selected using a round robin algorithm between the two fast channels. In other words, the hottest page will be swaped with the first page of the first fast channel. The second hottest page will go to the first page of the second channel. The third page will be swaped with the second page of the first channel and so on. Under this model, the assumption that reads and writes can be performed in parallel is no longer valid, as well as the assumption of row-buffer hits for writes. In case the two page candidates are in the same channel, serialized reads and writes will be performed at the speed of the fast channel, all of them resulting in row buffer misses. A possible solution would be to pay the full price and use HMA's activity tracking scheme. However, since the migration process is parallelized inherently by the use of Pods and given the several benefits of MEA counters, we decided to keep the naive migration algorithm. \TODO{I just realized we have a small bug here. I need to update the source code in the case of MEA counters.} 
-
-\TODO{How about we only update the remap table when such a conflict occurs????? Think about it.}
+	\item[In MemPod,] similar to HMA, each Pod tries to fill the entire fast memory assigned to it. With the use of MEA counters, identifying the fast-memory page candidate is as simple as checking that it's not part of the N hot pages. The identification algorithm starts at the very first fast memory location and iterates sequentially until it detects a page address that is not in the set of hottest pages. For the next migration, the identification algorithm simply continues from where it was left. If a hot page already resides in the fast memory it's ignored. Since we have exactly N MEA counters, we guarantee that the fast memory will have enough pages to accommodate all hot pages.
 \end{description}
 
-\TODO{Give numbers for each case of migration and update source code}
+\TODO{Give numbers for hardware migration penalty}
 
 \subsection{Scalability to Future Memory Capacities}
+Assuming memory capacity in the order of tens of Terabytes, SRAM requirements for activity tracking and remap tables could become unfeasible. Caching part of the migration logic and using part of main memory as backing storage seems necessary. An analysis on the impact of such caching, as well as the optimal cache size is presented in the experimental evaluation section. MemPod's semi-distributed architecture allows caching without any action required to protect against race conditions because of the utilization of independent Pods that never share information.
+
+At such capacity levels, centralized migration controllers will no longer be sustainable due to the severity of the introduced serialization penalty. Assuming the driving force behind memory capacity's tremendous scaling are future applications, it's safe to assume that memory traffic would also scale up, as well as sustainable bandwidth expectations. 
+
+Alternative approaches described in this Section limit the size of the remap table at the cost of disabling migration when full, or invoking the OS before migration resumes. This approach could also be incorporated in future migration mechanisms. We should note that with a limited remap table size, or even an available number of counters less than the number of fast pages, MemPod would still be able to migrate \textit{any} slow memory page to the limited set of fast pages available for migration, in contrast to THM, where only those segments that happened to fit in the new limited size will be able to migrate, forbidding migration of the rest of the slow pages. HMA would remain intact from this limitation since no remap tables are necessary.
 
 \subsection{Discussion and comparison}
 \TODO{Talk about limits in the size of remap tables/counters just fr the sake of argument. How would each mechanism handle it?}
+
 
 
 
