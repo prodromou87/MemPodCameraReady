@@ -1,5 +1,5 @@
-PAPER = HPCA2016
-TEX = $(wildcard *.tex)
+PAPER = MemPod
+TEX = $(wildcard *.tex sections/*.tex)
 BIB = references.bib
 FIGS = $(wildcard figures/*.pdf figures/*.png graphs/*.pdf graphs/*.png)
 
