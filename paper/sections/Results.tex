@@ -2,14 +2,91 @@
 \section{Results}
 \label{sec:Results}
 
+\subsection{Evaluation Framework}
+\label{sub:Evaluation}
+
+The goal of our evaluation framework is to quantitatively and qualitatively assess MemPod's capabilities and compare it against state-of-the-art proposed mechanisms. MemPod's benefits could be demonstrated by memory speedup, however we opted to measure the impact of our mechanism on the system's IPC. Throughout our evaluation section, we study MemPod's performance running alongside an eight-core CPU.
+
+We extended Ramulator ?? with MemPod for our memory simulation experiments. HMA and THM were also added in our simulation framework for comparison purposes. Ramulator allows for cycle-accurate memory simulation and includes a simple CPU front-end capable of approximating IPC measurements from trace-driven workloads. 
+
+We chose to evaluate MemPod under a realistic memory configuration consisting of 1GB 3D-stacked HBM2.0 ?? and 8GB of off-chip DDR4. Table ?? Provides a more detailed description of the simulated configuration.
+
+\TODO{Let the reader know about our cropped graphs later in this section}
+
 \subsection{Experimental Methodology}
 \label{sub:Experimental}
 
-\subsection{Result1}
-\label{sub:Result1}
+We used benchmarks from the SPEC2006 suite ?? as our workloads. Using Sniper ??, we extracted memory request traces while simultaneously executing 8 benchmarks on the simulated 8-core CPU. Using these traces we simulate our system with Ramulator, executing all benchmarks to completion. Our complete set of workloads consists of 16 ``single-bench'' workloads, where the same benchmark runs 8 times in parallel (we simply call this workload with the benchmark's name in later results), as well as 12 workloads featuring a random mix of 8 benchmarks each (marked as mix1-12).
 
-\subsection{Result2}
-\label{sub:Result2}
+\subsection{Simulation Results}
+\label{sub:SimResults}
 
-\subsection{Result3}
-\label{sub:Result3}
+\subsubsection{Optimal Parameter Values}
+Identifying the optimal number of MEA counters and the optimal threshold value is crucial to fine-tuning MemPod to perform at its full capacity. The number of MEA counters dictates the highest possible number of migrations that can be performed at each interval, while the epoch length will determine MemPod's ability to better adapt to phase changes in a workload.
+
+We first identified the optimal number of MEA counters, by setting the epoch length to 500us and exponentially increasing the number of counters from 16 to 512. In order to minimize the impact of other factors, we executed this experiment with 16 bits per counter and caches disabled. In other words, each counter was given more than enough space and all required information such as the remap table resides entirely on the chip. 
+
+Figure ?? shows the IPC measurement (top) along with the average number of migrations per pod per epoch (bottom). The results indicate that each Pod utilizes a higher number of counters and consecutively performs more migrations per interval, however performance begins leveling off when more than 128 counters were used. More migrations can directly be translated into higher power consumption and communication cost. Based on our observations we conclude that the optimal value for this parameter is 128 and will be used for the remainder of this section.
+
+After identifying the optimal counter number, Figure ?? displays the same measurements as Figure ?? with a varying epoch length. In most of our benchmarks a smaller value leads to higher performance. In accordance to the previous study, higher epoch lengths also lead to higher number of migrations. On average, an epoch length of 50us is the optimal both performance- and consumption-wise. For comparison purposes, HMA ?? identified the optimal epoch length to be 100ms (200x larger) in order to support all lengthy processes that take place during a migration event.
+
+\subsubsection{Optimal Counter Size}
+
+As previously explained in Section ??, MEA algorithm cannot be cached efficiently and as a result, the entire activity tracking structure needs to be on chip. The size (in bits) of each counter defines the area requirements of our MEA tracking mechanism. We slightly modified the algorithm to also delete negative values (instead of zero values only) in order to support counter overflow followed by a subtraction. We opted not to immediately remove an overflowed counter since the existence of the correct counter set is more crucial to the algorithm's accuracy than our proposed modification. For this experiment we used the optimal parameter values identified in experiment ??. All caching was disable in order to study the direct impact of this variable.
+
+Figure ?? presents the impact of counter size on IPC and average number of migrations. We first observe that 8 bits are sufficient for the majority of our workloads, since larger sizes report identical results. Our second observation is that two bit counters report a negligible impact on performance (??\%) and a reduced average number of migrations. MemPod's small number of counters and epoch length leads to incredibly high area savings.
+
+The most interesting observation comes from assigning 4 bits to each counter. On average, performance is boosted slightly even compared to larger sizes, while migration count is smaller. Since a difference is observed, we can conclude that these smaller counters ``lose'' information that in turn benefits overall execution. The reported result is a welcomed artifact of the MEA algorithm combined with application behavior. 
+
+Based on our results, we identify 4 bits per counter to be the optimal value leading to an area cost of only 512 bits per Pod and 2kB total. Compared to the state of the art, MemPod's activity tracking requirement is ??x smaller than THM's and ??x smaller than HMA's.
+
+
+\subsubsection{Performance Comparison}
+\label{sub:performance}
+
+Figure ?? presents a performance comparison of MemPod, HMA, THM and a configuration with no migration capabilities (NLM). DDR4-only and HBM-only configurations are also presented for comparison. We evaluated all mechanisms with caching disabled. 
+
+\TODO {Change the graph to normalized over NLM to reduce the number of bars. Report benefits in percentages. Also report overall speedup over DDR4 and how close we get to HBM-only.}
+
+Based on the results we can derive some interesting observations:
+\begin{itemize}
+	\item In some workloads migration is harmful to performance, as observed with bwaves and gems workloads, where a no-migration scheme reports higher performance. We observe that in those cases, MemPod leads to deteriorated performance compared to THM. However, in the case of zeusmp MemPod increases overall performance, while THM reports negative results.
+	\item MemPod outperforms the state-of-the-art competitors in almost all other workloads, in many cases scoring very close to an HBM-only configuration. Specifically, on average MemPod achieves ??\% of the IPC reported by HBM-only, while THM and HMA report ??\% and ??\% respectively.
+	\item MemPod outperforms HBM-only when executing the libquantum experiment. We attribute this results to a combination of correct timing, application behavior and workload size. In the case of libquantum, to working set size fits entirely in our fast memory. As a results after some migrations, the entire working set will be present in our HBM. However, correct timing is the driving factor behind this impressive performance increase. Our results show the row-buffer hit ratio to be ??x times larger than having HBM-only (and random page assignment). Apparently, MemPod's migrations resulted in an in-memory page order that exploits almost every bit of memory parallelism from the application. This result could be further explored and intentionally recreated in some future work.
+\end{itemize}
+
+\subsubsection{Migration Efficiency}
+\TODO {This section might be unnecessary}
+
+We define migration efficiency as $$ Efficiency = \frac{N}{M} $$ where N is the increase in requests serviced by HBM over the corresponding number from the no-migration scheme and M is the number of migrations performed. The goal of any migration mechanism should be to increase this ratio in order to achieve better performance.
+
+MemPod's design complicates this analysis since each Pod can either be performing migrations or simply servicing requests independently from other Pods resulting in some of the migration time overlapping servicing requests. In Figure ?? we measure the migration efficiency for each Pod and then show the average value for each workload. The error bars on each column show the minimum and maximum values reported by our Pods.
+
+We first observe the incredible efficiency under the libquantum workload. Specifically for each migration performed, MemPod reports 7153 ``hits'' in fast memory.
+
+On average, MemPod reports an increased migration efficiency over the state-of-the-art by ??\%.
+
+\subsubsection{Caching Effect}
+Migration mechanisms of any kind will be forced to include a cache since counting and remap table structures are commonly too large to hold on-chip. The unavoidable use of a cache will hinder performance. In this experiment we evaluate the impact of a cache on each mechanism's performance. As described in Section ??, each mechanism has different cache requirements. THM caches its counters and remap table together with its ``SRT'' structure. HMA has no need for a remap table however it has high storage requirements for its counting mechanism. MemPod only needs to cache its large remap table since MEA counters will be on chip.
+
+THM ?? authors studied the impact a cache would have and show that a direct-mapped 32kB cache is optimal for their operation \TODO{VERIFY}. HMA authors did not include a cache sensitivity analysis. For the purposes of this experiment, we simulate all mechanisms with a 64kB direct-mapped cache. For MemPod, cache is divided equally over four Pods (i.e. 16kB per Pod).
+
+HMA's design further complicates this study, since sorting all activity counters at each epoch is performed by the OS, utilizing the cpu's cache instead of the dedicated migration cache. Our HMA results do not include any penalties related to sorting, OS interrupts and cold TLBs and Page Tables. As such, the reported HMA values can be considered overly optimistic.
+
+Part of our study was to determine if the slow off-chip memory could be an acceptable solution to serve as the backing store location of each mechanism's structures. If the reported performance is acceptable, using the DDR4 memory would be ideal since we won't be reducing the effective capacity of the small HBM.
+
+Figure ?? shows each mechanism's relative slowdown, normalized to the performance of the corresponding mechanism when no cache is simulated. \TODO{DISCUSS}
+
+\subsubsection{MEA Performance Comparison}
+
+As our final study, we present a comparison of MEA against traditional full counting schemes such as the one used in HMA. We simulated MemPod and replaces MEA counting with full counters (16 bits each). 
+
+MemPod's tiny epoch length (50us) is not enough to support the increased number of migrations per epoch, leading to epoch triggers before migrations from the previous epoch are completed. We decided to run the full counting experiment with the interval set at 100ms.
+
+As demonstrated in experiment ??, larger epoch sizes lead to decreased performance. As such comparing two different interval sizes could be considered unfair. As a solution, we present MEA counting results under the same large interval size, along with the ``optimal'' 50us interval. 
+
+Figure ?? shows our results. \TODO {DISCUSS}.
+
+
+
+
