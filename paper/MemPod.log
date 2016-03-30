@@ -1,0 +1,808 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.11.17)  29 MAR 2016 22:18
+entering extended mode
+**MemPod.tex
+(MemPod.tex
+LaTeX2e <2015/01/01> patch level 2
+Babel <3.9m> and hyphenation patterns for 69 languages loaded.
+(sig-alternate.cls
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\epsfig.sty"
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 94.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count79
+))
+\Gin@req@height=\dimen102
+\Gin@req@width=\dimen103
+)
+\epsfxsize=\dimen104
+\epsfysize=\dimen105
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip41
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks16
+\ex@=\dimen106
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen107
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count80
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count81
+\leftroot@=\count82
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count83
+\DOTSCASE@=\count84
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen108
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+\macc@depth=\count85
+\c@MaxMatrixCols=\count86
+\dotsspace@=\muskip10
+\c@parentequation=\count87
+\dspbrk@lvl=\count88
+\tag@help=\toks17
+\row@=\count89
+\column@=\count90
+\maxfields@=\count91
+\andhelp@=\toks18
+\eqnshift@=\dimen109
+\alignsep@=\dimen110
+\tagshift@=\dimen111
+\tagwidth@=\dimen112
+\totwidth@=\dimen113
+\lineht@=\dimen114
+\@envbody=\toks19
+\multlinegap=\skip42
+\multlinetaggap=\skip43
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+)
+Document Class 'sig-alternate' <23rd. May '12>. Modified by G.K.M. Tobin/Gerry 
+Murray
+Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by
+shivers@cs.cmu.edu, 4/93 by theobald@cs.mcgill.ca
+Excerpts were taken from (Journal Style) 'esub2acm.cls'.
+****** Bugs/comments/suggestions/technicalities to Gerry Murray -- murray@hq.ac
+m.org ******
+Questions on the style, SIGS policies, etc. to Adrienne Griscti griscti@acm.org
+
+\footheight=\dimen115
+\@maxsep=\dimen116
+\@dblmaxsep=\dimen117
+\aucount=\count92
+\originalaucount=\count93
+\auwidth=\dimen118
+\auskip=\dimen119
+\auskipcount=\count94
+\auskip=\dimen120
+\allauboxes=\dimen121
+\addauthors=\toks21
+\addauflag=\count95
+\subtitletext=\toks22
+\savesection=\count96
+\sectioncntr=\count97
+\c@figure=\count98
+\c@table=\count99
+\titleboxnotes=\toks23
+\titleboxnoteflag=\count100
+Document Class: sig-alternate 2012/05/23 - V2.5 - based on acmproc.cls V1.3 <No
+v. 30 '99>
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\latexsym.sty"
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 52.
+)
+\@acmtitlebox=\box28
+\titlenotecount=\count101
+\tntoks=\toks24
+\tntokstwo=\toks25
+\tntoksthree=\toks26
+\tntoksfour=\toks27
+\tntoksfive=\toks28
+\catcount=\count102
+\copyrightnotice=\toks29
+\c@part=\count103
+\c@section=\count104
+\c@subsection=\count105
+\c@subsubsection=\count106
+\c@paragraph=\count107
+
+Using 'Abbrev' bibliography style
+LaTeX Info: Redefining \cite on input line 1224.
+\bibindent=\dimen122
+\colcntr=\count108
+\saveb@x=\box29
+\copyrtyr=\toks30
+\acmcopyr=\toks31
+\boilerplate=\toks32
+\copyrightetc=\toks33
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+)
+LaTeX Font Info:    Try loading font information for T1+aer on input line 105.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aer.fd"
+File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
+)))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
+\fancy@headwidth=\skip44
+\f@ncyO@elh=\skip45
+\f@ncyO@erh=\skip46
+\f@ncyO@olh=\skip47
+\f@ncyO@orh=\skip48
+\f@ncyO@elf=\skip49
+\f@ncyO@erf=\skip50
+\f@ncyO@olf=\skip51
+\f@ncyO@orf=\skip52
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ulem\ulem.sty"
+\UL@box=\box30
+\UL@hyphenbox=\box31
+\UL@skip=\skip53
+\UL@hook=\toks34
+\UL@height=\dimen123
+\UL@pe=\count109
+\UL@pixel=\dimen124
+\ULC@box=\box32
+Package: ulem 2012/05/18
+\ULdepth=\dimen125
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\url\url.sty"
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+Package: hobsub-hyperref 2012/04/25 v1.12 Bundle oberdiek, subset hyperref (HO)
+
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+Package: hobsub-generic 2012/04/25 v1.12 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/04/25 v1.12 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
+Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2011/06/24 v1.1 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen126
+\Hy@linkcounter=\count110
+\Hy@pagecounter=\count111
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count112
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4443.
+Package hyperref Info: Link nesting OFF on input line 4448.
+Package hyperref Info: Hyper index ON on input line 4451.
+Package hyperref Info: Plain pages OFF on input line 4458.
+Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4688.
+\c@Hy@tempcnt=\count113
+LaTeX Info: Redefining \url on input line 5041.
+\XeTeXLinkMargin=\dimen127
+\Fld@menulength=\count114
+\Field@Width=\dimen128
+\Fld@charsize=\dimen129
+Package hyperref Info: Hyper figures OFF on input line 6295.
+Package hyperref Info: Link nesting OFF on input line 6300.
+Package hyperref Info: Hyper index ON on input line 6303.
+Package hyperref Info: backreferencing OFF on input line 6310.
+Package hyperref Info: Link coloring OFF on input line 6315.
+Package hyperref Info: Link coloring with OCG OFF on input line 6320.
+Package hyperref Info: PDF/A mode OFF on input line 6325.
+LaTeX Info: Redefining \ref on input line 6365.
+LaTeX Info: Redefining \pageref on input line 6369.
+
+
+Package hyperref Warning: Option `pdfpagelabels' is turned off
+(hyperref)                because \thepage is undefined.
+
+\c@Item=\count115
+\c@Hfootnote=\count116
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
+\Fld@listcount=\count117
+\c@bookmark@seq@number=\count118
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip54
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
+Package: tabularx 2014/10/28 v2.10 `tabularx' package (DPC)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen130
+\extrarowheight=\dimen131
+\NC@list=\toks35
+\extratabsurround=\skip55
+\backup@length=\skip56
+)
+\TX@col@width=\dimen132
+\TX@old@table=\dimen133
+\TX@old@col=\dimen134
+\TX@target=\dimen135
+\TX@delta=\dimen136
+\TX@cols=\count119
+\TX@ftn=\toks36
+) (macros.tex
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\calc.sty"
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count120
+\calc@Bcount=\count121
+\calc@Adimen=\dimen137
+\calc@Bdimen=\dimen138
+\calc@Askip=\skip57
+\calc@Bskip=\skip58
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count122
+\calc@Cskip=\skip59
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\pifont.sty"
+Package: pifont 2005/04/12 PSNFSS-v9.2a Pi font support (SPQR) 
+LaTeX Font Info:    Try loading font information for U+pzd on input line 63.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\upzd.fd"
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Try loading font information for U+psy on input line 64.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\upsy.fd"
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 142.
+)
+\c@hours=\count123
+\c@minutes=\count124
+)
+(MemPod.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count125
+\scratchdimen=\dimen139
+\scratchbox=\box33
+\nofMPsegments=\count126
+\nofMParguments=\count127
+\everyMPshowfont=\toks37
+\MPscratchCnt=\count128
+\MPscratchDim=\dimen140
+\MPnumerator=\count129
+\makeMPintoPDFobject=\count130
+\everyMPtoPDFconversion=\toks38
+)
+\AtBeginShipoutBox=\box34
+
+
+Package hyperref Warning: Height of page (\paperheight) is invalid (0.0pt),
+(hyperref)                using 11in.
+
+Package hyperref Info: Link coloring OFF on input line 41.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count131
+)
+LaTeX Info: Redefining \ref on input line 41.
+LaTeX Info: Redefining \pageref on input line 41.
+LaTeX Info: Redefining \nameref on input line 41.
+
+(MemPod.out) (MemPod.out)
+\@outlinefile=\write3
+LaTeX Font Info:    Try loading font information for U+msa on input line 43.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 43.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 43.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ulasy.fd"
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+Overfull \hbox (15.86737pt too wide) in paragraph at lines 52--53
+\T1/aer/m/n/10 Mem-Pod to im-prove Av-er-age Main Mem-ory Time (AMMT)
+ []
+
+(sections/Introduction.tex
+LaTeX Font Info:    Try loading font information for T1+aess on input line 5.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aess.fd"
+File: t1aess.fd 1997/11/16 Font definitions for T1/aess.
+)
+Overfull \hbox (5.53711pt too wide) in paragraph at lines 7--9
+[]\T1/aer/m/n/10 The cur-rent tech-nol-ogy for in-cor-po-rat-ing stacked mem-
+ []
+
+
+Overfull \hbox (19.19908pt too wide) in paragraph at lines 12--13
+\T1/aer/m/n/10 cent re-search [[]14[], []10[]] pro-posed both hard-ware and har
+dware-
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [1{C:/Users/prodr/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+
+]
+Overfull \hbox (7.31566pt too wide) in paragraph at lines 20--21
+\T1/aer/m/n/10 jor-ity El-e-ment Al-go-rithm'' (MEA) heuris-tic de-signed
+ []
+
+
+Overfull \hbox (4.67717pt too wide) in paragraph at lines 21--22
+[]\T1/aer/m/n/10 We pro-vide a break-down of the ba-sic build-ing blocks
+ []
+
+) (sections/Background.tex) (sections/MEA.tex
+
+pdfTeX warning: pdflatex (file ./figures/mea_1.pdf): PDF inclusion: found PDF v
+ersion <1.7>, but at most version <1.5> allowed
+<figures/mea_1.pdf, id=125, 502.3022pt x 104.88083pt>
+File: figures/mea_1.pdf Graphic file (type pdf)
+ <use figures/mea_1.pdf>
+Package pdftex.def Info: figures/mea_1.pdf used on input line 7.
+(pdftex.def)             Requested size: 504.0pt x 105.23904pt.
+
+
+pdfTeX warning: pdflatex (file ./figures/mea_2.pdf): PDF inclusion: found PDF v
+ersion <1.7>, but at most version <1.5> allowed
+<figures/mea_2.pdf, id=126, 501.92809pt x 131.0998pt>
+File: figures/mea_2.pdf Graphic file (type pdf)
+ <use figures/mea_2.pdf>
+Package pdftex.def Info: figures/mea_2.pdf used on input line 13.
+(pdftex.def)             Requested size: 504.0pt x 131.64557pt.
+
+
+pdfTeX warning: pdflatex (file ./figures/mea_3.pdf): PDF inclusion: found PDF v
+ersion <1.7>, but at most version <1.5> allowed
+<figures/mea_3.pdf, id=127, 501.5529pt x 131.10078pt>
+File: figures/mea_3.pdf Graphic file (type pdf)
+ <use figures/mea_3.pdf>
+Package pdftex.def Info: figures/mea_3.pdf used on input line 19.
+(pdftex.def)             Requested size: 504.0pt x 131.74458pt.
+
+
+Package amsmath Warning: Foreign command \over;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 26.
+
+
+Overfull \hbox (14.83514pt too wide) in paragraph at lines 26--27
+[]\T1/aer/m/n/10 MemPod uses the ``Ma-jor-ity El-e-ment Al-go-rithm'' $\OT1/cmr
+/m/n/10 (\OML/cmm/m/it/10 MEA\OT1/cmr/m/n/10 )$
+ []
+
+
+LaTeX Warning: Citation `charikar-mae' on page 2 undefined on input line 28.
+
+[2]
+Overfull \hbox (2.92752pt too wide) in paragraph at lines 34--35
+[]\T1/aer/m/n/10 In a mem-ory man-age-ment scheme that uses Full Coun-
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (8.32895pt too wide) in paragraph at lines 36--37
+\T1/aer/m/n/10 track-ing, we used traces cap-tured from multi-programmed
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3 <./figures/mea_1.pdf> <./figures/mea_2.pdf>]) (sections/Architecture.tex
+
+pdfTeX warning: pdflatex (file ./figures/comparison_table.pdf): PDF inclusion: 
+found PDF version <1.7>, but at most version <1.5> allowed
+<figures/comparison_table.pdf, id=165, 459.49336pt x 279.70798pt>
+File: figures/comparison_table.pdf Graphic file (type pdf)
+
+<use figures/comparison_table.pdf>
+Package pdftex.def Info: figures/comparison_table.pdf used on input line 24.
+(pdftex.def)             Requested size: 240.0pt x 146.09772pt.
+
+<figures/mempod_org.pdf, id=167, 368.86107pt x 219.41875pt>
+File: figures/mempod_org.pdf Graphic file (type pdf)
+
+<use figures/mempod_org.pdf>
+Package pdftex.def Info: figures/mempod_org.pdf used on input line 36.
+(pdftex.def)             Requested size: 236.88062pt x 140.90962pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+pdfTeX warning: pdflatex (file ./figures/pod_design.pdf): PDF inclusion: found 
+PDF version <1.7>, but at most version <1.5> allowed
+<figures/pod_design.pdf, id=168, 399.895pt x 143.82733pt>
+File: figures/pod_design.pdf Graphic file (type pdf)
+
+<use figures/pod_design.pdf>
+Package pdftex.def Info: figures/pod_design.pdf used on input line 42.
+(pdftex.def)             Requested size: 231.84338pt x 83.38478pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (2.98996pt too wide) in paragraph at lines 50--51
+\T1/aer/m/n/10 cen-tral-ized mi-gra-tion con-troller al-low-ing any-to-any[][][
+] mi-
+ []
+
+[4 <./figures/mea_3.pdf> <./figures/comparison_table.pdf>]
+Overfull \hbox (12.27666pt too wide) in paragraph at lines 57--58
+\T1/aer/m/n/10 Usu-ally the trig-ger can be interval-based or threshold-
+ []
+
+[5 <./figures/mempod_org.pdf> <./figures/pod_design.pdf>]
+Overfull \hbox (3.24066pt too wide) in paragraph at lines 76--77
+[]\T1/aer/bx/n/10 THM ap-proach: \T1/aer/m/n/10 Mi-gra-tion is re-stricted in s
+eg-ments.
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+pdfTeX warning: pdflatex (file ./figures/remap_table_design.pdf): PDF inclusion
+: found PDF version <1.7>, but at most version <1.5> allowed
+<figures/remap_table_design.pdf, id=263, 487.26741pt x 303.78595pt>
+File: figures/remap_table_design.pdf Graphic file (type pdf)
+
+<use figures/remap_table_design.pdf>
+Package pdftex.def Info: figures/remap_table_design.pdf used on input line 86.
+(pdftex.def)             Requested size: 231.84338pt x 144.54086pt.
+
+Overfull \hbox (1.75633pt too wide) in paragraph at lines 111--112
+[]\T1/aer/m/n/10 Frequently en-coun-tered so-lu-tions in the lit-er-a-ture con-
+
+ []
+
+[6 <./figures/remap_table_design.pdf>]
+Overfull \hbox (5.86673pt too wide) in paragraph at lines 113--114
+\T1/aer/m/n/10 by the mi-gra-tion mech-a-nism ob-vi-ously im-poses ex-tremely
+ []
+
+
+Overfull \hbox (4.18097pt too wide) in paragraph at lines 116--117
+[]\T1/aer/bx/n/10 THM ap-proach: \T1/aer/m/n/10 One 8-bit com-pet-ing counter t
+racks
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (12.40819pt too wide) in paragraph at lines 130--131
+\T1/aer/m/n/10 so-lu-tions trig-ger with-out a pre-de-ter-mined fre-quency, whe
+n-
+ []
+
+
+Overfull \hbox (2.96031pt too wide) in paragraph at lines 137--138
+[]\T1/aer/bx/n/10 THM ap-proach: \T1/aer/m/n/10 THM uses a threshold-based mech
+-
+ []
+
+
+Underfull \vbox (badness 4279) has occurred while \output is active []
+
+ [7]
+Underfull \vbox (badness 4279) has occurred while \output is active []
+
+
+Underfull \vbox (badness 4279) has occurred while \output is active []
+
+ [8]
+Overfull \hbox (3.70677pt too wide) in paragraph at lines 163--164
+[]\T1/aer/m/n/10 Describing the ac-tual mi-gra-tion dat-a-p-ath is of-ten over-
+
+ []
+
+
+Overfull \hbox (1.83684pt too wide) in paragraph at lines 165--167
+\T1/aer/m/n/10 read-ing and writ-ing the can-di-date pages. In other words,
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (1.20767pt too wide) in paragraph at lines 176--177
+\T1/aer/m/n/10 Ter-abytes, SRAM re-quire-ments for ac-tiv-ity track-ing and
+ []
+
+) (sections/Results.tex [9]
+
+pdfTeX warning: pdflatex (file ./figures/specs_table.pdf): PDF inclusion: found
+ PDF version <1.7>, but at most version <1.5> allowed
+<figures/specs_table.pdf, id=310, 82.03166pt x 96.64005pt>
+File: figures/specs_table.pdf Graphic file (type pdf)
+
+<use figures/specs_table.pdf>
+Package pdftex.def Info: figures/specs_table.pdf used on input line 20.
+(pdftex.def)             Requested size: 231.84338pt x 273.131pt.
+
+
+pdfTeX warning: pdflatex (file ./figures/workloads_checkmarks.pdf): PDF inclusi
+on: found PDF version <1.7>, but at most version <1.5> allowed
+<figures/workloads_checkmarks.pdf, id=311, 388.41673pt x 303.27pt>
+File: figures/workloads_checkmarks.pdf Graphic file (type pdf)
+
+<use figures/workloads_checkmarks.pdf>
+Package pdftex.def Info: figures/workloads_checkmarks.pdf used on input line 26
+.
+(pdftex.def)             Requested size: 231.84338pt x 181.02402pt.
+
+
+pdfTeX warning: pdflatex (file ./figures/num_counters_normalized.pdf): PDF incl
+usion: found PDF version <1.7>, but at most version <1.5> allowed
+<figures/num_counters_normalized.pdf, id=312, 687.55067pt x 108.87978pt>
+File: figures/num_counters_normalized.pdf Graphic file (type pdf)
+
+<use figures/num_counters_normalized.pdf>
+Package pdftex.def Info: figures/num_counters_normalized.pdf used on input line
+ 44.
+(pdftex.def)             Requested size: 504.0pt x 79.81384pt.
+
+
+pdfTeX warning: pdflatex (file ./figures/interval_length_normalized.pdf): PDF i
+nclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<figures/interval_length_normalized.pdf, id=313, 685.53455pt x 105.51923pt>
+File: figures/interval_length_normalized.pdf Graphic file (type pdf)
+
+<use figures/interval_length_normalized.pdf>
+Package pdftex.def Info: figures/interval_length_normalized.pdf used on input l
+ine 51.
+(pdftex.def)             Requested size: 504.0pt x 77.5758pt.
+
+Overfull \hbox (2.95758pt too wide) in paragraph at lines 60--61
+[]\T1/aer/m/n/10 Figure []7[] shows nor-mal-ize Av-er-age Main Mem-ory Time
+ []
+
+
+
+pdfTeX warning: pdflatex (file ./figures/counter_size_normalized.pdf): PDF incl
+usion: found PDF version <1.7>, but at most version <1.5> allowed
+<figures/counter_size_normalized.pdf, id=318, 678.14131pt x 105.51822pt>
+File: figures/counter_size_normalized.pdf Graphic file (type pdf)
+
+<use figures/counter_size_normalized.pdf>
+Package pdftex.def Info: figures/counter_size_normalized.pdf used on input line
+ 65.
+(pdftex.def)             Requested size: 504.0pt x 78.42358pt.
+ [10 <./figures/specs_table.pdf>]
+Overfull \hbox (2.11707pt too wide) in paragraph at lines 72--73
+[]\T1/aer/m/n/10 Figure []9[] presents the im-pact of counter size on AMMT
+ []
+
+
+Overfull \hbox (3.0189pt too wide) in paragraph at lines 74--75
+\T1/aer/m/n/10 com-pared to us-ing larger coun-ters, while mi-gra-tion count
+ []
+
+
+Overfull \hbox (3.23206pt too wide) in paragraph at lines 76--77
+$\OMS/cmsy/m/n/10 $\T1/aer/m/n/10 128x smaller than THM's (512KB) and $\OMS/cm
+sy/m/n/10 $\T1/aer/m/n/10 2300x smaller
+ []
+
+
+
+pdfTeX warning: pdflatex (file ./figures/performance_over_nlm.pdf): PDF inclusi
+on: found PDF version <1.7>, but at most version <1.5> allowed
+<figures/performance_over_nlm.pdf, id=348, 681.50189pt x 156.59705pt>
+File: figures/performance_over_nlm.pdf Graphic file (type pdf)
+
+<use figures/performance_over_nlm.pdf>
+Package pdftex.def Info: figures/performance_over_nlm.pdf used on input line 83
+.
+(pdftex.def)             Requested size: 504.0pt x 115.8083pt.
+
+Overfull \hbox (1.20677pt too wide) in paragraph at lines 93--94
+[]\T1/aer/m/n/10 MemPod out-per-forms the state-of-the-art com-peti-
+ []
+
+[11 <./figures/num_counters_normalized.pdf> <./figures/interval_length_normaliz
+ed.pdf> <./figures/workloads_checkmarks.pdf>]
+Overfull \hbox (8.5567pt too wide) in paragraph at lines 108--109
+\T1/aer/m/n/10 nor-mal-ized to the per-for-mance of the cor-re-spond-ing mech-
+ []
+
+) (sections/Conclusions.tex [12 <./figures/counter_size_normalized.pdf> <./figu
+res/performance_over_nlm.pdf>]) (MemPod.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 70.
+ [13]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 70.
+ (MemPod.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 70.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 70.
+Package rerunfilecheck Info: File `MemPod.out' has not changed.
+(rerunfilecheck)             Checksum: 0977E742CF39CDC2277F81978D52E005;1383.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 70.
+ ) 
+Here is how much of TeX's memory you used:
+ 6969 strings out of 493673
+ 97615 string characters out of 3141529
+ 189568 words of memory out of 3000000
+ 10074 multiletter control sequences out of 15000+200000
+ 63117 words of font info for 93 fonts, out of 3000000 for 9000
+ 1025 hyphenation exceptions out of 8191
+ 41i,11n,43p,1460b,392s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
+m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program 
+Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Fi
+les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files
+ (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files (x
+86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files (x86)/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmti8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/ty
+pe1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/
+times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmri
+8a.pfb>
+Output written on MemPod.pdf (13 pages, 2557299 bytes).
+PDF statistics:
+ 494 PDF objects out of 1000 (max. 8388607)
+ 67 named destinations out of 1000 (max. 500000)
+ 226 words of extra memory for PDF output out of 10000 (max. 10000000)
+

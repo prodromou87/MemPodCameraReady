@@ -2,49 +2,25 @@
 \section{Introduction}
 \label{sec:Introduction}
 
-In recent years improvement of system performance has been impeded by the memory wall problem ~\cite{wulf-can95}. To alleviate the memory wall problem there has been a lot of recent research in the use of 3-D die-stacked memory to provide high performance. Placing 3D memory stacks in the same package as the processor can provide significant improvements in bandwidth and lower power consumption ~\cite{black-micro2013}.  There has 
-has been significant advancement in the industry including the development of
-die-stacked memory standards and consortia~\cite{jedec-wideio,JEDEC-HBM,pawlowski-hotchips2011},
-and various announcements from several processor
-companies~\cite{KnightsLanding,NVIDIA,black-micro2013}.
+The memory wall problem has been known to impede system performance \cite{wulf-can95}. 3D stacked memory is considered as a viable solution and has been studied extensively. Placing memory stacks in the processor package was shown to provide significant improvements in terms of bandwidth and power consumption \cite{black-micro2013}. Processor manufacturers already began including 3D-stacked memories in their announced products \cite{KnightsLanding,NVIDIA,black-micro2013} and die-stacked memory standards have been developed \cite{jedec-wideio,JEDEC-HBM,pawlowski-hotchips2011}. The use of die-stacked memory will undeniably be part of many future systems. Products such as \TODO{Cite Fury-X, any other existing product (AMD?)} are already manufactured with stacks of memory in the same package as the processing cores.
 
-Current stacking technology may provide on the order of eight 3D DRAM stacks, each with 2GB capacity, for a total of 16GB of
-fast DRAM~\cite{KnightsLanding}.  However, many server systems already support
-{\em hundreds} of GB of memory and so a few tens will not suffice for the
-problem sizes and workloads of interest.  The resulting system will therefore
-consist of two types of memory: a first class of fast, in-package, die-stacked
-memory, and a second class of off-package commodity memory (e.g., double data rate type 3 (DDR3)).
+The current technology for incorporating stacked memory, as well as the current protocols allow up to 16GB of
+fast DRAM~\cite{KnightsLanding}. Commodity server systems often need {\em hundreds} of GB of memory. Consequently, at its current state, in-package memory cannot solely support today's memory requirements, leading to the emergence of \emph{hybrid memories}, usually with fast 3D-stacked memory and the traditionally used off-chip memory such as DDR4. Often, hybrid configurations with two memory technologies are called \emph{``Two-Level Memories''}, which implies a cache-like organization, even though that's not always the case. It is not clear yet how this newly added memory is best utilized. Recent research proposed mechanisms to manage the 3D-stacked memory as a high-bandwidth last level cache, while other proposals attempt to manage this memory as an extension of the main memory. Each approach comes with its own challenges, benefits and drawbacks. 
 
-Given such a {\em Two-Level Memory} (TLM) hybrid memory organization, the challenge then
-comes from determining how to best organize and manage this system. The goal of any management is to give the performance of the fast in-package memory while still providing the capacity of the larger off-package memory. 
-A large body of recent body of recent research has focused on utilizing the stacked DRAM as a
-large, high-bandwidth last-level cache (e.g., an ``L4'' cache), coping with the
-challenges of managing the large tag storage required and the relatively slower
-latencies of DRAM (compared to on-chip SRAM)~\cite{loh-micro2011,qureshi-micro2012,jevdjic-isca2013,jiang-hpca2010,zhao-iccd2007,sim-micro2012,meza-cal2012,elnacouzi-date2013,hameed-cases2013}.  
-Such a hardware caching approach has some immediate advantages, especially that of
-software-transparency and backwards compatibility.  As the stacked DRAM is
-simply another cache that is transparent to the software layers, any existing
-applications can be run on a system with such a DRAM cache and potentially
-obtain performance and/or energy benefits~\cite{loh-shaw2012}. 
-One drawback of the caching approach is that stacked memory is not available for application use. While the capacities of die-stacked memory is likely to be insufficient to serve as the entirety of a system's main memory it is still non-trivial in size and would be beneficial to memory capacity constrained workloads ~\cite{chou-micro2014}.
+Recent proposals in the literature \cite{chou-micro2014,qureshi-micro2012} demonstrate that when stacked memory is used as a cache, we need to re-evaluate traditional SRAM cache optimizations. Tag placement and granularity must be carefully studied and double access (tag check and data retrieval) in order to serve one request must be avoided due to the high latency of accessing a DRAM structure. Despite the associated challenges, state-of-the-art proposals manage to achieve high performance improvement through elegant solutions. Such a management scheme offers transparent operation and does not require added hardware structures to support it. On the downside, the extra memory capacity is not available to the software and some space is wasted to store tags instead of useful information. As memory capacities increase, the size of tag information could result in wasting even larger parts of our fast memory.
 
-An alternative configuration is to expose the die-stacked memory as part of the main memory capacity. In this configuration the management and efficient use of the TLM hybrid memory lies on the application and the underlying management option. One recent research explored  management by the operating system (OS) ~\cite{meswani-hpca21}. The OS monitors memory usage and periodically performs page migrations to move frequently accessed pages to stacked memory. 
-One of the many challenges that OS or any runtime implementation faces is that it is constrained by the overheads of management. The OS needs to take an interrupt to do anything, additionally the OS then has to traverse the page tables to read the access frequency information,  migrate pages and update the page table entries to reflect the change of virtual to physical address mapping and flush the translation lookaside buffers (TLB). As we show in our evaluations, these costs are non-trivial and constraint the OS to set the minimum management intervals or epochs to 0.1 seconds. Such coarse grained intervals leaves a lot of opportunities on the table. 
+Instead of using stacked-memory as cache, some recent research \cite{sim-micro2014,meswani-HPCA21} proposed both hardware and hardware-supported OS mechanisms to manage it as a \emph{``flat address space memory''}. Memory accesses are being monitored in hardware and the goal is to identify ``hot'' memory pages and migrate them into the fast memory, in order to improve performance. Such a configuration extends the exposed main memory capacity, serving capacity-constrained workloads better than a DRAM cache organization, while at the same time eliminating the issue of tag placement and retrieval. Additionally, a flat address space organization could be incorporated in a system without the presence of a memory manager and it would still operate correctly and boost performance simply because of the presence of a fast memory region. Like a DRAM cache, this memory organization is also transparent to the programmer. However, applications will occasionally need to be interrupted for the required migrations to take place. 
 
-Most recently ~\cite{sim-micro2014} proposed a transparent hardware schem to manage TLM as a flat address space. The main contributions of that work was the use of storage efficient structures to track page access frequency and remapping tables. They allow migrations to happen between any aribitrary channels and the use of single centralized migrator can become a bottleneck when systems scale to terabytes of memory and 10s of channels. To this end we in this paper we introduce  the migration cluster architecture that is specifically designed to scale to systems of future. Our migration clusters group channels of different memory levels into smaller cluster sets and migration is limited to within cluster only. In this clustered architecture we also use page access counting hardware that can store information for millions of pages as well as we use remap tables that can remap millions of pages in the cluster efficiently. We also describe and evaluate novel migration algorithms that are able to optimize for latency and bandwidth sensistive workloads in a CPU-GPU system. 
+Flat address space memory managers need to overcome significant challenges. The main drawback comes from the required book-keeping. Monitoring memory regions and keeping track of migrated pages in order to relay incoming requests transparently, often comes at very high storage and power consumption overheads. Unlike a DRAM cache, there is no backing store memory. As such, each migration is a swap of two pages in order to ensure that exactly one copy of each participant page exists in main memory. In the presence of a flat memory with two regions, one fast and one slow, it could be expected that the fast one is fully utilized before we start using the slow one. However, modern OS's assign memory addresses randomly for security reasons \TODO{Find and cite} and as such no guarantees can be made for a ``smarter'' memory allocation policy.
 
-\begin{figure}[h]
-  \includegraphics[width=0.46\textwidth]{figures/dummy.pdf}
-  \caption{Dummy figure caption 2}
-  \label{fig:dummy2}
-\end{figure}
+Our goal in this paper is to design a memory manager for flat address space memory configurations that is efficient in terms of area requirements and performance, as well as scalable to future technology advancements in memory capacity and speed. MemPod is carefully designed to adhere to these goals. The contributions of this paper are:
 
+\begin{itemize}
+\item MemPod's novel microarchitectural design clusters existing memory controllers into memory ``Pods'' allowing for better scalability and integration to future systems with larger and faster memories.
+\item Novel activity tracking algorithm: Based on a ``Majority Element Algorithm'' (MEA) heuristic designed for database management and big data analytics, MemPod achieves excellent future prediction at virtually no cost. To the best of our knowledge such an algorithm has never been used in this context before.
+\item We provide a breakdown of the basic building blocks for \emph{any} flat address space migration mechanism. System designers can choose any solution for each of these elements and create a new management scheme in a plug-and-play fashion. Each building block is associated with its corresponding trade-off. Later in this paper we provide a description of each block, along with a side-by-side comparison of MemPod's approach and what the state-of-the-art mechanisms propose.
+\end{itemize}
 
+Our evaluation results under homogeneous and mixed 8-core multi-programmed workloads show MemPod to outperform the current state-of-the-art by 11\% on average and up to 29\% in terms of Average Main Memory Time. Under an overclocked memory configuration, our results show MemPod to be the most scalable mechanism as memory technology improves. The use of MEA activity tracking requires 10M times less space than traditionally used Full Counters (FC), while at the same time achieving 58\% better hot page identification (future prediction).
 
-
-
-Show graph with motivational result.
-
-List the paper's main contributions.
-
-Overview of paper's chapters.
+In Section \ref{sec:Background} of this paper we present background and related work regarding memory management schemes. Section \ref{sec:MEA} presents our novel activity tracking in detail along with an in-depth evaluation of its capabilities compared to traditionally used mechanisms. Section \ref{sec:Architecture} gives a detailed overview of MemPod's architecture, presented side-by-side with the state-of-the-art mechanisms we compare against. Our architecture section is organized based on the fundamental basic blocks of management mechanisms in order to present the management problem in its entirety. Section \ref{sec:Results} presents our experimental methodology and evaluation results and finally, Section \ref{sec:Conclusions} concludes the paper.

@@ -44,14 +44,21 @@
 \pagestyle{plain}
 
 \begin{abstract}
-  Die-stacked DRAM is an emerging technology that has been annoruced to be included with off-package memories resulting in a hybrid memory system. A large body of recent research has investigated the use of die-stacked DRAM as a hardware-manged last-level cache. This approach comes does not expose die-stacked memory for application use which could be beneifical to memory capacity constrained workloads. An alternative approach is to manage both memories as flat address space as part of main memory. Performance of flat addresss space requires efficient page placement and migrations such that most memory access are from the higher performance die-stacked memory. One apporach is for the operating system (OS) to monitor memory access and periodically migrate pages, however OS is limited to coarser granularities migration periods due to overheads of page table updates, and TLB shootdowns. In this paper we describe a clustered hardware migration architecture that transparently migrates pages that can scale to arbutrary number of channels. We also design scalable solutions to storing page access tracking and page remapping tables that can scale to future systems with terabytes of memory. Our results for evaluation of  multi-programmed workloads of parsec CPU and rodinia GPU applications show that our solution has \TODO{XX\%} better performance over recent flat-address space management schemes.
+
+In the near future die-stacked DRAM will be present alongside off-chip memories in hybrid memory systems. A large body of recent research has explored possible uses and performance-improving mechanisms regarding such a memory configuration. The first approach is to use this new memory as a last level cache and it has been shown to be beneficial for system performance. Another approach is to use the on-chip memory as an extension of the off-chip one in a ``flat address space'' configuration, exposing more memory capacity to applications leading to performance improvement under capacity constrained workloads.
+
+In this paper we propose MemPod, a scalable and efficient memory management mechanism for flat address space hybrid memories. MemPod monitors main memory activity and upon predefined intervals migrates the most frequently accessed memory pages to the faster on-chip memory. We propose a novel architectural organization and the use of ``Majority Element Algorithm'' for activity tracking. 
+
+Our results with multi-programmed workloads show MemPod to improve Average Main Memory Time (AMMT) by up to 29\% and 11\% on average compared to the state-of-the-art, while our analysis shows that MemPod is the most viable option compared to the state of the art, as memories become faster in the future. MemPod's novel activity tracking approach leads to significant cost reduction ($\sim$10Mx lower space requirements) and incredible improvement on future prediction accuracy (58\% average improvement) over traditionally used full counters. 
+
 \end{abstract}
 
 \noindent \textbf{Keywords:} Memory architecture, Die-stacked memory
 
 \input{sections/Introduction.tex}
 \input{sections/Background.tex}
-\input{sections/RelatedWork.tex}
+%\input{sections/RelatedWork.tex}
+\input{sections/MEA.tex}
 \input{sections/Architecture.tex}
 \input{sections/Results.tex}
 \input{sections/Conclusions.tex}
