@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.11.17)  29 MAR 2016 22:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.11.17)  2 APR 2016 11:20
 entering extended mode
 **MemPod.tex
 (MemPod.tex
@@ -343,22 +343,80 @@ Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
 \TX@delta=\dimen136
 \TX@cols=\count119
 \TX@ftn=\toks36
-) (macros.tex
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\algorithm2e\algorithm2e.sty"
+Package: algorithm2e 2013/01/06 v5.00 algorithms environments
+\c@AlgoLine=\count120
+
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\calc.sty"
+\algocf@hangindent=\skip57
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\xspace.sty"
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ltxmisc\relsize.sty"
+Package: relsize 2003/07/04 ver 3.1
+
+
+Package relsize Warning: Failed to get list of font sizes.
+(relsize)                Falling back to old definition. on input line 81.
+
+)
+********************************************************
+Package `algorithm2e' Release 5.1 -- october 19 2015 --
+- algorithm2e-announce@lirmm.fr mailing list for announcement about releases
+- algorithm2e-discussion@lirmm.fr mailing list for discussion about package
+subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
+- Author: Christophe Fiorio (christophe.fiorio@umontpellier.fr)
+********************************************************
+\skiptotal=\skip58
+\skiplinenumber=\skip59
+\skiprule=\skip60
+\skiphlne=\skip61
+\skiptext=\skip62
+\skiplength=\skip63
+\algomargin=\skip64
+\skipalgocfslide=\skip65
+\algowidth=\dimen137
+\inoutsize=\dimen138
+\inoutindent=\dimen139
+\interspacetitleruled=\dimen140
+\interspacealgoruled=\dimen141
+\interspacetitleboxruled=\dimen142
+\algocf@ruledwidth=\skip66
+\algocf@inoutbox=\box33
+\algocf@inputbox=\box34
+\AlCapSkip=\skip67
+\AlCapHSkip=\skip68
+\algoskipindent=\skip69
+\algocf@nlbox=\box35
+\algocf@hangingbox=\box36
+\algocf@untilbox=\box37
+\algocf@skipuntil=\skip70
+\algocf@capbox=\box38
+\algoheightruledefault=\skip71
+\algoheightrule=\skip72
+\algotitleheightruledefault=\skip73
+\algotitleheightrule=\skip74
+\c@algocfline=\count121
+\c@algocfproc=\count122
+\c@algocf=\count123
+\algocf@algoframe=\box39
+\algocf@algobox=\box40
+) (macros.tex ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\calc.sty"
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count120
-\calc@Bcount=\count121
-\calc@Adimen=\dimen137
-\calc@Bdimen=\dimen138
-\calc@Askip=\skip57
-\calc@Bskip=\skip58
+\calc@Acount=\count124
+\calc@Bcount=\count125
+\calc@Adimen=\dimen143
+\calc@Bdimen=\dimen144
+\calc@Askip=\skip75
+\calc@Bskip=\skip76
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count122
-\calc@Cskip=\skip59
+\calc@Ccount=\count126
+\calc@Cskip=\skip77
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\pifont.sty"
 Package: pifont 2005/04/12 PSNFSS-v9.2a Pi font support (SPQR) 
@@ -380,75 +438,75 @@ File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: pdftex.def on input line 142.
 )
-\c@hours=\count123
-\c@minutes=\count124
+\c@hours=\count127
+\c@minutes=\count128
 )
 (MemPod.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
  ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count125
-\scratchdimen=\dimen139
-\scratchbox=\box33
-\nofMPsegments=\count126
-\nofMParguments=\count127
+\scratchcounter=\count129
+\scratchdimen=\dimen145
+\scratchbox=\box41
+\nofMPsegments=\count130
+\nofMParguments=\count131
 \everyMPshowfont=\toks37
-\MPscratchCnt=\count128
-\MPscratchDim=\dimen140
-\MPnumerator=\count129
-\makeMPintoPDFobject=\count130
+\MPscratchCnt=\count132
+\MPscratchDim=\dimen146
+\MPnumerator=\count133
+\makeMPintoPDFobject=\count134
 \everyMPtoPDFconversion=\toks38
 )
-\AtBeginShipoutBox=\box34
+\AtBeginShipoutBox=\box42
 
 
 Package hyperref Warning: Height of page (\paperheight) is invalid (0.0pt),
 (hyperref)                using 11in.
 
-Package hyperref Info: Link coloring OFF on input line 41.
+Package hyperref Info: Link coloring OFF on input line 46.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count131
+\c@section@level=\count135
 )
-LaTeX Info: Redefining \ref on input line 41.
-LaTeX Info: Redefining \pageref on input line 41.
-LaTeX Info: Redefining \nameref on input line 41.
+LaTeX Info: Redefining \ref on input line 46.
+LaTeX Info: Redefining \pageref on input line 46.
+LaTeX Info: Redefining \nameref on input line 46.
 
 (MemPod.out) (MemPod.out)
 \@outlinefile=\write3
-LaTeX Font Info:    Try loading font information for U+msa on input line 43.
+LaTeX Font Info:    Try loading font information for U+msa on input line 48.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 43.
+LaTeX Font Info:    Try loading font information for U+msb on input line 48.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 43.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 48.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ulasy.fd"
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-Overfull \hbox (15.86737pt too wide) in paragraph at lines 52--53
+Overfull \hbox (15.86737pt too wide) in paragraph at lines 57--58
 \T1/aer/m/n/10 Mem-Pod to im-prove Av-er-age Main Mem-ory Time (AMMT)
  []
 
@@ -458,13 +516,13 @@ LaTeX Font Info:    Try loading font information for T1+aess on input line 5.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aess.fd"
 File: t1aess.fd 1997/11/16 Font definitions for T1/aess.
 )
-Overfull \hbox (5.53711pt too wide) in paragraph at lines 7--9
-[]\T1/aer/m/n/10 The cur-rent tech-nol-ogy for in-cor-po-rat-ing stacked mem-
+Overfull \hbox (18.32689pt too wide) in paragraph at lines 8--9
+[]|   []   |   []   |   []   |   []   |   []   |   []   |   []
  []
 
 
 Overfull \hbox (19.19908pt too wide) in paragraph at lines 12--13
-\T1/aer/m/n/10 cent re-search [[]14[], []10[]] pro-posed both hard-ware and har
+\T1/aer/m/n/10 cent re-search [[]10[], []11[]] pro-posed both hard-ware and har
 dware-
  []
 
@@ -475,13 +533,11 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 ]
-Overfull \hbox (7.31566pt too wide) in paragraph at lines 20--21
-\T1/aer/m/n/10 jor-ity El-e-ment Al-go-rithm'' (MEA) heuris-tic de-signed
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (4.67717pt too wide) in paragraph at lines 21--22
-[]\T1/aer/m/n/10 We pro-vide a break-down of the ba-sic build-ing blocks
+Overfull \hbox (2.55782pt too wide) in paragraph at lines 27--28
+\T1/aer/m/n/10 ad-dress space dy-namic mem-ory man-age-ment mech-
  []
 
 ) (sections/Background.tex) (sections/MEA.tex
@@ -523,73 +579,74 @@ Overfull \hbox (14.83514pt too wide) in paragraph at lines 26--27
 /m/n/10 (\OML/cmm/m/it/10 MEA\OT1/cmr/m/n/10 )$
  []
 
-
-LaTeX Warning: Citation `charikar-mae' on page 2 undefined on input line 28.
-
 [2]
-Overfull \hbox (2.92752pt too wide) in paragraph at lines 34--35
-[]\T1/aer/m/n/10 In a mem-ory man-age-ment scheme that uses Full Coun-
+Overfull \hbox (0.79999pt too wide) detected at line 62
+|[]|
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+ [3 <./figures/mea_1.pdf> <./figures/mea_2.pdf>]
+Overfull \hbox (2.92752pt too wide) in paragraph at lines 74--75
+[]\T1/aer/m/n/10 In a mem-ory man-age-ment scheme that uses Full Coun-
+ []
 
-Overfull \hbox (8.32895pt too wide) in paragraph at lines 36--37
+
+Overfull \hbox (8.32895pt too wide) in paragraph at lines 76--77
 \T1/aer/m/n/10 track-ing, we used traces cap-tured from multi-programmed
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3 <./figures/mea_1.pdf> <./figures/mea_2.pdf>]) (sections/Architecture.tex
-
-pdfTeX warning: pdflatex (file ./figures/comparison_table.pdf): PDF inclusion: 
-found PDF version <1.7>, but at most version <1.5> allowed
-<figures/comparison_table.pdf, id=165, 459.49336pt x 279.70798pt>
+)
+(sections/Architecture.tex
+<figures/comparison_table.pdf, id=171, 459.22687pt x 277.55795pt>
 File: figures/comparison_table.pdf Graphic file (type pdf)
 
 <use figures/comparison_table.pdf>
 Package pdftex.def Info: figures/comparison_table.pdf used on input line 24.
-(pdftex.def)             Requested size: 240.0pt x 146.09772pt.
+(pdftex.def)             Requested size: 240.0pt x 145.05518pt.
+ [4 <./figures/mea_3.pdf>]
+Overfull \hbox (3.0382pt too wide) in paragraph at lines 35--36
+\T1/aer/m/n/10 also in-tro-duce per-for-mance penal-ties. Fur-ther-more, with
+ []
 
-<figures/mempod_org.pdf, id=167, 368.86107pt x 219.41875pt>
+<figures/mempod_org.pdf, id=188, 368.86107pt x 219.41875pt>
 File: figures/mempod_org.pdf Graphic file (type pdf)
 
 <use figures/mempod_org.pdf>
-Package pdftex.def Info: figures/mempod_org.pdf used on input line 36.
+Package pdftex.def Info: figures/mempod_org.pdf used on input line 38.
 (pdftex.def)             Requested size: 236.88062pt x 140.90962pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 
 
 pdfTeX warning: pdflatex (file ./figures/pod_design.pdf): PDF inclusion: found 
 PDF version <1.7>, but at most version <1.5> allowed
-<figures/pod_design.pdf, id=168, 399.895pt x 143.82733pt>
+<figures/pod_design.pdf, id=189, 399.895pt x 143.82733pt>
 File: figures/pod_design.pdf Graphic file (type pdf)
 
 <use figures/pod_design.pdf>
-Package pdftex.def Info: figures/pod_design.pdf used on input line 42.
+Package pdftex.def Info: figures/pod_design.pdf used on input line 44.
 (pdftex.def)             Requested size: 231.84338pt x 83.38478pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Overfull \hbox (2.98996pt too wide) in paragraph at lines 50--51
+Overfull \hbox (2.98996pt too wide) in paragraph at lines 52--53
 \T1/aer/m/n/10 cen-tral-ized mi-gra-tion con-troller al-low-ing any-to-any[][][
 ] mi-
  []
 
-[4 <./figures/mea_3.pdf> <./figures/comparison_table.pdf>]
-Overfull \hbox (12.27666pt too wide) in paragraph at lines 57--58
+
+Overfull \hbox (12.27666pt too wide) in paragraph at lines 59--60
 \T1/aer/m/n/10 Usu-ally the trig-ger can be interval-based or threshold-
  []
 
-[5 <./figures/mempod_org.pdf> <./figures/pod_design.pdf>]
-Overfull \hbox (3.24066pt too wide) in paragraph at lines 76--77
+[5 <./figures/comparison_table.pdf> <./figures/mempod_org.pdf> <./figures/pod_d
+esign.pdf>]
+Overfull \hbox (3.24066pt too wide) in paragraph at lines 78--79
 []\T1/aer/bx/n/10 THM ap-proach: \T1/aer/m/n/10 Mi-gra-tion is re-stricted in s
 eg-ments.
  []
@@ -597,29 +654,33 @@ eg-ments.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+ [6]
+
+LaTeX Warning: Citation `TODO' on page 7 undefined on input line 84.
+
 
 
 pdfTeX warning: pdflatex (file ./figures/remap_table_design.pdf): PDF inclusion
 : found PDF version <1.7>, but at most version <1.5> allowed
-<figures/remap_table_design.pdf, id=263, 487.26741pt x 303.78595pt>
+<figures/remap_table_design.pdf, id=268, 487.26741pt x 303.78595pt>
 File: figures/remap_table_design.pdf Graphic file (type pdf)
 
 <use figures/remap_table_design.pdf>
-Package pdftex.def Info: figures/remap_table_design.pdf used on input line 86.
+Package pdftex.def Info: figures/remap_table_design.pdf used on input line 88.
 (pdftex.def)             Requested size: 231.84338pt x 144.54086pt.
 
-Overfull \hbox (1.75633pt too wide) in paragraph at lines 111--112
+Overfull \hbox (1.75633pt too wide) in paragraph at lines 113--114
 []\T1/aer/m/n/10 Frequently en-coun-tered so-lu-tions in the lit-er-a-ture con-
 
  []
 
-[6 <./figures/remap_table_design.pdf>]
-Overfull \hbox (5.86673pt too wide) in paragraph at lines 113--114
+
+Overfull \hbox (5.86673pt too wide) in paragraph at lines 115--116
 \T1/aer/m/n/10 by the mi-gra-tion mech-a-nism ob-vi-ously im-poses ex-tremely
  []
 
 
-Overfull \hbox (4.18097pt too wide) in paragraph at lines 116--117
+Overfull \hbox (4.18097pt too wide) in paragraph at lines 118--119
 []\T1/aer/bx/n/10 THM ap-proach: \T1/aer/m/n/10 One 8-bit com-pet-ing counter t
 racks
  []
@@ -627,14 +688,8 @@ racks
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-Overfull \hbox (12.40819pt too wide) in paragraph at lines 130--131
-\T1/aer/m/n/10 so-lu-tions trig-ger with-out a pre-de-ter-mined fre-quency, whe
-n-
- []
-
-
-Overfull \hbox (2.96031pt too wide) in paragraph at lines 137--138
+ [7 <./figures/remap_table_design.pdf>]
+Overfull \hbox (2.96031pt too wide) in paragraph at lines 139--140
 []\T1/aer/bx/n/10 THM ap-proach: \T1/aer/m/n/10 THM uses a threshold-based mech
 -
  []
@@ -642,32 +697,32 @@ Overfull \hbox (2.96031pt too wide) in paragraph at lines 137--138
 
 Underfull \vbox (badness 4279) has occurred while \output is active []
 
- [7]
-Underfull \vbox (badness 4279) has occurred while \output is active []
-
 
 Underfull \vbox (badness 4279) has occurred while \output is active []
 
  [8]
-Overfull \hbox (3.70677pt too wide) in paragraph at lines 163--164
+Underfull \vbox (badness 4279) has occurred while \output is active []
+
+
+Overfull \hbox (3.70677pt too wide) in paragraph at lines 165--166
 []\T1/aer/m/n/10 Describing the ac-tual mi-gra-tion dat-a-p-ath is of-ten over-
 
  []
 
 
-Overfull \hbox (1.83684pt too wide) in paragraph at lines 165--167
+Overfull \hbox (1.83684pt too wide) in paragraph at lines 167--169
 \T1/aer/m/n/10 read-ing and writ-ing the can-di-date pages. In other words,
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-Overfull \hbox (1.20767pt too wide) in paragraph at lines 176--177
+ [9]
+Overfull \hbox (1.20767pt too wide) in paragraph at lines 178--179
 \T1/aer/m/n/10 Ter-abytes, SRAM re-quire-ments for ac-tiv-ity track-ing and
  []
 
-) (sections/Results.tex [9]
+) (sections/Results.tex
 
 pdfTeX warning: pdflatex (file ./figures/specs_table.pdf): PDF inclusion: found
  PDF version <1.7>, but at most version <1.5> allowed
@@ -710,7 +765,7 @@ File: figures/interval_length_normalized.pdf Graphic file (type pdf)
 Package pdftex.def Info: figures/interval_length_normalized.pdf used on input l
 ine 51.
 (pdftex.def)             Requested size: 504.0pt x 77.5758pt.
-
+ [10]
 Overfull \hbox (2.95758pt too wide) in paragraph at lines 60--61
 []\T1/aer/m/n/10 Figure []7[] shows nor-mal-ize Av-er-age Main Mem-ory Time
  []
@@ -719,14 +774,14 @@ Overfull \hbox (2.95758pt too wide) in paragraph at lines 60--61
 
 pdfTeX warning: pdflatex (file ./figures/counter_size_normalized.pdf): PDF incl
 usion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/counter_size_normalized.pdf, id=318, 678.14131pt x 105.51822pt>
+<figures/counter_size_normalized.pdf, id=327, 678.14131pt x 105.51822pt>
 File: figures/counter_size_normalized.pdf Graphic file (type pdf)
 
 <use figures/counter_size_normalized.pdf>
 Package pdftex.def Info: figures/counter_size_normalized.pdf used on input line
  65.
 (pdftex.def)             Requested size: 504.0pt x 78.42358pt.
- [10 <./figures/specs_table.pdf>]
+
 Overfull \hbox (2.11707pt too wide) in paragraph at lines 72--73
 []\T1/aer/m/n/10 Figure []9[] presents the im-pact of counter size on AMMT
  []
@@ -737,16 +792,14 @@ Overfull \hbox (3.0189pt too wide) in paragraph at lines 74--75
  []
 
 
-Overfull \hbox (3.23206pt too wide) in paragraph at lines 76--77
-$\OMS/cmsy/m/n/10 $\T1/aer/m/n/10 128x smaller than THM's (512KB) and $\OMS/cm
-sy/m/n/10 $\T1/aer/m/n/10 2300x smaller
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
+ [11 <./figures/num_counters_normalized.pdf> <./figures/interval_length_normali
+zed.pdf>]
 
 pdfTeX warning: pdflatex (file ./figures/performance_over_nlm.pdf): PDF inclusi
 on: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/performance_over_nlm.pdf, id=348, 681.50189pt x 156.59705pt>
+<figures/performance_over_nlm.pdf, id=356, 681.50189pt x 156.59705pt>
 File: figures/performance_over_nlm.pdf Graphic file (type pdf)
 
 <use figures/performance_over_nlm.pdf>
@@ -754,36 +807,50 @@ Package pdftex.def Info: figures/performance_over_nlm.pdf used on input line 83
 .
 (pdftex.def)             Requested size: 504.0pt x 115.8083pt.
 
+Overfull \hbox (1.04967pt too wide) in paragraph at lines 92--93
+\T1/aer/m/n/10 com-pared to THM. How-ever, in the case of zeusmp,
+ []
+
+
 Overfull \hbox (1.20677pt too wide) in paragraph at lines 93--94
 []\T1/aer/m/n/10 MemPod out-per-forms the state-of-the-art com-peti-
  []
 
-[11 <./figures/num_counters_normalized.pdf> <./figures/interval_length_normaliz
-ed.pdf> <./figures/workloads_checkmarks.pdf>]
+[12 <./figures/counter_size_normalized.pdf> <./figures/specs_table.pdf> <./figu
+res/workloads_checkmarks.pdf>]
+Underfull \vbox (badness 2961) has occurred while \output is active []
+
+
 Overfull \hbox (8.5567pt too wide) in paragraph at lines 108--109
 \T1/aer/m/n/10 nor-mal-ized to the per-for-mance of the cor-re-spond-ing mech-
  []
 
-) (sections/Conclusions.tex [12 <./figures/counter_size_normalized.pdf> <./figu
-res/performance_over_nlm.pdf>]) (MemPod.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 70.
- [13]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 70.
+) (sections/Conclusions.tex)
+Overfull \hbox (4.00714pt too wide) in paragraph at lines 9--70
+\T1/aer/m/n/10 Pod could also be used to ac-com-mo-date mem-ory schedul-
+ []
+
+(MemPod.bbl [13 <./figures/performance_over_nlm.pdf>])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 76.
+ [14
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 76.
  (MemPod.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 70.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 70.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 76.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 76.
 Package rerunfilecheck Info: File `MemPod.out' has not changed.
-(rerunfilecheck)             Checksum: 0977E742CF39CDC2277F81978D52E005;1383.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 70.
+(rerunfilecheck)             Checksum: 8B3014890A206A9A0624C220D39B5294;1383.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 76.
  ) 
 Here is how much of TeX's memory you used:
- 6969 strings out of 493673
- 97615 string characters out of 3141529
- 189568 words of memory out of 3000000
- 10074 multiletter control sequences out of 15000+200000
+ 7873 strings out of 493673
+ 112292 string characters out of 3141529
+ 221159 words of memory out of 3000000
+ 10965 multiletter control sequences out of 15000+200000
  63117 words of font info for 93 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 41i,11n,43p,1460b,392s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,17n,43p,1594b,2253s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program 
 Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Fi
@@ -800,9 +867,9 @@ ts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
 pe1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/
 times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmri
 8a.pfb>
-Output written on MemPod.pdf (13 pages, 2557299 bytes).
+Output written on MemPod.pdf (14 pages, 2329443 bytes).
 PDF statistics:
- 494 PDF objects out of 1000 (max. 8388607)
- 67 named destinations out of 1000 (max. 500000)
+ 500 PDF objects out of 1000 (max. 8388607)
+ 71 named destinations out of 1000 (max. 500000)
  226 words of extra memory for PDF output out of 10000 (max. 10000000)
 

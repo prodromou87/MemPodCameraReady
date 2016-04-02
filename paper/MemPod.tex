@@ -12,19 +12,24 @@
 \usepackage[normalem]{ulem}
 \usepackage[hyphens]{url}
 \usepackage{hyperref}
+
 \usepackage{tabularx}
+\usepackage{ulem}
+%\usepackage{program}
+\usepackage[boxruled]{algorithm2e}
+%\usepackage{algorithm2e}
 %\usepackage{mathptmx} % This is Times font
 
 %%%%%%%%%%%---SETME-----%%%%%%%%%%%%%
-\newcommand{\hpcasubmissionnumber}{109}
+\newcommand{\microsubmissionnumber}{266}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \fancypagestyle{firstpage}{
   \fancyhf{}
 \setlength{\headheight}{50pt}
 \renewcommand{\headrulewidth}{0pt}
-  \fancyhead[C]{\normalsize{ISCA 2016 Submission
-      \textbf{\#\hpcasubmissionnumber} \\ Confidential Draft: DO NOT DISTRIBUTE}}
+  \fancyhead[C]{\normalsize{MICRO 2016 Submission
+      \textbf{\#\microsubmissionnumber} -- Confidential Draft -- DO NOT DISTRIBUTE}}
   \pagenumbering{arabic}
 }
 
@@ -49,7 +54,7 @@ In the near future die-stacked DRAM will be present alongside off-chip memories 
 
 In this paper we propose MemPod, a scalable and efficient memory management mechanism for flat address space hybrid memories. MemPod monitors main memory activity and upon predefined intervals migrates the most frequently accessed memory pages to the faster on-chip memory. We propose a novel architectural organization and the use of ``Majority Element Algorithm'' for activity tracking. 
 
-Our results with multi-programmed workloads show MemPod to improve Average Main Memory Time (AMMT) by up to 29\% and 11\% on average compared to the state-of-the-art, while our analysis shows that MemPod is the most viable option compared to the state of the art, as memories become faster in the future. MemPod's novel activity tracking approach leads to significant cost reduction ($\sim$10Mx lower space requirements) and incredible improvement on future prediction accuracy (58\% average improvement) over traditionally used full counters. 
+Our results with multi-programmed workloads show MemPod to improve Average Main Memory Time (AMMT) by up to 29\% and 11\% on average compared to the state-of-the-art, while our analysis shows that MemPod is the most viable option compared to the state of the art, as memories become faster in the future. MemPod's novel activity tracking approach leads to significant cost reduction ($\sim$6000x lower space requirements) and incredible improvement on future prediction accuracy (58\% average improvement) over traditionally used full counters. 
 
 \end{abstract}
 
@@ -64,7 +69,8 @@ Our results with multi-programmed workloads show MemPod to improve Average Main 
 \input{sections/Conclusions.tex}
 
 %\bstctlcite{bstctl:etal, bstctl:nodash, bstctl:simpurl}
-\bibliographystyle{IEEEtranS}
+%\bibliographystyle{IEEEtranS}
+\bibliographystyle{ieeetr}
 \bibliography{references}
 
 \end{document}
