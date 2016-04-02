@@ -29,23 +29,23 @@ The MEA algorithm was originally proposed in \cite{karp-mea} and studied in-dept
 
 \begin{algorithm}
  
- %\DontPrintSemicolon
- \dontprintsemicolon
+ \DontPrintSemicolon
+ %\dontprintsemicolon
  \;
- %\PrintSemicolon
- \printsemicolon
+ \PrintSemicolon
+ %\printsemicolon
  
  \KwIn{X: Set of N elements}
  \KwIn{K: Number of elements to output}
  \KwData{T: Map structure with K entries}
  \KwResult{Set of K majority elements}
- %\DontPrintSemicolon
- \dontprintsemicolon
+ \DontPrintSemicolon
+ %\dontprintsemicolon
  \;
  Initialization: $T \leftarrow \emptyset$\; 
  \;
- %\PrintSemicolon
- \printsemicolon
+ \PrintSemicolon
+ %\printsemicolon
  \ForEach{$i \in X$} {
  	\uIf{$i \in T$}{
 		$T[i] \leftarrow T[i] + 1$\;
