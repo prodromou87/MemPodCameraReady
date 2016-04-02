@@ -1,4 +1,4 @@
-% !TEX root = ../HPCA2016.tex
+% !TEX root = ../MemPod.tex
 \section{Conclusions and Future Work}
 \label{sec:Conclusions}
 
@@ -6,5 +6,5 @@ MemPod is a scalable, modular and efficient dynamic memory management mechanism.
 
 MEA counters have not been previously used in the micro-architectural context. Our analysis demonstrates it can be beneficial in more than just a migration mechanism. Any proposed mechanism that needs some sort of activity tracking or even identifying frequently-occuring phenomena could possibly gain significant performance benefit at lower cost through the use of MEA.
 
-\TODO{Not sure what to keep/remove here}. I'll think a little more about it.}
+\TODO{Not sure what to keep/remove here. I'll think a little more about it.}
 In addition, MemPod leaves a lot to be investigated in future work. We intend to focus on extending our design to support even more complex memory configurations, with the addition of non-volatile memory which adds a reliability aspect. Ordering of migrations could result to incredible increase in performance, as demonstrated in experiment ?? and libquantum, allowing for future research. MemPod could also be used to accommodate memory scheduling mechanisms by utilizing its internal structures, or on the other hand, we could focus on ``Pod-aware'' memory scheduling.

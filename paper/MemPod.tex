@@ -16,7 +16,20 @@
 \usepackage{tabularx}
 \usepackage{ulem}
 %\usepackage{program}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% I need these so it compiles on my Ubuntu machine
+% There's some issue with the algorithm2e package
+\makeatletter
+\newif\if@restonecol
+\makeatother
+\let\algorithm\relax
+\let\endalgorithm\relax
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[boxruled]{algorithm2e}
+
+
 %\usepackage{algorithm2e}
 %\usepackage{mathptmx} % This is Times font
 
