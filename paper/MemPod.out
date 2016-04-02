@@ -1,19 +1,20 @@
-\BOOKMARK [1][-]{section.1}{Introduction}{}
-\BOOKMARK [1][-]{section.2}{Background \046 Related Work}{}
-\BOOKMARK [1][-]{section.3}{Majority Element Algorithm}{}
-\BOOKMARK [1][-]{section.4}{Architecture}{}
-\BOOKMARK [2][-]{subsection.4.1}{Clustered Migration Architecture}{section.4}
-\BOOKMARK [2][-]{subsection.4.2}{Page Relocation and Remap Table Size}{section.4}
-\BOOKMARK [2][-]{subsection.4.3}{Activity Tracking Mechanism}{section.4}
-\BOOKMARK [2][-]{subsection.4.4}{Migration Triggers}{section.4}
-\BOOKMARK [2][-]{subsection.4.5}{Decentralization of Migration Logic}{section.4}
-\BOOKMARK [2][-]{subsection.4.6}{Migration Datapath}{section.4}
-\BOOKMARK [2][-]{subsection.4.7}{Scalability to Future Memories}{section.4}
-\BOOKMARK [1][-]{section.5}{Results}{}
-\BOOKMARK [2][-]{subsection.5.1}{Evaluation Framework}{section.5}
-\BOOKMARK [2][-]{subsection.5.2}{Experimental Methodology}{section.5}
-\BOOKMARK [2][-]{subsection.5.3}{Simulation Results}{section.5}
-\BOOKMARK [3][-]{subsubsection.5.3.1}{Optimal Parameter Values}{subsection.5.3}
-\BOOKMARK [3][-]{subsubsection.5.3.2}{Performance Comparison}{subsection.5.3}
-\BOOKMARK [3][-]{subsubsection.5.3.3}{Caching Effect}{subsection.5.3}
-\BOOKMARK [1][-]{section.6}{Conclusions and Future Work}{}
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Background \046 Related Work}{}% 2
+\BOOKMARK [1][-]{section.3}{Majority Element Algorithm}{}% 3
+\BOOKMARK [1][-]{section.4}{Architecture}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Clustered Migration Architecture}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Page Relocation and Remap Table Size}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Activity Tracking Mechanism}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.4}{Migration Triggers}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.5}{Decentralization of Migration Logic}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.6}{Migration Datapath}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.7}{Scalability to Future Memories}{section.4}% 11
+\BOOKMARK [1][-]{section.5}{Results}{}% 12
+\BOOKMARK [2][-]{subsection.5.1}{Evaluation Framework}{section.5}% 13
+\BOOKMARK [2][-]{subsection.5.2}{Experimental Methodology}{section.5}% 14
+\BOOKMARK [2][-]{subsection.5.3}{Simulation Results}{section.5}% 15
+\BOOKMARK [3][-]{subsubsection.5.3.1}{Optimal Parameter Values}{subsection.5.3}% 16
+\BOOKMARK [3][-]{subsubsection.5.3.2}{Performance Comparison}{subsection.5.3}% 17
+\BOOKMARK [3][-]{subsubsection.5.3.3}{Caching Effect}{subsection.5.3}% 18
+\BOOKMARK [1][-]{section.6}{Conclusions and Future Work}{}% 19
+\BOOKMARK [1][-]{section.7}{References}{}% 20

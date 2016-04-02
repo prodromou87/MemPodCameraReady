@@ -1,6 +1,6 @@
-*.aux 
-*.bbl 
-*.blg 
-*.log 
-*.out
+paper/*.aux 
+paper/*.bbl 
+paper/*.blg 
+paper/*.log 
+paper/*.out
 paper/useless/*
