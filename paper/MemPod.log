@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.11.17)  3 APR 2016 12:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.11.17)  3 APR 2016 20:28
 entering extended mode
 **MemPod.tex
 (MemPod.tex
@@ -553,7 +553,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 pdfTeX warning: pdflatex (file ./figures/mea_1.pdf): PDF inclusion: found PDF v
 ersion <1.7>, but at most version <1.5> allowed
-<figures/mea_1.pdf, id=161, 502.3022pt x 104.88083pt>
+<figures/mea_1.pdf, id=165, 502.3022pt x 104.88083pt>
 File: figures/mea_1.pdf Graphic file (type pdf)
  <use figures/mea_1.pdf>
 Package pdftex.def Info: figures/mea_1.pdf used on input line 7.
@@ -562,7 +562,7 @@ Package pdftex.def Info: figures/mea_1.pdf used on input line 7.
 
 pdfTeX warning: pdflatex (file ./figures/mea_2.pdf): PDF inclusion: found PDF v
 ersion <1.7>, but at most version <1.5> allowed
-<figures/mea_2.pdf, id=162, 501.92809pt x 131.0998pt>
+<figures/mea_2.pdf, id=166, 501.92809pt x 131.0998pt>
 File: figures/mea_2.pdf Graphic file (type pdf)
  <use figures/mea_2.pdf>
 Package pdftex.def Info: figures/mea_2.pdf used on input line 13.
@@ -571,7 +571,7 @@ Package pdftex.def Info: figures/mea_2.pdf used on input line 13.
 
 pdfTeX warning: pdflatex (file ./figures/mea_3.pdf): PDF inclusion: found PDF v
 ersion <1.7>, but at most version <1.5> allowed
-<figures/mea_3.pdf, id=163, 501.5529pt x 131.10078pt>
+<figures/mea_3.pdf, id=167, 501.5529pt x 131.10078pt>
 File: figures/mea_3.pdf Graphic file (type pdf)
  <use figures/mea_3.pdf>
 Package pdftex.def Info: figures/mea_3.pdf used on input line 19.
@@ -607,7 +607,7 @@ Overfull \hbox (8.32895pt too wide) in paragraph at lines 80--81
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [4 <./figures/mea_1.pdf> <./figures/mea_2.pdf>]) (sections/Architecture.tex
-<figures/comparison_table.pdf, id=213, 459.22687pt x 277.55795pt>
+<figures/comparison_table.pdf, id=217, 459.22687pt x 277.55795pt>
 File: figures/comparison_table.pdf Graphic file (type pdf)
 
 <use figures/comparison_table.pdf>
@@ -618,7 +618,7 @@ Overfull \hbox (3.0382pt too wide) in paragraph at lines 35--36
 \T1/aer/m/n/10 also in-tro-duce per-for-mance penal-ties. Fur-ther-more, with
  []
 
-<figures/mempod_org.pdf, id=251, 368.86107pt x 219.41875pt>
+<figures/mempod_org.pdf, id=255, 368.86107pt x 219.41875pt>
 File: figures/mempod_org.pdf Graphic file (type pdf)
 
 <use figures/mempod_org.pdf>
@@ -628,7 +628,7 @@ Package pdftex.def Info: figures/mempod_org.pdf used on input line 38.
 
 pdfTeX warning: pdflatex (file ./figures/pod_design.pdf): PDF inclusion: found 
 PDF version <1.7>, but at most version <1.5> allowed
-<figures/pod_design.pdf, id=252, 399.895pt x 143.82733pt>
+<figures/pod_design.pdf, id=256, 399.895pt x 143.82733pt>
 File: figures/pod_design.pdf Graphic file (type pdf)
 
 <use figures/pod_design.pdf>
@@ -658,7 +658,7 @@ LaTeX Warning: Citation `TODO' on page 7 undefined on input line 84.
 
 pdfTeX warning: pdflatex (file ./figures/remap_table_design.pdf): PDF inclusion
 : found PDF version <1.7>, but at most version <1.5> allowed
-<figures/remap_table_design.pdf, id=304, 487.26741pt x 303.78595pt>
+<figures/remap_table_design.pdf, id=308, 487.26741pt x 303.78595pt>
 File: figures/remap_table_design.pdf Graphic file (type pdf)
 
 <use figures/remap_table_design.pdf>
@@ -733,7 +733,7 @@ Underfull \vbox (badness 4279) has occurred while \output is active []
 
 pdfTeX warning: pdflatex (file ./figures/specs_table.pdf): PDF inclusion: found
  PDF version <1.7>, but at most version <1.5> allowed
-<figures/specs_table.pdf, id=352, 82.03166pt x 96.64005pt>
+<figures/specs_table.pdf, id=356, 82.03166pt x 96.64005pt>
 File: figures/specs_table.pdf Graphic file (type pdf)
 
 <use figures/specs_table.pdf>
@@ -743,7 +743,7 @@ Package pdftex.def Info: figures/specs_table.pdf used on input line 20.
 
 pdfTeX warning: pdflatex (file ./figures/workloads_checkmarks.pdf): PDF inclusi
 on: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/workloads_checkmarks.pdf, id=353, 388.41673pt x 303.27pt>
+<figures/workloads_checkmarks.pdf, id=357, 388.41673pt x 303.27pt>
 File: figures/workloads_checkmarks.pdf Graphic file (type pdf)
 
 <use figures/workloads_checkmarks.pdf>
@@ -754,7 +754,7 @@ Package pdftex.def Info: figures/workloads_checkmarks.pdf used on input line 26
 
 pdfTeX warning: pdflatex (file ./figures/num_counters_normalized.pdf): PDF incl
 usion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/num_counters_normalized.pdf, id=354, 687.55067pt x 108.87978pt>
+<figures/num_counters_normalized.pdf, id=358, 687.55067pt x 108.87978pt>
 File: figures/num_counters_normalized.pdf Graphic file (type pdf)
 
 <use figures/num_counters_normalized.pdf>
@@ -765,7 +765,7 @@ Package pdftex.def Info: figures/num_counters_normalized.pdf used on input line
 
 pdfTeX warning: pdflatex (file ./figures/interval_length_normalized.pdf): PDF i
 nclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/interval_length_normalized.pdf, id=355, 685.53455pt x 105.51923pt>
+<figures/interval_length_normalized.pdf, id=359, 685.53455pt x 105.51923pt>
 File: figures/interval_length_normalized.pdf Graphic file (type pdf)
 
 <use figures/interval_length_normalized.pdf>
@@ -781,7 +781,7 @@ Overfull \hbox (2.95758pt too wide) in paragraph at lines 60--61
 
 pdfTeX warning: pdflatex (file ./figures/counter_size_normalized.pdf): PDF incl
 usion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/counter_size_normalized.pdf, id=387, 678.14131pt x 105.51822pt>
+<figures/counter_size_normalized.pdf, id=391, 678.14131pt x 105.51822pt>
 File: figures/counter_size_normalized.pdf Graphic file (type pdf)
 
 <use figures/counter_size_normalized.pdf>
@@ -806,7 +806,7 @@ Overfull \hbox (3.0189pt too wide) in paragraph at lines 74--75
 
 pdfTeX warning: pdflatex (file ./figures/performance_over_nlm.pdf): PDF inclusi
 on: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/performance_over_nlm.pdf, id=440, 681.50189pt x 156.59705pt>
+<figures/performance_over_nlm.pdf, id=444, 681.50189pt x 156.59705pt>
 File: figures/performance_over_nlm.pdf Graphic file (type pdf)
 
 <use figures/performance_over_nlm.pdf>
@@ -823,20 +823,20 @@ Overfull \hbox (1.20677pt too wide) in paragraph at lines 93--94
 []\T1/aer/m/n/10 MemPod out-per-forms the state-of-the-art com-peti-
  []
 
-[13 <./figures/counter_size_normalized.pdf>]
-Overfull \hbox (8.5567pt too wide) in paragraph at lines 108--109
-\T1/aer/m/n/10 nor-mal-ized to the per-for-mance of the cor-re-spond-ing mech-
- []
+<figures/cache_impact.pdf, id=446, 488.81752pt x 221.37305pt>
+File: figures/cache_impact.pdf Graphic file (type pdf)
 
-) (sections/Conclusions.tex)
+<use figures/cache_impact.pdf>
+Package pdftex.def Info: figures/cache_impact.pdf used on input line 101.
+(pdftex.def)             Requested size: 231.84338pt x 104.99452pt.
+ [13 <./figures/counter_size_normalized.pdf>])
+(sections/Conclusions.tex)
 Overfull \hbox (4.00714pt too wide) in paragraph at lines 9--83
 \T1/aer/m/n/10 Pod could also be used to ac-com-mo-date mem-ory schedul-
  []
 
-(MemPod.bbl
-Underfull \vbox (badness 2828) has occurred while \output is active []
-
- [14 <./figures/performance_over_nlm.pdf>]
+(MemPod.bbl [14 <./figures/performance_over_nlm.pdf> <./figures/cache_impact.pd
+f>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 )
@@ -848,7 +848,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 89.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 89.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 89.
 Package rerunfilecheck Info: File `MemPod.out' has not changed.
-(rerunfilecheck)             Checksum: 651550CC0A4B01D6660176BBC1CC8EF0;1367.
+(rerunfilecheck)             Checksum: 1CC9DCABAF8717658C7FFFE449FFB898;1439.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 89.
  )
 (\end occurred inside a group at level 1)
@@ -856,32 +856,33 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 89.
 ### simple group (level 1) entered at line 1061 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 7904 strings out of 493673
- 112618 string characters out of 3141529
- 219598 words of memory out of 3000000
- 10980 multiletter control sequences out of 15000+200000
- 63117 words of font info for 93 fonts, out of 3000000 for 9000
+ 7919 strings out of 493673
+ 112854 string characters out of 3141529
+ 219638 words of memory out of 3000000
+ 10987 multiletter control sequences out of 15000+200000
+ 65906 words of font info for 98 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 41i,17n,43p,1594b,2254s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,17n,43p,1594b,2258s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.
 enc}<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pf
-b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:
-/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Pr
-ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Progra
-m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Fi
-les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files 
-(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86
-)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program Files (x86
-)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmti8.pfb><C:/Program Files (x86)/MiKTe
-X 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fo
-nts/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/u
-rw/times/utmri8a.pfb>
-Output written on MemPod.pdf (15 pages, 2339746 bytes).
+b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><
+C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:
+/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Pr
+ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Progr
+am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program F
+iles (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files
+ (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files (x8
+6)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86)/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program Files (x86)/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmti8.pfb><C:/Program Files (x86)/MiKTeX 2
+.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
+/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/
+times/utmri8a.pfb>
+Output written on MemPod.pdf (15 pages, 2374267 bytes).
 PDF statistics:
- 547 PDF objects out of 1000 (max. 8388607)
- 87 named destinations out of 1000 (max. 500000)
- 226 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 569 PDF objects out of 1000 (max. 8388607)
+ 89 named destinations out of 1000 (max. 500000)
+ 239 words of extra memory for PDF output out of 10000 (max. 10000000)
 
