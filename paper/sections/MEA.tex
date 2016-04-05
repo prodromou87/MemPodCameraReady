@@ -27,8 +27,10 @@ MemPod uses the ``Majority Element Algorithm'' $(MEA)$ for its activity tracking
 
 The MEA algorithm was originally proposed in \cite{karp-mea} and studied in-depth in \cite{charikar-mea} as a heuristic capable of efficiently identifying majority elements in a stream. This algorithm is formally proven to be 100\% accurate, as long as the K most frequently occurring elements it must identify have majority. With complexity $O(N)$ it could be an ideal candidate for real-time streams of information, such as a stream of memory requests.
 
-\begin{algorithm}
- 
+
+\setlength{\textfloatsep}{5pt}
+\begin{algorithm}[t]
+ \small
  \DontPrintSemicolon
  %\dontprintsemicolon
  \;

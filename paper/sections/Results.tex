@@ -39,37 +39,36 @@ Since we used Ramulator with recorder traces, we chose to report Average Main Me
 
 \subsubsection{Optimal Parameter Values}
 
-\begin{figure*}[t]
-	\centering
-  \includegraphics[width=\textwidth]{figures/num_counters_normalized.pdf}
-  \caption{\# of MEA Counters Vs Normalized AMMT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
-  \label{fig:num_counters}
-\end{figure*}
-
-
-\begin{figure*}[t]
-  \includegraphics[width=\textwidth]{figures/interval_length_normalized.pdf}
-  \caption{Interval Length Vs Normalized AMMT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
-  \label{fig:interval}
-\end{figure*}
-
 MemPod exposes 3 variables that allow fine-tuning it based on a particular system or expected workloads: (1) The number of MEA counters, (2) interval length and (3) the size of each MEA counter. Identifying the optimal values for each parameter can maximize MemPod's capabilities. The number of MEA counters dictates the highest possible number of migrations that can be performed at each interval, while the epoch length will determine MemPod's ability to better adapt to phase changes in a workload. The size of each MEA counter can affect performance due to the loss of information when smaller counters are used but can also save space on the chip.
 
 We first identified the optimal number of MEA counters, by keeping the epoch length constant and exponentially increasing the number of counters from 16 to 512. In order to minimize the impact of other factors, we executed this experiment with 16 bits per counter and caches disabled. In other words, each counter was given more than enough space and all required information such as the remap table resides entirely on the chip and is accessible at no cost. 
 
 Figure \ref{fig:num_counters} shows normalize Average Main Memory Time (AMMT)\footnote{AMMT: The average time a request spends in main memory}, along with the average number of migrations per Pod per epoch (secondary axis). The results indicate that each Pod utilizes the higher number of counters and consecutively performs more migrations per interval, however performance begins leveling off when more than 128 counters were used. More migrations can directly be translated into higher power consumption and communication cost. Using 128 counter, MemPod improves AMMT by 7\% over the baseline with 16 MEA counters. Based on our observations we conclude that the optimal value for this parameter is 128 and will be used for the remainder of this section.
 
+\begin{figure}[h]
+	\centering
+  \includegraphics[width=0.46\textwidth]{figures/avg_num_counters_normalized.pdf}
+  \caption{\# of MEA Counters Vs Normalized AMMT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
+  \label{fig:num_counters}
+\end{figure}
+
 After identifying the optimal counter number, Figure \ref{fig:interval} displays the same measurements as Figure \ref{fig:num_counters} with a varying epoch length. Caches were again disabled, each counter was given 16 bits and the number of MEA counters was set to the optimal value of 128. In most of our benchmarks a smaller epoch length leads to higher performance. In accordance to the previous experiment, higher epoch lengths also lead to higher number of migrations. On average, an epoch length of 100us outperforms the baseline (50us) by 2\%. For comparison purposes, HMA \cite{meswani-HPCA21} identified the optimal epoch length to be 1ms (10x larger) in order to support all lengthy processes that take place during a migration event.
 
-\begin{figure*}[t]
-  \includegraphics[width=\textwidth]{figures/counter_size_normalized.pdf}
-  \caption{Counter size (in bits) Vs Normalized AMMT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
-  \label{fig:counter_size}
-\end{figure*}
+\begin{figure}[h]
+  \includegraphics[width=0.46\textwidth]{figures/interval_length_normalized.pdf}
+  \caption{Interval Length Vs Normalized AMMT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
+  \label{fig:interval}
+\end{figure}
 
 As previously explained in Section \ref{sec:MEA}, the MEA algorithm cannot be cached efficiently and as a result, the entire activity tracking structure needs to be on chip. The size (in bits) of each counter defines the area requirements of our MEA tracking mechanism. We modified the MEA algorithm to remove map entries with counter values equal to or less than zero (instead of strictly equal to zero) in order to support counter saturation. We opted not to immediately remove an overflowed counter even though its value is now zero, since the existence of the correct counter set is crucial to the algorithm's accuracy. For this experiment we used the optimal parameter values identified in the previous experiments and set the number of MEA counters to 128 and interval length to 100us. All caching was disabled in order to study the direct impact of this variable.
 
 Figure \ref{fig:counter_size} presents the impact of counter size on AMMT and average number of migrations. We first observe that 8 bits are sufficient for the majority of our workloads, since larger sizes report identical results. Our second observation is that two bit counters report a negligible performance degradation (0.3\% on average) and a reduced average number of migrations.
+
+\begin{figure}[h]
+  \includegraphics[width=0.46\textwidth]{figures/counter_size_normalized.pdf}
+  \caption{Counter size (in bits) Vs Normalized AMMT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
+  \label{fig:counter_size}
+\end{figure}
 
 The most interesting observation comes from assigning 4 bits to each counter. On average, performance is boosted slightly (up to 3\% and 1\% on average) even compared to using larger counters, while migration count is smaller. Since a difference is observed, we can conclude that these smaller counters ``lose'' information that in turn benefits overall execution. The reported result is a welcomed artifact of the MEA algorithm combined with application behavior. 
 
