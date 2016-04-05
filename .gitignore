@@ -3,4 +3,5 @@ paper/*.bbl
 paper/*.blg 
 paper/*.log 
 paper/*.out
+paper/MemPod.pdf
 paper/useless/*
