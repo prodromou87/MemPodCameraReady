@@ -9,29 +9,59 @@
 Die-stacked memory will increasingly be part of future systems, 
 attempting to alleviate 
 the memory wall problem~\cite{wulf-can95}. Processor manufacturers are 
-already announcing products featuring 3D-stacked memory \cite{KnightsLanding,NVIDIA,black-micro2013} \TODO{Cite AMD graphics cards} and memory standards have been developed \cite{jedec-wideio,JEDEC-HBM,pawlowski-hotchips2011}. 
-In its current state, this technology is limited to 8GB per stack \cite{JEDEC-HBM-REVISED} and, as such, it cannot fully address the memory capacity demands of modern systems. Therefore, die-stacked memories are expected to coexist with larger, slower off-chip memories, such as DDR4, in a configuration commonly found in the literature under the term ``Two-Level Memory'' (TLM).  
+already announcing products featuring 3D-stacked memory \cite{KnightsLanding,NVIDIA,black-micro2013} \TODO{Cite AMD graphics cards} and memory standards have been developed~\cite{jedec-wideio,JEDEC-HBM,pawlowski-hotchips2011}. 
+Currently, this technology is limited to 8GB per stack~\cite{JEDEC-HBM-REVISED}
+which does not fully address the capacity demands of modern systems. 
+Therefore, die-stacked memories are expected to coexist with larger, 
+slower off-chip memories, such as DDR4, in a configuration often
+referred to as ``Two-Level Memory'' (TLM).  
 
 %Recent proposals in the literature \cite{chou-micro2014,qureshi-micro2012} demonstrate that when stacked memory is used as a large high-bandwidth last level cache, we need to re-evaluate traditional SRAM cache optimizations. Tag placement and granularity must be carefully studied and double access (tag check and data retrieval) in order to serve one request must be avoided due to the high latency of accessing a DRAM structure. Despite the associated challenges, state-of-the-art proposals manage to achieve high performance improvement through elegant solutions. Such a management scheme offers transparent operation and does not require added hardware structures to support it. On the downside, the extra memory capacity is not available to the software and some space is wasted to store tags instead of useful information.
 
-Stacked memory can be used as a large, high-bandwidth last level cache, or as part of main memory in a ``flat address space''. When used as a cache, recent research \cite{chou-micro2014,qureshi-micro2012} demonstrates the need to re-evaluate traditional SRAM cache optimizations in order to improve performance. Tag placement and granularity needs to be carefully studied and double accesses for tag check and data retrieval must be avoided. Managing stacked memory as a cache is transparent to the software and has been demonstrated to improve the performance of latency-sensitive applications. However, capacity-sensitive applications do not gain significant improvements as the stacked memory's capacity cannot be utilized.
+Stacked memory can be used as a large, high-bandwidth last level cache, or as part of main memory in a ``flat address space''. When used as a cache, recent research~\cite{chou-micro2014,qureshi-micro2012} demonstrates the need to re-evaluate traditional SRAM-based cache organizations. Tag placement and granularity needs to be re-evaluated, and we should avoid double memory accesses for tag 
+check and data retrieval. Managing stacked memory as a cache is transparent 
+to the software and improves the performance of latency-sensitive applications. However, capacity-sensitive applications do not gain significant improvements as the stacked memory's capacity is not utilized for additional storage.
 
 %Instead of using stacked-memory as cache, some recent research \cite{sim-micro2014,meswani-HPCA21,CAMEO} proposed both hardware and hardware-supported OS dynamic memory management mechanisms to manage it as a \emph{``flat address space memory''}. Memory accesses are being monitored in hardware and the goal is to identify ``hot'' memory pages and migrate them into the fast memory, in order to improve performance. Such a configuration extends the exposed main memory capacity, serving capacity-constrained workloads better than a DRAM cache organization, while at the same time eliminating the issue of tag placement and retrieval. Additionally, a flat address space organization could be incorporated in a system without the presence of a dynamic memory management mechanism and it would still operate correctly and boost performance simply because of the presence of a fast memory region and static memory allocation from the OS. Like a DRAM cache, this memory organization is also transparent to the application programmer.
 
-In a flat address space configuration, the capacity of stacked memory is exposed as part of memory and can be allocated and used by applications. Dynamic memory managers proposed in the literature \cite{sim-micro2014,meswani-HPCA21,CAMEO} monitor and profile memory accesses and attempt to transparently ``migrate'' frequently accessed pages to the fast portion of memory in order to boost performance. Such a configuration extends the exposed main memory capacity, serving capacity-constrained workloads better than a DRAM cache organization, while at the same time eliminating the issue of tag placement and retrieval. However, profiling memory accesses and performing transparent migrations often come with high power, performance and space overheads. 
+In a flat address space configuration, the capacity of stacked memory is 
+available and can be allocated and used by applications. Dynamic memory 
+managers proposed in the literature~\cite{sim-micro2014,meswani-HPCA21,CAMEO} 
+monitor and profile memory accesses and attempt to transparently migrate 
+frequently accessed pages to the fast portion of memory. While exposing
+more memory to the system, profiling memory accesses and performing 
+transparent migrations often come with power, performance, and space overheads. 
 
 %Flat address space dynamic memory managers need to overcome significant challenges. The main drawback comes from the required book-keeping. Monitoring memory regions and keeping track of migrated pages in order to relay incoming requests transparently, often comes at very high storage and power consumption overheads. Unlike a DRAM cache, there is no backing store memory. As such, each migration is a swap of two pages in order to ensure that exactly one copy of each participant page exists in main memory. In the presence of a flat memory with two regions, one fast and one slow, it could be expected that the fast one is fully utilized before we start using the slow one. However, modern OS's assign memory addresses randomly for security reasons \TODO{Find and cite}. Identifying and migrating hot pages dynamically can result in an optimized page placement.
 
 %\TODO{say a couple of lines about why THM and CAMEO are not good, dont need deep details just say that related work has some disadvantages and say what they are at a high level}
 
-Software migration schemes \cite{meswani-HPCA21} have high performance overheads and are coarse grained, and hence are slow to adapt to changes in application phases. Recently proposed hardware managed schemes \cite{sim-micro2014,CAMEO} operate at finer granularity than software by either using simple, cache-like demand-driven migration or using a centralized management scheme. The former does not consider hotness of data, whereas the latter will not scale to large memories due to its centralized approach.
+Software migration schemes \cite{meswani-HPCA21} have high performance 
+overheads and operate at coarse intervals, and thus are slow to adapt to 
+changes in application phases. Recently proposed hardware managed schemes \cite{sim-micro2014,CAMEO} operate at finer granularity than software by either using simple, cache-like demand-driven migration or using a centralized management scheme. The former does not consider hotness of data, whereas the latter will not scale to large memories due to its centralized approach.
 
-In this paper, we propose MemPod, a dynamic memory manager for flat address space memory configurations that is efficient in terms of area requirements and performance, as well as scalable to future technology advancements in memory capacity and speed. MemPod's novel microarchitectural design clusters existing memory controllers into memory ``Pods". Each Pod operates independently and in parallel allowing for better scalability and integration to future systems with larger and faster memories. For MemPod's activity tracking requirements we incorporate the \emph{``Majority Element Algorithm'' (MEA)} heuristic, originally proposed for database management and big data analytics. Our evaluation shows MEA to be capable of high prediction accuracy with very low hardware overhead. To the best of our knowledge, such an algorithm has not been utilized before for activity tracking in hardware.
+This paper introduces MemPod, a dynamic memory manager for flat address space memory configurations that is area efficient and high performance.
+It scales particularly well to future technologies with larger capacities and
+higher memory technology performance differentials. 
+MemPod's novel microarchitectural design clusters existing memory controllers into memory ``Pods". Each Pod operates independently and in parallel allowing for better scalability and integration to future systems with larger and faster memories. For MemPod's activity tracking requirements we incorporate the \emph{``Majority Element Algorithm'' (MEA)} heuristic, originally proposed for database management and big data analytics. Our evaluation shows MEA to be capable of high prediction accuracy with very low hardware overhead. This algorithm has 
+not previously been proposed for activity tracking in hardware.
 
-Our evaluation results with homogeneous and mixed 8-core multi-programmed workloads show MemPod to outperform the current state-of-the-art by 11\% on average and up to 29\% in terms of Average Main Memory Time (i.e. the average time a request spends in main memory). Under an overclocked memory configuration, our results show MemPod to be the most scalable mechanism as memory technology improves. The use of MEA activity tracking requires $\sim0.01\%$ of the storage space required by the Full Counters (FC) approach used in previous research studies, while at the same time achieving 58\% higher prediction accuracy.
+Our evaluation results with homogeneous and mixed 8-core multi-programmed workloads show MemPod to outperform the current state-of-the-art by 11\% on average and up to 29\% in terms of Average Main Memory Access Time (i.e. the average time a request spends waiting for main memory). Modeling future memory configurations, our results show MemPod to be the most scalable mechanism as memory technology improves. The use of MEA activity tracking requires $\sim0.01\%$ of the storage space required by the Full Counters (FC) approach used in previous research studies, while at the same time achieving more accurate prediction
+of future hot pages.
+\remark{took out the number since our definition of accuracy was very arbitrary}
 
-We also identify the fundamental building blocks of \emph{any} flat address space dynamic memory management mechanism. System designers can choose any solution for each of these elements and create a new management scheme in a plug-and-play fashion. Each building block is associated with its corresponding trade-off. In Section \ref{sec:Architecture} we provide a description of each block, along with a side-by-side comparison of MemPod's approach and what the state-of-the-art mechanisms propose.
+\remark{It's very hard to claim this as a contribution.  It's just a list of
+properties anyone could come up with.  So I de-emphasized a bit and removed
+as a claimed contribrution.}
 
+We identify the fundamental building blocks of any flat address space dynamic 
+memory management mechanism, and describe the solution for each block in 
+prior proposed systems and MemPod, along with their various tradeoffs. 
+%System designers can choose any solution for each of these elements and create a new management scheme in a plug-and-play fashion. Each building block is associated with its corresponding trade-off. In Section \ref{sec:Architecture} we provide a description of each block, along with a side-by-side comparison of MemPod's approach and what the state-of-the-art mechanisms propose.
+
+\remark{without the ``building block'' as a contribution, this list
+seems pretty sparse, so I removed the contributions list.}
+\ignore{
 The contributions of this paper are:
 
 \begin{itemize}
@@ -40,5 +70,10 @@ The contributions of this paper are:
 \item Breakdown of the basic building blocks of \emph{any} flat address space dynamic memory management mechanism. 
 \item Evaluation of MemPod's effectiveness and its sensitivity to design parameters (Section \ref{sec:Results}).
 \end{itemize}
+}
+
+\remark{Now this section ends abruptly.  Should end with the usual
+``This paper is organized as follows...'' or a quick summary of numerical
+results/gains.}
 
 %In Section \ref{sec:Background} of this paper we present background and related work regarding memory management schemes. Section \ref{sec:MEA} presents our novel activity tracking in detail along with an in-depth evaluation of its capabilities compared to traditionally used mechanisms. Section \ref{sec:Architecture} gives a detailed overview of MemPod's architecture, presented side-by-side with the state-of-the-art mechanisms we compare against. Our architecture section is organized based on the fundamental basic blocks of management mechanisms in order to present the management problem in its entirety. Section \ref{sec:Results} presents our experimental methodology and evaluation results and finally, Section \ref{sec:Conclusions} concludes the paper.
