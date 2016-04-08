@@ -6,7 +6,8 @@
 
 %The current technology for incorporating stacked memory, as well as the current protocols allow up to 8GB per DRAM stack \cite{JEDEC-HBM-REVISED}. Commodity server systems often need {\em hundreds} of GB of memory. Consequently, at its current state, in-package memory cannot solely support today's memory requirements, leading to the emergence of \emph{hybrid memories}, usually with fast 3D-stacked memory and the traditionally used off-chip memory such as DDR4. Often, hybrid configurations with two memory technologies are called \emph{``Two-Level Memories''}, or \emph{``N-Level Memories'' (NLM)} for configurations with N memory technologies. It is not clear yet how this newly added memory is best utilized. Recent research proposed mechanisms to manage the 3D-stacked memory as a high-bandwidth last level cache, while other proposals attempt to manage this memory as an extension of the main memory. Each approach comes with its own challenges, benefits and drawbacks. 
 
-Die-stacked memory will be part of future systems, attempting to alleviate 
+Die-stacked memory will increasingly be part of future systems, 
+attempting to alleviate 
 the memory wall problem~\cite{wulf-can95}. Processor manufacturers are 
 already announcing products featuring 3D-stacked memory \cite{KnightsLanding,NVIDIA,black-micro2013} \TODO{Cite AMD graphics cards} and memory standards have been developed \cite{jedec-wideio,JEDEC-HBM,pawlowski-hotchips2011}. 
 In its current state, this technology is limited to 8GB per stack \cite{JEDEC-HBM-REVISED} and, as such, it cannot fully address the memory capacity demands of modern systems. Therefore, die-stacked memories are expected to coexist with larger, slower off-chip memories, such as DDR4, in a configuration commonly found in the literature under the term ``Two-Level Memory'' (TLM).  
