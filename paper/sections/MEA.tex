@@ -80,7 +80,9 @@ more times early in the interval.  As a result, it combines both access
 counting and temporal locality, at a fraction of the cost of access counting
 alone.
 
-MEA's area overhead remains constant regardless of the size of the input set (in our case the number of regions in memory). Third, its $O(N)$ complexity works well for analyzing a stream of access requests in real time, and eliminates the need for sorting the counters.
+\remark{Nuwan's comment on next sentence: The "number of regions in memory" isn't really the input set, right? Input set is explained above as the sequence of accesses. Further, it's not entirely true that area overhead is constant with the number of regions. As the region count grows, the size of the map needed to hold those region IDs will grow. Admittedly, it grows as log2(number of regions). So it's very slow growth, but not constant. I won't edit; I'll let you address these points however you see fit.}
+\remark{A.P.: I agree that the term input set is wrong here. I updated the text. But I disagree that MEA overhead grows. We could keep it at 128 if we want regardless of the memory size. It's possible that we'll want to use more counters, but the option of keeping it constant is still there}
+MEA's area overhead remains constant regardless of the size of the input space (in our case the number of regions in memory). Its $O(N)$ complexity works well for analyzing a stream of access requests in real time, and eliminates the need for sorting the counters.
 
 %In a memory management scheme that uses Full Counters and a scenario where we want to identify the 100 ``hottest'' pages, we would need one full counter per memory page and on top of that we would have to periodically sort all those counters to pick the top 100. With the use of MEA counters we only need a map with 100 entries regardless of the actual number of pages in main memory. In an 8GB memory with 2kB pages and looking for the top 100 pages, MEA needs $\sim$5K times fewer bits than the full counters' storage requirements (4MB Vs 850B). Considering all the potential benefits MEA can offer in theory, we compared its counting and prediction accuracy against the Full Counters (FC) scheme. 
 
@@ -89,7 +91,9 @@ MEA's area overhead remains constant regardless of the size of the input set (in
 In this section, we seek to understand the effectiveness of MEA's counting 
 and prediction accuracy, compared against a Full Counters (FC) scheme,
 independent of the MemPod architecture. We use memory traces captured 
-from multi-programmed 8-core workloads (the same traces used and described in Section \ref{sec:Results}) and simulated MEA and FC side-by-side with an in-house off-line simulator that provides oracle knowledge of future intervals. The interval size for both MEA and FC was set at 5500 requests which is the average number of requests serviced within a 50us window in our timing experiments. 
+from multi-programmed 8-core workloads (the same traces used and described in Section \ref{sec:Results}) and simulated MEA and FC side-by-side with an in-house off-line simulator that provides oracle knowledge of future intervals. 
+\remark{Nuwan's comment on next sentence: What's the significance of 50us here?\\A.P.: At the time, 50us used to be the best interval length for MemPod so I went with it.}
+The interval size for both MEA and FC was set at 5500 requests which is the average number of requests serviced within a 50us window in our timing experiments. For this experiment we used 128 MEA counters and FC requires 4.5M counters (assuming a 9GB memory capacity). 
 We do two comparisons in this study.  First, we examine the ability of MEA
 to identify the top pages in the past interval, something the full counter
 scheme will do perfectly.  Second, we examine the ability of both schemes
@@ -98,7 +102,7 @@ examine the schemes' ability to identify the 30 most-accessed pages, in
 bins of 10 each (1-10, 11-20, and 21-30).
 
 \remark{These results don't make sense without knowing how many MEA
-counters you used.}
+counters you used.\\A.P.: Added in text above.}
 
 Figure \ref{fig:mea_1} shows the counting accuracy of MEA for the 
 past interval, which should be compared with FC's perfect accuracy.
@@ -107,6 +111,8 @@ However, on average MEA reports accuracy below 40\% on the top tiers.
 Thus, it is a surprisingly ineffective replacement for accurate counters,
 if accurate counting were our priority.  The bias toward recent accesses
 has a strong effect on the final value of the MEA counters.
+
+\TODO{Change figure.}
 
 \remark{I find this figure odd -- I'd rather see the results grouped by
 benchmark grouping than by tier.}
@@ -121,19 +127,21 @@ benchmark grouping than by tier.}
 
 When we instead examine the effectiveness in identifying future hot pages,
 we see a different story.  Figure \ref{fig:mea_2} presents a comparison of MEA and FC in terms of prediction accuracy. We compare each mechanism's 
-``predictions'' against the top three page tiers of the following interval based on oracular knowledge. Figure \ref{fig:mea_2} plots the number of hits on predicted hot pages from the previous interval. We also selected the most interesting individual benchmarks and show them in Figure \ref{fig:mea_3} to provide a more detailed comparison. 
+``predictions'' against the top three page tiers of the following interval based on oracular knowledge. 
+Using 128 counters, MEA will return \textit{up to} 128 predictions based in the past interval, while FC will return an overall ranking of each page accessed. The set of pages returned by FC with non-zero counts is guaranteed to be equal to or larger than MEA's set. To accurately compare MEA's capability against FC's, we used the same number of predictions for both schemes at each interval (i.e. The number of pages returned by MEA).
+Figure \ref{fig:mea_2} plots the number of hits on predicted hot pages from the previous interval. We also selected the most interesting individual benchmarks and show them in Figure \ref{fig:mea_3} to provide a more detailed comparison. 
 
 \remark{Here we're again missing all the critical
 details of the experiment.  How many
-MEA counters?  How many FC pages were used as ``predictions''?}
+MEA counters?  How many FC pages were used as ``predictions''?\\A.P.: 128 MEA counters. I used the number of pages MEA returned at each interval as the number of predictions for both mechanisms. Added in text above.}
 
-On average, MEA achieves more future hits than FC by 16\%, 81\% and 68\% on the top three tiers respectively. Figure \ref{fig:mea_3} shows selected individual workloads that generated the interesting results and provides a more detailed comparison. Cactus\footnote{We use a single benchmark's name as a shorthand for workloads running the same benchmark 8 times simultaneously on 8 cores.} is the only workload where FC outperformed MEA's prediction. In fact it outperformed MEA on every tier. Xalanc and mix9 are most representative of our overall
+On average, MEA achieves more future hits than FC by 16\%, 81\% and 68\% on the top three tiers respectively. Figure \ref{fig:mea_3} shows selected individual workloads that generated interesting results and provides a more detailed comparison. Cactus\footnote{We use a single benchmark's name as a shorthand for workloads running the same benchmark 8 times simultaneously on 8 cores.} is the only workload where FC outperformed MEA's prediction. In fact it outperformed MEA on every tier. Xalanc and mix9 are most representative of our overall
 results. We can see MEA outperforming FC's prediction accuracy in every bin. 
 The last two workloads we selected, bwaves and lbm, show FC failing entirely to predict the future (FC also scored zero future hits with our libquantum workload). With bwaves (and libquantum) MEA reports a very low number of future hits but not zero. These results can happen when an application streams through large structures
 that exceed the size of the interval.  In that case, the past interval has 
 little overlap with the next interval, but recent accesses are much more
 likely to be overlapped.
-Lbm shows the most interesting result of our comparison, where MEA reports one of its highest results in a workload where FC failed entirely.
+Lbm shows the most interesting result of our comparison, where MEA reports one of its highest results in a workload where FC failed entirely. \TODO{Dean's comment.}
 \remark{Should have an explanation for this.}
 
 
