@@ -2,7 +2,7 @@
 \section{Architecture}
 \label{sec:Architecture}
 
-Our clustered migration mechanism was carefully designed to address key challenges associated with the migration problem. In this section, we present a complete description of our micro-architectural design, followed by a breakdown of the important design decisions, along with the corresponding challenge addressed by each one.
+Our clustered migration mechanism is designed to address key challenges associated with the migration problem. In this section, we present a complete description of our micro-architectural design, followed by a breakdown of the important design decisions, along with the corresponding challenge addressed by each one.
 
 %\begin{table*}[t]
 %\begin{tabularx}{\textwidth}{ |X|X|X|X|X| }
@@ -36,9 +36,24 @@ Our clustered migration mechanism was carefully designed to address key challeng
  \label{fig:architecture_complete}
 \end{figure}
 
-A Pod's operation when a memory request arrives would be to monitor the request, update any necessary migration-related activity tracking counters and forward the request to the intended recipient MC. The migration logic within a Pod does not need to be invoked during a response from any MC and can be bypassed to reduce memory access latency. A drawback of clustering MCs into Pods is the serialization of potentially parallel requests to different MCs of a single Pod. As such, activity tracking within a Pod as well as the subsequent forwarding of requests must be as efficient as possible. 
+\remark{Very confused by the figure.  Why are there 3 channels from a POD to 
+the LLC?  Why are there 12 channels from LLC to the crossbar?  Why are there
+no communication paths between memory controllers of the same pod -- I thought
+that was the main point?  I can't tell where the migration traffic would 
+actually go in this picture, there is no path between them.  Figure 5
+also shows no paths between memory channels.}
 
-MemPod's clustered architecture also aids in reducing global traffic during migrations compared to non-partitioned mechanisms. Higher global traffic could require the global switch (or crossbar) to have higher bandwidth resulting in increased energy costs and could also introduce performance penalties. Furthermore, with Pods servicing migrations transparently, the system's CPUs will be able to keep executing non-memory instructions during migrations. 
+\remark{Also still confused why if you're assuming 1 HBM to 8 DDR pages,
+why we keep showing 2 HBM MCs and 1 DDR.}
+
+When a memory request arrives, the pod monitors the request, updates any 
+necessary migration-related activity tracking counters, and forwards 
+the request to the intended recipient MC. The migration logic within a Pod does not need to be invoked during a response from any MC and can be bypassed to reduce memory access latency. A drawback of clustering MCs into Pods is the serialization of potentially parallel requests to different MCs of a single Pod. As such, activity tracking within a Pod as well as the subsequent forwarding of requests must be as efficient as possible. 
+
+MemPod's clustered architecture also aids in reducing global traffic during migrations compared to non-partitioned mechanisms.  Because migration
+traffic happens within a pod, this architecture significantly reduces global
+traffic and enables highly parallel migrations.
+%  Higher global traffic could require the global switch (or crossbar) to have higher bandwidth resulting in increased energy costs and could also introduce performance penalties. Furthermore, with Pods servicing migrations transparently, the system's CPUs will be able to keep executing non-memory instructions during migrations. 
 
 \subsubsection*{Memory Pod}
 
@@ -50,7 +65,13 @@ The major architectural elements of a Pod are shown in Figure \ref{fig:architect
   \label{fig:architecture_pod}
 \end{figure}
 
-During the design of a new system, the number of Pods can vary given different constrains. A design with just one Pod would be equivalent to a centralized migration controller allowing any-to-any migration\footnote{Any-to-any migration: page migration without constraints on source and destination. All MCs can migrate a page to any other MC.}, while a design with a pod number equal to the number of MCs would imply that migration is disabled. A reasonable design point would be to set the number of Pods equal to the number of slow-memory MCs. Such a configuration inherently restricts migration between slow off-chip channels, while at the same time maintaining full channel-level parallelism on the system's bottleneck: the slow MCs. In a configuration where the number of fast-memory MCs are not a multiple of slow-memory MCs, Pods can be configured asymmetrically or some MCs could be members of multiple Pods, with their capacity partitioned to avoid crosstalk issues. In Figure \ref{fig:architecture_complete} we present a system with eight MCs for the fast, on-die stacked memory and four MCs for the slow off-chip memory. Throughout this paper we use die-stacked HBM as the fast memory \cite{JEDEC-HBM-REVISED} and DDR4-1600 as our off-chip memory. The use of four pods imposes few restrictions on migration possibilities, while forbiding migration between two slow-memory channels without any additional logic. For the remainder of this paper, we set the number of pods to four.
+\remark{Don't like footnotes -- only use if desperate.  If it's important,
+put in the text.  If it isn't, don't include it.}
+A designer can vary the parallelism and flexibility of MemPod by varying the
+number of pods. A design with one pod is equivalent to a centralized 
+migration controller allowing any-to-any migration,
+%\footnote{Any-to-any migration: page migration without constraints on source and destination. All MCs can migrate a page to any other MC.}, 
+while a design with a pod number equal to the number of MCs would imply that migration is disabled. A reasonable design point would be to set the number of Pods equal to the number of slow-memory MCs. Such a configuration inherently restricts migration between slow off-chip channels, while at the same time maintaining full channel-level parallelism on the system's bottleneck: the slow MCs. In a configuration where the number of fast-memory MCs are not a multiple of slow-memory MCs, Pods can be configured asymmetrically or some MCs could be members of multiple Pods, with their capacity partitioned to avoid crosstalk issues. In Figure \ref{fig:architecture_complete} we present a system with eight MCs for the fast, on-die stacked memory and four MCs for the slow off-chip memory. Throughout this paper we use die-stacked HBM as the fast memory \cite{JEDEC-HBM-REVISED} and DDR4-1600 as our off-chip memory. The use of four pods imposes few restrictions on migration possibilities, while forbiding migration between two slow-memory channels without any additional logic. For the remainder of this paper, we set the number of pods to four.
 
 The design of a complete memory manager can be broken down into the following 5 ``building blocks'':
 \begin{description}[style=unboxed,leftmargin=0cm]
@@ -64,16 +85,28 @@ The design of a complete memory manager can be broken down into the following 5 
 
 \subsection{Building Blocks}
 
-Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures. Table \ref{tbl:breakdown} shows a comparison of each mechanism's elements. The following subsections provide a detailed description of each building block. For each block, we present MemPod's, THM's and HMA's approach, as well as alternative designs found in the literature. It's important to note that each of the following building blocks is independent and future systems could choose almost any design element combination in a plug-and-play fashion, with some exceptions (e.g., use of MEA activity tracking cannot be combined with threshold-based triggers).
+Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures. Table \ref{tbl:breakdown} shows a comparison of each mechanism's elements. The following subsections provide a detailed description of each building block. For each block, we present MemPod's, THM's and HMA's approach, as well as alternative designs found in the literature. The design choices for the various building blocks are largely
+orthogonal.  Thus, we describe each separately, with description of the options
+and tradeoffs.
 
 \subsubsection{Page Relocation and Remap Table Size}
 \label{sec:relocation}
 
 \TODO{Update this text for new remap table according to discussion with Dean.}
 
-Migrating pages can provide maximum benefits when no restrictions are imposed on the available migration locations. In other words, the optimal scenario for a migration policy would be the option of potentially filling the entire fast memory with migrated hot pages. On the other hand, more options require more bookkeeping and incur a higher cost.
+Migrating pages can provide the highest benefit when no restrictions are imposed on the available migration locations.  This amount of flexibility, however,
+requires more bookkeeping and can incur a higher cost.
 
-A remap table is commonly implemented as a hash structure, indexed by a page's address and pointing to the migrated (or relay) page address if one exists. On a page migration, the remap table is updated to reflect the new address of a migrated page. However, a ``naive'' remap table design can fail when re-migration of pages is allowed. A content-aware remap table is necessary in order to support re-migration. Figure \ref{fig:remap_table_comparison} presents a side-by-side comparison of the operation of these two tables and demonstrates how a naive table can fail.
+A hardware-driven migration mechanism requires some kind of remap table,
+commonly implemented as a hash structure, indexed by a page's address and pointing to the migrated (or relay) page address if one exists. On a page migration, the remap table is updated to reflect the new address of a migrated page. 
+
+The remap table should provide the remap, or relay, address for each original
+page address.  Some other structures may also be necessary to avoid expensive
+table searches when an inverse lookup is needed (e.g., to identify pages
+currently mapped to slow or fast memory).
+
+\ignore{
+However, a ``naive'' remap table design can fail when re-migration of pages is allowed. A content-aware remap table is necessary in order to support re-migration. Figure \ref{fig:remap_table_comparison} presents a side-by-side comparison of the operation of these two tables and demonstrates how a naive table can fail.
 
 \begin{figure}[h]
   \includegraphics[width=0.46\textwidth]{figures/remap_table_design.pdf}
@@ -86,12 +119,20 @@ The first row shows the starting state of our memory before any migration, as we
 The naive remap table design fails simply because pages are allowed to re-migrate -- like page 10 in our previous example -- while the remap table ``assumes'' the content held at a page address matches the page's ID.  There is only one solution to this problem: The migration logic needs to be aware of exactly where each page's contents are located at any given time. Such a requirement can be implemented in various ways:
 
 	\textbf{Safe and slow:} Always restore a forwarded page's contents to its original location before it participates in a new migration, resulting in two migrations instead of one. %For such an implementation, hot page count will have to be kept based on the content page instead of the real page Id. In the earlier example in Figure \ref{fig:remap_table_comparison}, the second migration of page 10 implies that page 100 is cold, but in order to offer page restoration support, the second swapping of page 10 will have to imply that page 10 is cold. The cold page (10) will be restored back to address 10 from 100 and then moved to its new location. Minor modifications are required to track activity based on the content page's id, that does not affect any other aspect of a migration mechanism.
+}
 
 	\textbf{THM approach:} Migration is restricted in ``segments''. In a memory configuration with a 1:8 fast:slow memory capacity ratio, each segment will have 9 pages; one in fast memory and the rest in slow. Each segment's 9 pages compete for a position at the one fast memory page available. This solution is elegant enough to allow re-migration with low storage overhead, limiting however the migration potential. If two or more hot pages coexist in a segment, only one can reside in fast memory at any given time. At the same time, if none of the segment's pages are hot, the fast memory page slot cannot be utilized by some other segment's page. %THM requires $\sim$5.6MB for its \textit{Segment Remap Table}.
 
-	\textbf{HMA approach:} Any page can migrate to any other page address without the need of a dedicated remap table structure. The OS-based migration scheme imposes no limitations, as the OS takes care of updating the page tables and flushing the TLB. However, OS intervention and the penalties incurred due to cold TLBs could lead to high overheads.
+	\textbf{HMA approach:} Any page can migrate to any other page address without the need of a dedicated remap table structure. The OS-based migration scheme imposes no limitations, as the OS takes care of updating the page tables and flushing the TLB. However, OS intervention and the penalties incurred due to cold TLBs can lead to high overheads.
 	
-	\textbf{MemPod approach:} Migration is restricted within a Pod, but no intra-Pod location restrictions are applied. Each Pod uses a content-aware remap table to allow page re-migration. During the second migration in our example in Figure \ref{fig:remap_table_comparison}, the issue was caused because we updated the remap entry of the holding page (10) instead of the entry of the content page (100). An attempt to recursively follow the remap table's entries until we determine which one to update risks looping infinitely because of cycles (e.g., if page 10 is re-migrated back to address 10). Even if a smart algorithm is utilized to delete entries of non-migrated pages, the complexity of the recursive algorithm will only be bounded by the size of the remap table as, in the worst case, the entire table will be traversed. It's important to note that a content-aware remap table entry now points to a pair of values: (1) \textit{relay address} (where the requested page is located) and (2) \textit{content address} (which page is currently held). %MemPod requires 8MB per Pod and 32MB total for its sontent-aware remap table structure.
+	\textbf{MemPod approach:} Migration is restricted to be within a Pod,
+Each Pod uses a remap table to allow page re-migration.  In addition to the
+remap table, our algorithm also needs to identify all pages currently 
+mapped to fast memory (to identify a candidate to be evicted in favor of a
+new hot page).  We do this with a smaller, inverted table that gives the 
+original address of each page currently mapped to fast memory.
+ 
+%During the second migration in our example in Figure \ref{fig:remap_table_comparison}, the issue was caused because we updated the remap entry of the holding page (10) instead of the entry of the content page (100). An attempt to recursively follow the remap table's entries until we determine which one to update risks looping infinitely because of cycles (e.g., if page 10 is re-migrated back to address 10). Even if a smart algorithm is utilized to delete entries of non-migrated pages, the complexity of the recursive algorithm will only be bounded by the size of the remap table as, in the worst case, the entire table will be traversed. It's important to note that a content-aware remap table entry now points to a pair of values: (1) \textit{relay address} (where the requested page is located) and (2) \textit{content address} (which page is currently held). %MemPod requires 8MB per Pod and 32MB total for its sontent-aware remap table structure.
 
 	\textbf{Alternative approach:} Recent works \TODO{Cite} propose the use of arbitrarily small remap tables. When the remap table inevitably fills up two possible solutions exist: (a) migration is disabled or (b) the OS is invoked to update page tables and flush the TLB. After OS's intervention, the remap table is cleared and migration remains active.
 %\end{description}
