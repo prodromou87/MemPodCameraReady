@@ -5,7 +5,11 @@
 
 %Memory management mechanisms need the ability to monitor and profile accesses to memory in order to identify hot regions and migrate them. Traditionally, a full set of counters is used, with one counter per physical page -- or region depending on the mechanism's granularity -- in order to accurately keep count of all accesses to all regions. Periodically these counters must be sorted in order to identify the regions with the highest counts. The identified regions will serve as a ``prediction'' for the next interval (i.e. the hottest page of the current interval will be amongst the hottest pages of the following intervals).
 
-Migration mechanisms need the ability to predict \textit{future} hot pages to migrate them into fast memory. Prediction accuracy can have a high impact on performance benefits as after a bad prediction, the penalty paid for migrating a page (or region depending on the mechanism's granularity) will never be salvaged. A commonly used practice is to identify the hot regions within an interval and assume that those regions will be hot in the next interval. To accurately identify the hottest regions some mechanisms use an access counter per region. In this case, at the end of each interval the counters need to be sorted before identifying the highest ranked (i.e., most accessed) regions. However, application phase changes could render this costly approach unsuccessful. Additionally, the number of necessary counters increases linearly as memory capacities grow.
+Migration mechanisms predict \textit{future} hot pages to migrate them into fast memory. Prediction accuracy is critical to high performance, as each migration must be amortized by many future accesses to justify the cost of migration.
+A commonly used practice is to identify the hot regions within an interval 
+and assume that those regions will be hot in the next interval. To accurately identify the hottest regions some mechanisms use an access counter per region. 
+At the end of each interval the counters are sorted to identify the highest 
+ranked (i.e., most accessed) regions. However, application phase changes could render this approach unsuccessful. Additionally, the number of necessary counters increases linearly as memory capacities grow.
 
 To address the above limitations, we adopt a technique based on the ``Majority Element Algorithm'' $(MEA)$. MEA was originally proposed by Karp et al. \cite{karp-mea} and was studied in-depth by Charikar et al. \cite{charikar-mea} for database management and big data analytics. This heuristic has formally been proven to correctly identify the $K$ most frequently occuring elements of a set, when each of those elements appears more than $N \over K+1$ (i.e. has majority), where $N$ is the number of elements in that set. 
 
@@ -65,15 +69,47 @@ MEA is presented in Algorithm \ref{alg:mea} as applied to an array of integers X
 
 %Even though this heuristic is 100\% accurate, in the absence of its main assumption no guarantees can be made. The outcome of this algorithm relies on several uncontrolled variables, such as the order our requests appeared in. However, the nature of the algorithm presents a very welcomed side effect: Elements accessed repeatedly can be evicted from the map by elements that were accessed less times but more recently. This observation reveals MEA's favoritism towards temporal locality. Furthermore, the area overhead of this algorithm implemented in hardware remains constant, regardless of how many elements need to be profiled (i.e. regardless of how many pages exist in main memory). 
 
-In our application of MEA to activity tracking, the sequence of page addresses accessed correspond to the array of integers in the above example. However, it would be unreasonable to expect that the MEA's assumption will be satisfied in a stream of memory requests. It's also important to note that in the absence of this assumption no guarantees can be made on the outcome. However, MEA presents many traits that should make us consider it as a candidate. First, elements accessed repeatedly can be evicted from the map by elements that were accessed fewer times but more recently. This observation reveals MEA's favoritism towards temporal locality even in the absence of the assumption. Second, MEA's area overhead remains constant regardless of the size of the input set (in our case the number of regions in memory). Third, its $O(N)$ complexity works well for analyzing a stream of accesses requests in real time, which also eliminates the need for sorting the counters.
+In our application of MEA to activity tracking, the sequence of page addresses accessed correspond to the array of integers in the above example. 
+However, we find that the sequence of accessed pages typically does not
+meet the condition of MEA that guarantees it will find the most-accessed
+pages; thus, it becomes an approximation.  What makes MEA most useful,
+though, is its failure mode -- when it fails to find the most-accessed pages,
+it does so by favoring recency over quantity.  That is, a page accessed several
+times near the end of an interval can easily knock out a page accessed many
+more times early in the interval.  As a result, it combines both access
+counting and temporal locality, at a fraction of the cost of access counting
+alone.
+
+MEA's area overhead remains constant regardless of the size of the input set (in our case the number of regions in memory). Third, its $O(N)$ complexity works well for analyzing a stream of access requests in real time, and eliminates the need for sorting the counters.
 
 %In a memory management scheme that uses Full Counters and a scenario where we want to identify the 100 ``hottest'' pages, we would need one full counter per memory page and on top of that we would have to periodically sort all those counters to pick the top 100. With the use of MEA counters we only need a map with 100 entries regardless of the actual number of pages in main memory. In an 8GB memory with 2kB pages and looking for the top 100 pages, MEA needs $\sim$5K times fewer bits than the full counters' storage requirements (4MB Vs 850B). Considering all the potential benefits MEA can offer in theory, we compared its counting and prediction accuracy against the Full Counters (FC) scheme. 
 
 \subsubsection*{MEA Evaluation}
 
-With these traits in mind, we evaluated MEA's counting and prediction accuracy and compared it against the Full Counters (FC) scheme. We used memory traces captured from multi-programmed 8-core workloads (the same traces used and described in Section \ref{sec:Results}) and simulated MEA and FC side-by-side with an in-house off-line simulator that provides oracle knowledge of future intervals. The interval size for both MEA and FC was set at 5500 requests which is the average number of requests serviced within a 50us window in our timing experiments. We compared the two mechanisms based on their counting and prediction accuracies for the following 3 tiers of memory pages: 1-10 hottest ranked pages were grouped in tier 1, tier 2 holds pages ranked 11-20 and finally tier 3 holds pages 21-30. 
+In this section, we seek to understand the effectiveness of MEA's counting 
+and prediction accuracy, compared against a Full Counters (FC) scheme,
+independent of the MemPod architecture. We use memory traces captured 
+from multi-programmed 8-core workloads (the same traces used and described in Section \ref{sec:Results}) and simulated MEA and FC side-by-side with an in-house off-line simulator that provides oracle knowledge of future intervals. The interval size for both MEA and FC was set at 5500 requests which is the average number of requests serviced within a 50us window in our timing experiments. 
+We do two comparisons in this study.  First, we examine the ability of MEA
+to identify the top pages in the past interval, something the full counter
+scheme will do perfectly.  Second, we examine the ability of both schemes
+to predict the top pages in the next interval.  In both studies, we will
+examine the schemes' ability to identify the 30 most-accessed pages, in
+bins of 10 each (1-10, 11-20, and 21-30).
 
-First we compared MEA's counting accuracy against FC's guaranteed correct counting. In other words we evaluate MEA's capability of identifying the hottest pages of the current interval accurately. Figure \ref{fig:mea_1} shows the counting accuracy of MEA in the top 3 tiers. In some workloads, MEA scored up to 75\% accuracy in the top three tiers. However, on average MEA reports accuracy below 40\% on the top tiers. Our results show that in our use cases MEA is not a viable option in terms of accurate counting. However, correct counting accuracy does not necessarily translate to accurate predictions during future interval(s), even though intuitively, these two aspects might seem correlated.
+\remark{These results don't make sense without knowing how many MEA
+counters you used.}
+
+Figure \ref{fig:mea_1} shows the counting accuracy of MEA for the 
+past interval, which should be compared with FC's perfect accuracy.
+In some workloads, MEA identified up to 75\% of the top pages. 
+However, on average MEA reports accuracy below 40\% on the top tiers. 
+Thus, it is a surprisingly ineffective replacement for accurate counters,
+if accurate counting were our priority.  The bias toward recent accesses
+has a strong effect on the final value of the MEA counters.
+
+\remark{I find this figure odd -- I'd rather see the results grouped by
+benchmark grouping than by tier.}
 
 \begin{figure}[t]
 \centering
@@ -83,9 +119,23 @@ First we compared MEA's counting accuracy against FC's guaranteed correct counti
   \label{fig:mea_1}
 \end{figure}
 
-Figure \ref{fig:mea_2} presents a comparison of MEA and FC in terms of prediction accuracy and demonstrates MEA's true potential. Following the same structure as Figure \ref{fig:mea_1}, we compare each mechanism's ``predictions'' against the top three page tiers of the following interval based on oraclular knowledge. Figure \ref{fig:mea_2} plots the number of hits on predicted hot pages from the previous interval. We also selected the most interesting individual benchmarks and show them in Figure \ref{fig:mea_3} to provide a more detailed comparison. 
+When we instead examine the effectiveness in identifying future hot pages,
+we see a different story.  Figure \ref{fig:mea_2} presents a comparison of MEA and FC in terms of prediction accuracy. We compare each mechanism's 
+``predictions'' against the top three page tiers of the following interval based on oracular knowledge. Figure \ref{fig:mea_2} plots the number of hits on predicted hot pages from the previous interval. We also selected the most interesting individual benchmarks and show them in Figure \ref{fig:mea_3} to provide a more detailed comparison. 
 
-On average, MEA achieves more future hits than FC by 16\%, 81\% and 68\% on the top three tiers respectively. Figure \ref{fig:mea_3} shows selected individual workloads that generated the most interesting results and provide a more detailed comparison. Cactus\footnote{We use a single benchmark's name as a shorthand for workloads running the same benchmark 8 times simultaneously on 8 cores.} is the only workload where FC outperformed MEA's prediction. In fact it outperformed MEA on every tier. Xalanc and mix9 are ``normal'' workloads, one homogeneous and one mixed. The majority of our workloads reported similar trends as these two. We can see MEA outperforming FC's prediction accuracy in every tier. The last two workloads we selected, bwaves and lbm, show FC failing entirely to predict the future (FC also scored zero future hits with our libquantum workload). With bwaves (and libquantum) MEA reports a very low number of future hits but not zero. Lbm shows the most interesting result of our comparison, where MEA reports one of its highest results in a workloads where FC failed entirely.
+\remark{Here we're again missing all the critical
+details of the experiment.  How many
+MEA counters?  How many FC pages were used as ``predictions''?}
+
+On average, MEA achieves more future hits than FC by 16\%, 81\% and 68\% on the top three tiers respectively. Figure \ref{fig:mea_3} shows selected individual workloads that generated the interesting results and provides a more detailed comparison. Cactus\footnote{We use a single benchmark's name as a shorthand for workloads running the same benchmark 8 times simultaneously on 8 cores.} is the only workload where FC outperformed MEA's prediction. In fact it outperformed MEA on every tier. Xalanc and mix9 are most representative of our overall
+results. We can see MEA outperforming FC's prediction accuracy in every bin. 
+The last two workloads we selected, bwaves and lbm, show FC failing entirely to predict the future (FC also scored zero future hits with our libquantum workload). With bwaves (and libquantum) MEA reports a very low number of future hits but not zero. These results can happen when an application streams through large structures
+that exceed the size of the interval.  In that case, the past interval has 
+little overlap with the next interval, but recent accesses are much more
+likely to be overlapped.
+Lbm shows the most interesting result of our comparison, where MEA reports one of its highest results in a workload where FC failed entirely.
+\remark{Should have an explanation for this.}
+
 
 \begin{figure}[t]
 \centering
@@ -101,4 +151,6 @@ On average, MEA achieves more future hits than FC by 16\%, 81\% and 68\% on the 
   \label{fig:mea_3}
 \end{figure}
 
-Proposed in 2003, to the best of our knowledge, MEA has not been used in any micro-architectural proposal before. Our results indicate it is a viable, and perhaps better, alternative to the very expensive option of FC at greatly reduced hardware cost.
+MEA has not previously been used in any kind of architectural event
+tracking; however, our results indicate it is an attractive
+alternative to full counters at a very small fraction of the hardware cost.
