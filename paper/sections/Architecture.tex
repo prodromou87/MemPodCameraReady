@@ -41,10 +41,10 @@ the LLC?  Why are there 12 channels from LLC to the crossbar?  Why are there
 no communication paths between memory controllers of the same pod -- I thought
 that was the main point?  I can't tell where the migration traffic would 
 actually go in this picture, there is no path between them.  Figure 5
-also shows no paths between memory channels.}
+also shows no paths between memory channels.\\A.P.: Updated the figures. Figure 5(b) might be too complicated. What do you think?}
 
 \remark{Also still confused why if you're assuming 1 HBM to 8 DDR pages,
-why we keep showing 2 HBM MCs and 1 DDR.}
+why we keep showing 2 HBM MCs and 1 DDR.\\A.P.: The number of MCs is irrelevant to capacity (and number of pages). We simulate a 1:8 memory ratio, but we have 8 HBM MCs for the 1GB of HBM and 4 MCs for the 8GB of DDR4. Based on the JEDEC HBM specs and the high price of adding pins this should be a realistic configuration.}
 
 When a memory request arrives, the pod monitors the request, updates any 
 necessary migration-related activity tracking counters, and forwards 
@@ -58,11 +58,27 @@ traffic and enables highly parallel migrations.
 \subsubsection*{Memory Pod}
 
 The major architectural elements of a Pod are shown in Figure \ref{fig:architecture_pod}. A Pod includes an activity tracking (MEA) unit, a remap table for keeping track of migrated pages and a forwarding unit that can re-encode a request with the relay address and, based on that address, send the request to the appropriate MC.
+%
+%\begin{figure}[h]
+%  \includegraphics[width=0.46\textwidth]{figures/pod_design_request.pdf}
+%  \caption{Major architectural Pod elements}
+%  \label{fig:architecture_pod}
+%\end{figure}
 
-\begin{figure}[h]
-  \includegraphics[width=0.46\textwidth]{figures/pod_design.pdf}
-  \caption{Major architectural Pod elements}
-  \label{fig:architecture_pod}
+\begin{figure}
+\begin{subfigure}{0.46\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{figures/pod_design_request.pdf}
+  \caption{Pod's request forwarding operation}
+\end{subfigure}%
+
+\begin{subfigure}{0.46\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{figures/pod_design_migration.pdf}
+  \caption{Pod's migration procedure}
+\end{subfigure}
+\caption{Major architectural Pod elements}
+\label{fig:architecture_pod}
 \end{figure}
 
 \remark{Don't like footnotes -- only use if desperate.  If it's important,
