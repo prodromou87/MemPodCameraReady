@@ -81,7 +81,7 @@ Figure \ref{fig:num_counters} shows AMMAT normalized to the case when 16 counter
   \label{fig:num_counters}
 \end{figure}
 
-Figure \ref{fig:interval} shows the same experiment, but with a varying epoch length. Caches were again disabled, each counter was given 16 bits and the number of MEA counters was set to 128. We observe that on average, MemPod reports the lowest AMMAT with interval length of 100$\mu$s (2\% improvement over 50 $\mu$s on average). As the interval length increases, more migrations are performed and AMMT increases. Dropping below 100$\mu$s has a negative effect on AMMT. For comparison purposes, HMA \cite{meswani-HPCA21} identified the best epoch length to be 1ms (10x larger) in order to support all the lengthy processes that take place during a migration event for that method.
+Figure \ref{fig:interval} shows the same experiment, but with a varying epoch length. Caches were again disabled, each counter was given 16 bits and the number of MEA counters was set to 128. We observe that on average, MemPod reports the lowest AMMAT with interval length of 100$\mu$s (2\% improvement over 50 $\mu$s on average). As the interval length increases, more migrations are performed and AMMAT increases. Dropping below 100$\mu$s has a negative effect on AMMAT. For comparison purposes, HMA \cite{meswani-HPCA21} identified the best epoch length to be 1ms (10x larger) in order to support all the lengthy processes that take place during a migration event for that method.
 
 \begin{figure}[h]
   \includegraphics[width=0.46\textwidth]{figures/interval_length_normalized.pdf}
@@ -94,7 +94,7 @@ The size (in bits) of each counter defines the area requirements of our MEA trac
 We modified MEA to remove map entries with counter values equal to or less than zero (instead of strictly equal to zero) in order to support counter saturation. We opted not to immediately remove an overflowed counter even though its value is now zero, as the existence of the correct counter set is crucial to the algorithm's accuracy. For this experiment we used the optimal parameter values identified in the previous experiments and set the number of MEA counters to 128 and interval length to 100us. 
 %All caching was disabled in order to study the direct impact of this variable.
 
-Figure \ref{fig:counter_size} presents the impact of counter size on AMMT and average number of migrations. We first observe that 8 bits are sufficient for our workloads, as larger sizes report identical results. Our second observation is that two bit counters report a negligible performance degradation (0.3\% on average) over 8 bit counters and a reduced average number of migrations.
+Figure \ref{fig:counter_size} presents the impact of counter size on AMMAT and average number of migrations. We first observe that 8 bits are sufficient for our workloads, as larger sizes report identical results. Our second observation is that two bit counters report a negligible performance degradation (0.3\% on average) over 8 bit counters and a reduced average number of migrations.
 
 \begin{figure}[h]
   \includegraphics[width=0.46\textwidth]{figures/counter_size_normalized.pdf}

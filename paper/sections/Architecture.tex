@@ -184,7 +184,7 @@ The overhead of maintaining a set of counters per memory page (or other granular
 
 	\textbf{HMA approach:} Full activity tracking per OS page (4KB) for all memory regions. HMA uses the least efficient tracking mechanism in exchange for perfect counting knowledge at a fine granularity. Full activity tracking also introduces the complexity of sorting all the counters to identify hot pages. THM and MemPod do not require explicit sorting.
 	
-	\textbf{MemPod approach:} MemPod requires an MEA map structure of K entries, where K is the number of hot pages we wish to identify at each interval. Our evaluation presented in Section \ref{sec:Results} finds a good number of MEA counters to be 128. Each entry maps a page's address to a counter. Through our evaluation, we identified a good counter size to be 4 bits and 62 bits are needed to address each page within a Pod, leading to a total of 1.03KB. Using the MEA counters, MemPod's activity tracking profiles \textit{all pages in memory} with minimal hardware cost. 
+	\textbf{MemPod approach:} MemPod requires an MEA map structure of K entries, where K is the number of hot pages we wish to identify at each interval. Our evaluation presented in Section \ref{sec:Results} finds a good number of MEA counters to be 128. Each entry maps a page's address to a counter. Through our evaluation, we identified a good counter size to be 4 bits and 21 bits are needed to address each page within a Pod, leading to a total storage cost of 1.56KB. Using the MEA counters, MemPod's activity tracking profiles \textit{all pages in memory} with minimal hardware cost. 
 
 \remark{62 bits sounds like way too many}.
 	
