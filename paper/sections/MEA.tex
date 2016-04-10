@@ -107,7 +107,7 @@ counters you used.\\A.P.: Added in text above.}
 Figure \ref{fig:mea_1} shows the counting accuracy of MEA for the 
 past interval, which should be compared with FC's perfect accuracy.
 In some workloads, MEA identified up to 75\% of the top pages. 
-However, on average MEA reports accuracy below 40\% on the top tiers. 
+However, on average MEA reports accuracy below 55\% on the top tiers. 
 Thus, it is a surprisingly ineffective replacement for accurate counters,
 if accurate counting were our priority.  The bias toward recent accesses
 has a strong effect on the final value of the MEA counters.
@@ -141,7 +141,7 @@ little overlap with the next interval, but recent accesses are much more
 likely to be overlapped.
 Lbm shows the most interesting result of our comparison, where MEA reports one of its highest results in a workload where FC failed entirely.
 \remark{Should have an explanation for this.\\A.P.: I ran the same experiment with double the epoch size to see how it behaves. Results shift but the trend remains the same. We basically get the same trend (roughly) but for tiers 4,5 and 6. Both mechanisms score zero in the top three tiers.}
-Based on our lbm results it appears that 50$\mu$s is slightly larger than the benchmark's phase change period. It also seems like lbm uses a small number of pages heavily in each interval and consecutively forces FC to count those pages as hot but accesses a different set of pages in the next interval following the same behavior in all its phases. Based on the official lbm description \cite{SPEC-LBM-DESCRIPTION}, it's reasonable that lbm could have this behavior. The small set of pages accessed towards the end of the 50$\mu$s interval appears to be enough for MEA to consider those pages as hot. To verify our assumptions, we executed the same experiment with double the size of the interval (11000 requests). We observed that the trend remains the same but shifted to lower tiers. In this case both MEA and FC scored zero hits in the top three tiers. However, MEA reports high numbers in tiers 4,5 and 6, while FC still reports zero.
+Based on our results, it appears that lbm's phase changes occur periodically with a period slightly larger that our interval. It accesses a small number of pages repeatedly within a given phase and moves on to a different set of pages in the next phase. FC inevitably identifies the small page set as hot and fails in its prediction for the following interval/phase. The few pages that are accessed towards the end of the interval appear to be sufficient for MEA to accurately predict the next phase's hot pages. Based on the official lbm description \cite{SPEC-LBM-DESCRIPTION}, it's reasonable that lbm could have this behavior. To verify our assumptions, we executed the same experiment with double the size of the interval (11000 requests). We observed that the trend remains the same but shifted to lower tiers. In this case both MEA and FC scored zero hits in the top three tiers. However, MEA reports high numbers in tiers 4,5 and 6, while FC still reports zero.
 
 \begin{figure}[t]
 \centering
