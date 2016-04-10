@@ -18,45 +18,49 @@ To address the above limitations, we adopt a technique based on the ``Majority E
 %The MEA algorithm was originally proposed in \cite{karp-mea} and studied in-depth in \cite{charikar-mea} as a heuristic capable of efficiently identifying majority elements in a stream. This algorithm is formally proven to be 100\% accurate, as long as the K most frequently occurring elements it must identify have majority. With complexity $O(N)$ it could be an ideal candidate for real-time streams of information, such as a stream of memory requests.
 
 
-\setlength{\textfloatsep}{5pt}
+%\setlength{\textfloatsep}{5pt}
 \begin{algorithm}[t]
-\centering
+%\centering
 % \small
-% \DontPrintSemicolon
-% %\dontprintsemicolon
-% \;
-% \PrintSemicolon
-% %\printsemicolon
-% 
-% \KwIn{X: Set of N elements}
-% \KwIn{K: Number of elements to output}
-% \KwData{T: Map structure with K entries}
-% \KwResult{Set of K majority elements}
-% \DontPrintSemicolon
-% %\dontprintsemicolon
-% \;
-% Initialization: $T \leftarrow \emptyset$\; 
-% \;
-% \PrintSemicolon
-% %\printsemicolon
-% \ForEach{$i \in X$} {
-% 	\uIf{$i \in T$}{
-%		$T[i] \leftarrow T[i] + 1$\;
-%	}
-%	\uElseIf{$|T| < K - 1$}{
-%		$T[i] = 1$\;
-%	}
-%	\Else{
-%		\ForAll{$j \in T$}{
-%			$T[j] \leftarrow T[j] - 1$\;
-%			\lIf{$T[j] == 0$}{$T \leftarrow T \setminus {j}$}
-%		}
-%	} 
-% }
-% 
- \includegraphics[scale=0.95]{figures/mea_algorithm.pdf}
- %\caption{Majority Element Algorithm}
+ \DontPrintSemicolon
+ %\dontprintsemicolon
+ \;
+ \PrintSemicolon
+ %\printsemicolon
+ 
+ \KwIn{X: Set of N elements}
+ \KwIn{K: Number of elements to output}
+ \KwData{T: Map structure with K entries}
+ \KwResult{Set of K majority elements}
+ \DontPrintSemicolon
+ %\dontprintsemicolon
+ \;
+ Initialization: $T \leftarrow \emptyset$\; 
+ \;
+ \PrintSemicolon
+ %\printsemicolon
+ \ForEach{$i \in X$} {
+ 	\uIf{$i \in T$}{
+		$T[i] \leftarrow T[i] + 1$\;
+	}
+	\uElseIf{$|T| < K - 1$}{
+		$T[i] = 1$\;
+	}
+	\Else{
+		\ForAll{$j \in T$}{
+			$T[j] \leftarrow T[j] - 1$\;
+			\lIf{$T[j] == 0$}{$T \leftarrow T \setminus {j}$}
+		}
+	} 
+ }
+ \caption{Majority Element Algorithm}
  \label{alg:mea}
+ 
+  %\includegraphics[scale=0.95]{figures/mea_algorithm.pdf}
+  
+%%%%%%%%% DEAN if you are having issues compiling this on Linux, comment out the algorithm and use the image instead.  
+  
+  
 \end{algorithm}
 
 %\begin{algorithm}

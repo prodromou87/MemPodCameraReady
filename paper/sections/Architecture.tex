@@ -38,7 +38,7 @@ Our clustered migration mechanism is designed to address key challenges associat
 
 \remark{Very confused by the figure.  Why are there 3 channels from a POD to 
 the LLC?  Why are there 12 channels from LLC to the crossbar?  Why are there
-no communication paths between memory controllers of the same pod -- I thought
+no communication paths between memory controllers of the same Pod -- I thought
 that was the main point?  I can't tell where the migration traffic would 
 actually go in this picture, there is no path between them.  Figure 5
 also shows no paths between memory channels.\\A.P.: Updated the figures. Figure 5(b) might be too complicated. What do you think?}
@@ -46,12 +46,12 @@ also shows no paths between memory channels.\\A.P.: Updated the figures. Figure 
 \remark{Also still confused why if you're assuming 1 HBM to 8 DDR pages,
 why we keep showing 2 HBM MCs and 1 DDR.\\A.P.: The number of MCs is irrelevant to capacity (and number of pages). We simulate a 1:8 memory ratio, but we have 8 HBM MCs for the 1GB of HBM and 4 MCs for the 8GB of DDR4. Based on the JEDEC HBM specs and the high price of adding pins this should be a realistic configuration.}
 
-When a memory request arrives, the pod monitors the request, updates any 
+When a memory request arrives, the Pod monitors the request, updates any 
 necessary migration-related activity tracking counters, and forwards 
 the request to the intended recipient MC. The migration logic within a Pod does not need to be invoked during a response from any MC and can be bypassed to reduce memory access latency. A drawback of clustering MCs into Pods is the serialization of potentially parallel requests to different MCs of a single Pod. As such, activity tracking within a Pod as well as the subsequent forwarding of requests must be as efficient as possible. 
 
 MemPod's clustered architecture also aids in reducing global traffic during migrations compared to non-partitioned mechanisms.  Because migration
-traffic happens within a pod, this architecture significantly reduces global
+traffic happens within a Pod, this architecture significantly reduces global
 traffic and enables highly parallel migrations.
 %  Higher global traffic could require the global switch (or crossbar) to have higher bandwidth resulting in increased energy costs and could also introduce performance penalties. Furthermore, with Pods servicing migrations transparently, the system's CPUs will be able to keep executing non-memory instructions during migrations. 
 
@@ -84,10 +84,10 @@ The major architectural elements of a Pod are shown in Figure \ref{fig:architect
 \remark{Don't like footnotes -- only use if desperate.  If it's important,
 put in the text.  If it isn't, don't include it.}
 A designer can vary the parallelism and flexibility of MemPod by varying the
-number of pods. A design with one pod is equivalent to a centralized 
+number of Pods. A design with one Pod is equivalent to a centralized 
 migration controller allowing any-to-any migration,
 %\footnote{Any-to-any migration: page migration without constraints on source and destination. All MCs can migrate a page to any other MC.}, 
-while a design with a pod number equal to the number of MCs would imply that migration is disabled. A reasonable design point would be to set the number of Pods equal to the number of slow-memory MCs. Such a configuration inherently restricts migration between slow off-chip channels, while at the same time maintaining full channel-level parallelism on the system's bottleneck: the slow MCs. In a configuration where the number of fast-memory MCs are not a multiple of slow-memory MCs, Pods can be configured asymmetrically or some MCs could be members of multiple Pods, with their capacity partitioned to avoid crosstalk issues. In Figure \ref{fig:architecture_complete} we present a system with eight MCs for the fast, on-die stacked memory and four MCs for the slow off-chip memory. Throughout this paper we use die-stacked HBM as the fast memory \cite{JEDEC-HBM-REVISED} and DDR4-1600 as our off-chip memory. The use of four pods imposes few restrictions on migration possibilities, while forbiding migration between two slow-memory channels without any additional logic. For the remainder of this paper, we set the number of pods to four.
+while a design with a Pod number equal to the number of MCs would imply that migration is disabled. A reasonable design point would be to set the number of Pods equal to the number of slow-memory MCs. Such a configuration inherently restricts migration between slow off-chip channels, while at the same time maintaining full channel-level parallelism on the system's bottleneck: the slow MCs. In a configuration where the number of fast-memory MCs are not a multiple of slow-memory MCs, Pods can be configured asymmetrically or some MCs could be members of multiple Pods, with their capacity partitioned to avoid crosstalk issues. In Figure \ref{fig:architecture_complete} we present a system with eight MCs for the fast, on-die stacked memory and four MCs for the slow off-chip memory. Throughout this paper we use die-stacked HBM as the fast memory \cite{JEDEC-HBM-REVISED} and DDR4-1600 as our off-chip memory. The use of four Pods imposes few restrictions on migration possibilities, while forbiding migration between two slow-memory channels without any additional logic. For the remainder of this paper, we set the number of Pods to four.
 
 \subsection{Distributed Migration Controllers}
 
@@ -197,7 +197,7 @@ The overhead of maintaining a set of counters per memory page (or other granular
 	
 	\textbf{MemPod approach:} MemPod requires an MEA map structure of K entries, where K is the number of hot pages we wish to identify at each interval. Our evaluation presented in Section \ref{sec:Results} finds a good number of MEA counters to be 128. Each entry maps a page's address to a counter. Through our evaluation, we identified a good counter size to be 4 bits and 21 bits are needed to address each page within a Pod, leading to a total storage cost of 1.56KB. Using the MEA counters, MemPod's activity tracking profiles \textit{all pages in memory} with minimal hardware cost. 
 
-\remark{62 bits sounds like way too many}.
+\remark{62 bits sounds like way too many.}
 	
 %As described in Section \ref{sec:MEA}, MEA is guaranteed to return the set of K hottest pages under certain assumptions that are not commonly held in a stream of memory requests. As demonstrated, MEA strikes a balance between most frequently occurring and most recently used page addresses, a fortunate and welcomed consequence in locality exposure. A new limitation arises when MEA counters are used: The system will be presented with the set of K hottest pages, however the counters' values cannot provide an order. The hottest page could have a lower counter value than any other page.
 %\end{description}
@@ -238,7 +238,7 @@ Without dedicated page migration driver hardware, migration will have to be orch
 potentially some pollution of the processors' caches 
 and the unavailability of those CPUs during migration. 
 
-MemPod implements the migration driver within each pod. As the pod has direct communication with the MCs, added delays are kept to a minimum,
+MemPod implements the migration driver within each Pod. As the Pod has direct communication with the MCs, added delays are kept to a minimum,
 and no traffic is generated at the global switch (saving energy and eliminating contention).
 \remark{I don't see the point of pointing out the cpu can go on and execute
 5 non-memory operations, when migrations will take forever.}

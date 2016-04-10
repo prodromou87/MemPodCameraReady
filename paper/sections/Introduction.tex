@@ -26,7 +26,7 @@ to the software and improves the performance of latency-sensitive applications. 
 
 In a flat address space configuration, the capacity of stacked memory is 
 available and can be allocated and used by applications. Dynamic memory 
-managers proposed in the literature~\cite{sim-micro2014,meswani-HPCA21,CAMEO} 
+managers proposed in the literature~\cite{sim-micro2014,meswani-HPCA21,cameo} 
 monitor and profile memory accesses and attempt to transparently migrate 
 frequently accessed pages to the fast portion of memory. While exposing
 more memory to the system, profiling memory accesses and performing 
@@ -38,7 +38,7 @@ transparent migrations often come with power, performance, and space overheads.
 
 Software migration schemes \cite{meswani-HPCA21} have high performance 
 overheads and operate at coarse intervals, and thus are slow to adapt to 
-changes in application phases. Recently proposed hardware managed schemes \cite{sim-micro2014,CAMEO} operate at finer granularity than software by either using simple, cache-like demand-driven migration or using a centralized management scheme. The former does not consider hotness of data, whereas the latter will not scale to large memories due to its centralized approach.
+changes in application phases. Recently proposed hardware managed schemes \cite{sim-micro2014,cameo} operate at finer granularity than software by either using simple, cache-like demand-driven migration or using a centralized management scheme. The former does not consider hotness of data, whereas the latter will not scale to large memories due to its centralized approach.
 
 This paper introduces MemPod, a dynamic memory manager for flat address space memory configurations that is area efficient and high performance.
 It scales particularly well to future technologies with larger capacities and
