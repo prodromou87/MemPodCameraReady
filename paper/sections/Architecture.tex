@@ -159,7 +159,7 @@ original address of each page currently mapped to fast memory.
  
 %During the second migration in our example in Figure \ref{fig:remap_table_comparison}, the issue was caused because we updated the remap entry of the holding page (10) instead of the entry of the content page (100). An attempt to recursively follow the remap table's entries until we determine which one to update risks looping infinitely because of cycles (e.g., if page 10 is re-migrated back to address 10). Even if a smart algorithm is utilized to delete entries of non-migrated pages, the complexity of the recursive algorithm will only be bounded by the size of the remap table as, in the worst case, the entire table will be traversed. It's important to note that a content-aware remap table entry now points to a pair of values: (1) \textit{relay address} (where the requested page is located) and (2) \textit{content address} (which page is currently held). %MemPod requires 8MB per Pod and 32MB total for its sontent-aware remap table structure.
 
-	\textbf{Alternative approach:} Recent works \TODO{Cite} propose the use of arbitrarily small remap tables. When the remap table inevitably fills up two possible solutions exist: (a) migration is disabled or (b) the OS is invoked to update page tables and flush the TLB. After OS's intervention, the remap table is cleared and migration remains active.
+	\textbf{Alternative approach:} Recent works \cite{ramos-small-rt} propose the use of arbitrarily small remap tables. When the remap table inevitably fills up two possible solutions exist: (a) migration is disabled or (b) the OS is invoked to update page tables and flush the TLB. After OS's intervention, the remap table is cleared and migration remains active.
 %\end{description}
 
 
