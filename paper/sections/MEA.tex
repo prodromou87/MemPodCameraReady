@@ -69,7 +69,7 @@ To address the above limitations, we adopt a technique based on the ``Majority E
 %	\label{alg:mea}
 %\end{algorithm}
 
-MEA is presented in Algorithm \ref{alg:mea} as applied to an array of integers X. A map structure T maps K element IDs (in our integer array example, IDs are the integers' values) to K counters. Looping through the array, if the next integer exists in the map, its counter is incremented by 1. Otherwise, if there's enough room in the map a new entry is added with a count of 1. If the number does not exist in the map and all K counters are occupied, the algorithm subtracts 1 from every counter, removes the entries with a counter value of 0 and proceeds to the next integer. Once the entire array is processed, the map entries hold the majority elements. 
+MEA is presented in Algorithm \ref{alg:mea} as applied to an array of integers X. A map structure T maps K element IDs (in our integer array example, IDs are the integers' values) to K counters. Looping through the array, if the next integer exists in the map, its counter is incremented by 1. Otherwise, if there's enough room in the map a new entry is added with a count of 1. If the number does not exist in the map and all K counters are occupied, MEA subtracts 1 from every counter, removes the entries with a counter value of 0 and proceeds to the next integer. Once the entire array is processed, the map entries hold the majority elements. 
 
 %Even though this heuristic is 100\% accurate, in the absence of its main assumption no guarantees can be made. The outcome of this algorithm relies on several uncontrolled variables, such as the order our requests appeared in. However, the nature of the algorithm presents a very welcomed side effect: Elements accessed repeatedly can be evicted from the map by elements that were accessed less times but more recently. This observation reveals MEA's favoritism towards temporal locality. Furthermore, the area overhead of this algorithm implemented in hardware remains constant, regardless of how many elements need to be profiled (i.e. regardless of how many pages exist in main memory). 
 
@@ -98,7 +98,7 @@ independent of the MemPod architecture. We use memory traces captured
 from multi-programmed 8-core workloads (the same traces used and described in Section \ref{sec:Results}) and simulated MEA and FC side-by-side with an in-house off-line simulator that provides oracle knowledge of future intervals. 
 \remark{Nuwan's comment on next sentence: What's the significance of 50us here?\\A.P.: At the time, 50us used to be the best interval length for MemPod so I went with it.}
 The interval size for both MEA and FC was set at 5500 requests which is the average number of requests serviced within a 50us window in our timing experiments. For this experiment we used 128 MEA counters and FC requires 4.5M counters (assuming a 9GB memory capacity). 
-We do two comparisons in this study.  First, we examine the ability of MEA
+We do two comparisons in this Section.  First, we examine the ability of MEA
 to identify the top pages in the past interval, something the full counter
 scheme will do perfectly.  Second, we examine the ability of both schemes
 to predict the top pages in the next interval.  In both studies, we will
@@ -123,7 +123,7 @@ benchmark grouping than by tier.\\A.P.: Fixed.}
 \centering
 %  \includegraphics[width=0.46\textwidth, height=9em]{figures/mea_1_v2.pdf}
   \includegraphics[scale=.3]{figures/mea_1_v2.pdf}
-  \caption{MEA counting accuracy compared to Full Counters on the top three tiers (ranks 1-10, 11-20, 21-30). Average results for homogeneous(AVG HG), mixed (AVG MIX) and all (AVG ALL) workloads shown due to space limitations.}
+  \caption{MEA counting accuracy compared to Full Counters on the top three tiers (ranks 1-10, 11-20, 21-30). Average results for homogeneous(AVG HG), mixed (AVG MIX) and all (AVG ALL) workloads shown.}
   \label{fig:mea_1}
 \end{figure}
 
@@ -150,7 +150,7 @@ Based on our results, it appears that lbm's phase changes occur periodically wit
 \begin{figure}[t]
 \centering
   \includegraphics[scale=.3]{figures/mea_2_v2.pdf}
-  \caption{MEA prediction accuracy (part 1) compared to Full Counters on the top three tiers (ranks 1-10, 11-20, 21-30). Results for homogeneous(WL-HG), mixed (WL-MIX) and all (WL-ALL) workloads shown due to space limitations.}
+  \caption{MEA prediction accuracy (part 1) compared to Full Counters on the top three tiers (ranks 1-10, 11-20, 21-30). Results for homogeneous(WL-HG), mixed (WL-MIX) and all (WL-ALL) workloads shown.}
   \label{fig:mea_2}
 \end{figure}
 

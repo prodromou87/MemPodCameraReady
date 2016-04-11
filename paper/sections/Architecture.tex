@@ -112,7 +112,7 @@ The design of a complete memory manager can be broken down into the following 5 
 \item [Migration driver/datapath:] Defines the path followed and the hardware modules involved in performing migrations.
 \end{description}
 
-Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures. Table \ref{tbl:breakdown} shows a comparison of each mechanism's elements. The following subsections provide a detailed description of each building block. For each block, we present MemPod's, THM's and HMA's approach, as well as alternative designs found in the literature. The design choices for the various building blocks are largely
+Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures. Table \ref{tbl:breakdown} shows a comparison of each mechanism's elements. The following subsections provide a detailed description of each building block. For each block, we present MemPod's, THM's and HMA's approach. Where applicable, we also present alternative proposals found in the literature. The design choices for the various building blocks are largely
 orthogonal.  Thus, we describe each separately, with description of the options
 and tradeoffs.
 
@@ -130,6 +130,8 @@ page address.  Some other structures may also be necessary to avoid expensive
 table searches when an inverse lookup is needed (e.g., to identify pages
 currently mapped to slow or fast memory).
 
+Recent work \cite{ramos-small-rt} proposes the use of arbitrarily small remap tables. When the remap table inevitably fills up two possible solutions exist: (a) migration is disabled or (b) the OS is invoked to update page tables and flush the TLB. After OS's intervention, the remap table is cleared and migration remains active.
+
 \ignore{
 However, a ``naive'' remap table design can fail when re-migration of pages is allowed. A content-aware remap table is necessary in order to support re-migration. Figure \ref{fig:remap_table_comparison} presents a side-by-side comparison of the operation of these two tables and demonstrates how a naive table can fail.
 
@@ -146,11 +148,11 @@ The naive remap table design fails simply because pages are allowed to re-migrat
 	\textbf{Safe and slow:} Always restore a forwarded page's contents to its original location before it participates in a new migration, resulting in two migrations instead of one. %For such an implementation, hot page count will have to be kept based on the content page instead of the real page Id. In the earlier example in Figure \ref{fig:remap_table_comparison}, the second migration of page 10 implies that page 100 is cold, but in order to offer page restoration support, the second swapping of page 10 will have to imply that page 10 is cold. The cold page (10) will be restored back to address 10 from 100 and then moved to its new location. Minor modifications are required to track activity based on the content page's id, that does not affect any other aspect of a migration mechanism.
 }
 
-	\textbf{THM approach:} Migration is restricted in ``segments''. In a memory configuration with a 1:8 fast:slow memory capacity ratio, each segment will have 9 pages; one in fast memory and the rest in slow. Each segment's 9 pages compete for a position at the one fast memory page available. This solution is elegant enough to allow re-migration with low storage overhead, limiting however the migration potential. If two or more hot pages coexist in a segment, only one can reside in fast memory at any given time. At the same time, if none of the segment's pages are hot, the fast memory page slot cannot be utilized by some other segment's page. %THM requires $\sim$5.6MB for its \textit{Segment Remap Table}.
+	\textbf{THM approach:} Migration is restricted in ``segments''. In a memory configuration with a 1:8 fast:slow memory capacity ratio, each segment will have 9 pages; one in fast memory and the rest in slow. Each segment's 9 pages compete for a position at the one fast memory page available. This solution is elegant enough to allow re-migration with low storage overhead, limiting however the migration potential: If two or more hot pages coexist in a segment, only one can reside in fast memory at any given time. At the same time, if none of the segment's pages are hot, the fast memory page slot cannot be utilized by some other segment's page. %THM requires $\sim$5.6MB for its \textit{Segment Remap Table}.
 
 	\textbf{HMA approach:} Any page can migrate to any other page address without the need of a dedicated remap table structure. The OS-based migration scheme imposes no limitations, as the OS takes care of updating the page tables and flushing the TLB. However, OS intervention and the penalties incurred due to cold TLBs can lead to high overheads.
 	
-	\textbf{MemPod approach:} Migration is restricted to be within a Pod,
+	\textbf{MemPod approach:} Migration is restricted to be within a Pod.
 Each Pod uses a remap table to allow page re-migration.  In addition to the
 remap table, our algorithm also needs to identify all pages currently 
 mapped to fast memory (to identify a candidate to be evicted in favor of a
@@ -159,7 +161,7 @@ original address of each page currently mapped to fast memory.
  
 %During the second migration in our example in Figure \ref{fig:remap_table_comparison}, the issue was caused because we updated the remap entry of the holding page (10) instead of the entry of the content page (100). An attempt to recursively follow the remap table's entries until we determine which one to update risks looping infinitely because of cycles (e.g., if page 10 is re-migrated back to address 10). Even if a smart algorithm is utilized to delete entries of non-migrated pages, the complexity of the recursive algorithm will only be bounded by the size of the remap table as, in the worst case, the entire table will be traversed. It's important to note that a content-aware remap table entry now points to a pair of values: (1) \textit{relay address} (where the requested page is located) and (2) \textit{content address} (which page is currently held). %MemPod requires 8MB per Pod and 32MB total for its sontent-aware remap table structure.
 
-	\textbf{Alternative approach:} Recent works \cite{ramos-small-rt} propose the use of arbitrarily small remap tables. When the remap table inevitably fills up two possible solutions exist: (a) migration is disabled or (b) the OS is invoked to update page tables and flush the TLB. After OS's intervention, the remap table is cleared and migration remains active.
+	
 %\end{description}
 
 
