@@ -11,7 +11,7 @@ and assume that those regions will be hot in the next interval. To accurately id
 At the end of each interval the counters are sorted to identify the highest 
 ranked (i.e., most accessed) regions. However, application phase changes could render this approach unsuccessful. Additionally, the number of necessary counters increases linearly as memory capacities grow.
 
-To address the above limitations, we adopt a technique based on the ``Majority Element Algorithm'' $(MEA)$. MEA was originally proposed by Karp et al. \cite{karp-mea} and was studied in-depth by Charikar et al. \cite{charikar-mea} for database management and big data analytics. This heuristic has formally been proven to correctly identify the $K$ most frequently occuring elements of a set, when each of those elements appears more than $N \over K+1$ (i.e. has majority), where $N$ is the number of elements in that set. 
+To address the above limitations, we adopt a technique based on the Majority Element Algorithm $(MEA)$. MEA was originally proposed by Karp et al. \cite{karp-mea} and was studied in-depth by Charikar et al. \cite{charikar-mea} for database management and big data analytics. This heuristic has formally been proven to correctly identify the $K$ most frequently occuring elements of a set, when each of those elements appears more than $N \over K+1$ (i.e. has majority), where $N$ is the number of elements in that set. 
 
 %MemPod uses the ``Majority Element Algorithm'' $(MEA)$ for its activity tracking needs. MEA attempts to identify the \textit{majority} elements in a set. For example in an array with integers, MEA can be used to identify the \textit{K majority numbers}. Majority elements are the most frequently occurring elements, as long as they exist more than $N \over K+1$ times in the information stream (i.e. they have majority), where N is the number of elements in the array.
 
@@ -86,7 +86,12 @@ alone.
 
 \remark{Nuwan's comment on next sentence: The "number of regions in memory" isn't really the input set, right? Input set is explained above as the sequence of accesses. Further, it's not entirely true that area overhead is constant with the number of regions. As the region count grows, the size of the map needed to hold those region IDs will grow. Admittedly, it grows as log2(number of regions). So it's very slow growth, but not constant. I won't edit; I'll let you address these points however you see fit.}
 \remark{A.P.: I agree that the term input set is wrong here. I updated the text. But I disagree that MEA overhead grows. We could keep it at 128 if we want regardless of the memory size. It's possible that we'll want to use more counters, but the option of keeping it constant is still there}
-MEA's area overhead remains constant regardless of the size of the input space (in our case the number of regions in memory). Its $O(N)$ complexity works well for analyzing a stream of access requests in real time, and eliminates the need for sorting the counters.
+
+MEA's area overhead grows slowly with the amount of memory per pod.  The 
+number of counters can be kept constant, but the size of the 
+ID or tag grows with the log of the memory size.
+Its $O(N)$ time 
+complexity works well for analyzing a stream of access requests in real time, and eliminates the need for sorting the counters.
 
 %In a memory management scheme that uses Full Counters and a scenario where we want to identify the 100 ``hottest'' pages, we would need one full counter per memory page and on top of that we would have to periodically sort all those counters to pick the top 100. With the use of MEA counters we only need a map with 100 entries regardless of the actual number of pages in main memory. In an 8GB memory with 2kB pages and looking for the top 100 pages, MEA needs $\sim$5K times fewer bits than the full counters' storage requirements (4MB Vs 850B). Considering all the potential benefits MEA can offer in theory, we compared its counting and prediction accuracy against the Full Counters (FC) scheme. 
 
@@ -97,7 +102,7 @@ and prediction accuracy, compared against a Full Counters (FC) scheme,
 independent of the MemPod architecture. We use memory traces captured 
 from multi-programmed 8-core workloads (the same traces used and described in Section \ref{sec:Results}) and simulated MEA and FC side-by-side with an in-house off-line simulator that provides oracle knowledge of future intervals. 
 \remark{Nuwan's comment on next sentence: What's the significance of 50us here?\\A.P.: At the time, 50us used to be the best interval length for MemPod so I went with it.}
-The interval size for both MEA and FC was set at 5500 requests which is the average number of requests serviced within a 50us window in our timing experiments. For this experiment we used 128 MEA counters and FC requires 4.5M counters (assuming a 9GB memory capacity). 
+The interval size for both MEA and FC was set at 5500 requests which is the average number of requests serviced within a 50us window in our timing experiments. For this experiment we used 128 MEA counters and FC requires 4.5M counters (assuming a 8+1GB memory capacity). 
 We do two comparisons in this study.  First, we examine the ability of MEA
 to identify the top pages in the past interval, something the full counter
 scheme will do perfectly.  Second, we examine the ability of both schemes
@@ -130,22 +135,33 @@ benchmark grouping than by tier.\\A.P.: Fixed.}
 When we instead examine the effectiveness in identifying future hot pages,
 we see a different story.  Figure \ref{fig:mea_2} presents a comparison of MEA and FC in terms of prediction accuracy. We compare each mechanism's 
 ``predictions'' against the top three page tiers of the following interval based on oracular knowledge. 
-Using 128 counters, MEA will return \textit{up to} 128 predictions based in the past interval, while FC will return an overall ranking of each page accessed. The set of pages returned by FC with non-zero counts is guaranteed to be equal to or larger than MEA's set. To accurately compare MEA's capability against FC's, we used the same number of predictions for both schemes at each interval (i.e. The number of pages returned by MEA).
-Figure \ref{fig:mea_2} plots the number of hits on predicted hot pages from the previous interval. We also selected the most interesting individual benchmarks and show them in Figure \ref{fig:mea_3} to provide a more detailed comparison. 
+Using 128 counters, MEA will return \textit{up to} 128 predictions based in the past interval, while FC will return an overall ranking of each page accessed. 
+In order to be able to directly compare accuracy, 
+we take the top N pages from the full counters
+each interval,
+where N is the number of pages MEA returned.
+
+Figure \ref{fig:mea_2} plots the number of hits on predicted hot pages from the previous interval. We also selected interesting individual benchmarks and show them in Figure \ref{fig:mea_3} to provide a more detailed comparison. 
 
 \remark{Here we're again missing all the critical
 details of the experiment.  How many
 MEA counters?  How many FC pages were used as ``predictions''?\\A.P.: 128 MEA counters. I used the number of pages MEA returned at each interval as the number of predictions for both mechanisms. Added in text above.}
 
-On average, MEA achieves more future hits than FC by 16\%, 81\% and 68\% on the top three tiers respectively. Figure \ref{fig:mea_3} shows selected individual workloads that generated interesting results and provides a more detailed comparison. Cactus\footnote{We use a single benchmark's name as a shorthand for workloads running the same benchmark 8 times simultaneously on 8 cores.} is the only workload where FC outperformed MEA's prediction. In fact it outperformed MEA on every tier. Xalanc and mix9 are most representative of our overall
+On average, MEA achieves more future hits than FC by 16\%, 81\% and 68\% on the top three tiers respectively. Figure \ref{fig:mea_3} shows selected individual workloads that generated interesting results and provides a more detailed comparison. Cactus\footnote{We use a single benchmark's name as a shorthand for workloads running the same benchmark 8 times simultaneously on 8 cores.} is the only workload where FC outperformed MEA's prediction. In fact it outperformed MEA on every tier. 
+
+Xalanc and mix9 are most representative of our overall
 results. We can see MEA outperforming FC's prediction accuracy in every bin. 
 The last two workloads we selected, bwaves and lbm, show FC failing entirely to predict the future (FC also scored zero future hits with our libquantum workload). With bwaves (and libquantum) MEA reports a very low number of future hits but not zero. These results can happen when an application streams through large structures
 that exceed the size of the interval.  In that case, the past interval has 
 little overlap with the next interval, but recent accesses are much more
 likely to be overlapped.
-Lbm shows the most interesting result of our comparison, where MEA reports one of its highest results in a workload where FC failed entirely.
-\remark{Should have an explanation for this.\\A.P.: I ran the same experiment with double the epoch size to see how it behaves. Results shift but the trend remains the same. We basically get the same trend (roughly) but for tiers 4,5 and 6. Both mechanisms score zero in the top three tiers.}
-Based on our results, it appears that lbm's phase changes occur periodically with a period slightly larger that our interval. It accesses a small number of pages repeatedly within a given phase and moves on to a different set of pages in the next phase. FC inevitably identifies the small page set as hot and fails in its prediction for the following interval/phase. The few pages that are accessed towards the end of the interval appear to be sufficient for MEA to accurately predict the next phase's hot pages. Based on the official lbm description \cite{SPEC-LBM-DESCRIPTION}, it's reasonable that lbm could have this behavior. To verify our assumptions, we executed the same experiment with double the size of the interval (11000 requests). We observed that the trend remains the same but shifted to lower tiers. In this case both MEA and FC scored zero hits in the top three tiers. However, MEA reports high numbers in tiers 4,5 and 6, while FC still reports zero.
+Lbm shows an interesting result, where MEA reports 
+a reasonable number of hits (outside of the first tier) in a workload where 
+FC failed entirely.  This can happen with a large working set where the 
+application does a fairly constant amount of work per page.  Full counters,
+then, will record the highest access counts for pages the application is done
+with, while MEA will favor pages the application was still working on at the
+end of the interval.
 
 \begin{figure}[t]
 \centering

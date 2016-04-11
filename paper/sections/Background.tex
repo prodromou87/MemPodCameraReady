@@ -20,7 +20,7 @@ Organizing stacked memory as a cache has been explored in several studies \cite{
 \remark{try to avoid using past tense to refer to other papers.  Makes them
 sound old and obsolete.}
 
-HMA \cite{meswani-HPCA21} is a HW/SW mechanism that attempts to predict frequently accessed pages in memory and, at predefined intervals, migrate those pages to fast memory. HW support is required for profiling memory accesses using counters for each memory page, while migration part is handled by the OS. Due to the costly OS involvement, HMA's intervals are kept large.  Additionally, 
+HMA \cite{meswani-HPCA21} is a HW/SW mechanism that attempts to predict frequently accessed pages in memory and, at predefined intervals, migrate those pages to fast memory. HW support is required for profiling memory accesses using counters for each memory page, while the migration is handled by the OS. Due to the costly OS involvement, HMA's intervals are kept large.  Additionally, 
 the hardware cost of its profiling counters is high. However, HMA is capable of managing migrations in a flat address space without the need of additional bookkeeping for finding migrated pages as the OS can update page tables and TLBs to reflect migrations.
 
 Sim et al. proposed a technique for transparent hardware management of a hybrid memory system \cite{sim-micro2014}, which we will refer to as ``THM''.
@@ -29,4 +29,5 @@ THM does not require any OS intervention while managing migrations. In order to 
 CAMEO \cite{cameo} operates similarly to THM and restricts migrations within segments with one fast page location per segment, but operates at a smaller granularity referred to as a ``line''. Its bookkeeping structures are entirely stored in memory, while a ``Line Location Predictor'' attempts to save some bookkeeping-related accesses by predicting the location of a line. CAMEO initiates a line migration upon every access to slow memory, serving as a cache-like flat address space configuration.
 
 Both THM and CAMEO sacrifice migration flexibility for area efficiency by restricting migrations in segments. If more than one hot page exists within the same segment only one can reside in fast memory. If no hot pages exist in a segment, its fast page cannot be utilized by another segment. THM's competing counters can lead to false positives, allowing a cold page to migrate to fast memory, while CAMEO can incur high migration traffic as every access could induce a
-migration.
+migration.  These two approaches are quite similar -- in this paper, we choose
+to implement THM to represent this class of solutions.
