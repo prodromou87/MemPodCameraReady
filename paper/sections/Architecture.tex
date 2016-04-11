@@ -36,16 +36,6 @@ Our clustered migration mechanism is designed to address key challenges associat
  \label{fig:architecture_complete}
 \end{figure}
 
-\remark{Very confused by the figure.  Why are there 3 channels from a POD to 
-the LLC?  Why are there 12 channels from LLC to the crossbar?  Why are there
-no communication paths between memory controllers of the same Pod -- I thought
-that was the main point?  I can't tell where the migration traffic would 
-actually go in this picture, there is no path between them.  Figure 5
-also shows no paths between memory channels.\\A.P.: Updated the figures. Figure 5(b) might be too complicated. What do you think?}
-
-\remark{Also still confused why if you're assuming 1 HBM to 8 DDR pages,
-why we keep showing 2 HBM MCs and 1 DDR.\\A.P.: The number of MCs is irrelevant to capacity (and number of pages). We simulate a 1:8 memory ratio, but we have 8 HBM MCs for the 1GB of HBM and 4 MCs for the 8GB of DDR4. Based on the JEDEC HBM specs and the high price of adding pins this should be a realistic configuration.}
-
 When a memory request arrives, the Pod monitors the request, updates any 
 necessary migration-related activity tracking counters, and forwards 
 the request to the intended recipient MC. The migration logic within a Pod does not need to be invoked during a response from any MC and can be bypassed to reduce memory access latency. A drawback of clustering MCs into Pods is the serialization of potentially parallel requests to different MCs of a single Pod. As such, activity tracking within a Pod as well as the subsequent forwarding of requests must be as efficient as possible. 
@@ -81,19 +71,21 @@ The major architectural elements of a Pod are shown in Figure \ref{fig:architect
 \label{fig:architecture_pod}
 \end{figure}
 
-\remark{Don't like footnotes -- only use if desperate.  If it's important,
-put in the text.  If it isn't, don't include it.}
 A designer can vary the parallelism and flexibility of MemPod by varying the
 number of Pods. A design with one Pod is equivalent to a centralized 
 migration controller allowing any-to-any migration,
 %\footnote{Any-to-any migration: page migration without constraints on source and destination. All MCs can migrate a page to any other MC.}, 
-while a design with a Pod number equal to the number of MCs would imply that migration is disabled. A reasonable design point would be to set the number of Pods equal to the number of slow-memory MCs. Such a configuration inherently restricts migration between slow off-chip channels, while at the same time maintaining full channel-level parallelism on the system's bottleneck: the slow MCs. In a configuration where the number of fast-memory MCs are not a multiple of slow-memory MCs, Pods can be configured asymmetrically or some MCs could be members of multiple Pods, with their capacity partitioned to avoid crosstalk issues. In Figure \ref{fig:architecture_complete} we present a system with eight MCs for the fast, on-die stacked memory and four MCs for the slow off-chip memory. Throughout this paper we use die-stacked HBM as the fast memory \cite{JEDEC-HBM-REVISED} and DDR4-1600 as our off-chip memory. The use of four Pods imposes few restrictions on migration possibilities, while forbiding migration between two slow-memory channels without any additional logic. For the remainder of this paper, we set the number of Pods to four.
+while a design with a Pod number equal to the number of MCs would imply that migration is disabled. A reasonable design point would be to set the number of Pods equal to the number of slow-memory MCs. Such a configuration inherently restricts migration between slow off-chip channels, while at the same time maintaining full channel-level parallelism on the system's bottleneck: the slow MCs. In a configuration where the number of fast-memory MCs are not a multiple of slow-memory MCs, Pods can be configured asymmetrically or some MCs could be members of multiple Pods, with their capacity partitioned to avoid crosstalk issues. In Figure \ref{fig:architecture_complete} we present a system with eight MCs for the fast, on-die stacked memory and four MCs for the slow off-chip memory. Throughout this paper we use die-stacked HBM as the fast memory \cite{JEDEC-HBM-REVISED} and DDR4-1600 as our off-chip memory, and
+%The use of four Pods imposes few restrictions on migration possibilities, while forbiding migration between two slow-memory channels without any additional logic. 
+we set the number of Pods to four, as shown in Figure~\ref{fig:architecture_complete}.
 
 \subsection{Distributed Migration Controllers}
 
 \remark{A.P.: This used to be the Decentralization subsection. Let's see if it works better here. I'm basically rewriting the whole thing. The purpose of this subsection now is to explain the benefits of distributed migration controllers such as Pods compared to centralized units.}
 
-Migration mechanisms in the literature \cite{sim-micro2014,cameo} assume a centralized migration controller where all memory requests have to go through before reaching the memory, in order to monitor memory activity, read remap tables and control migrations. MemPod's distributed migration controllers control every aspect of the migration process. The use of four Pods breaks the problem into smaller pieces in a divide-and-conquer approach. Instead of trying to identify the N best pages to migrate from the entire memory, each Pod now has to identify the $N\over4$ pages per Pod. The hardware breakdown can also simplify the manufacturing process. Smaller tables are more efficient than larger tables and can be designed to meet timing constraints easier. Each Pod will also require lower bandwidth than a centralized unit as it handles a fraction of the traffic.
+Migration mechanisms in the literature \cite{sim-micro2014,cameo} assume a centralized migration controller which all memory requests have to go through before reaching the memory, in order to monitor memory activity, read remap tables and control migrations. MemPod's distributed migration controllers control every aspect of the migration process. The use of four Pods breaks the problem into smaller pieces in a divide-and-conquer approach. Instead of trying to identify the N best pages to migrate from the entire memory, each Pod now has to identify the $N\over4$ pages per Pod. 
+%The hardware breakdown can also simplify the manufacturing process. Smaller tables are more efficient than larger tables and can be designed to meet timing constraints easier. 
+Each Pod will also require lower bandwidth than a centralized unit as it handles a fraction of the traffic.
 
 Prior publications \cite{loh-isca08} demonstrate that the layout and address interleaving of main memory and last level cache can be co-designed and benefit a system by increasing efficiency and reducing global traffic. The proposed designs align cache ``banks'' with main memory banks (among other optimizations). Even though not specifically proposed for 3D DRAM memories, if such a design is assumed, a centralized migration controller would be detrimental to the carefully designed alignment since all LLC misses will now have to go through the centralized unit and then fan back out to their respective MCs.
 
@@ -105,14 +97,16 @@ Finally, a clustered design ensures that we are never moving data across the ent
 The design of a complete memory manager can be broken down into the following 5 ``building blocks'':
 \begin{description}[style=unboxed,leftmargin=0cm]
 \setlength\itemsep{0em}
-\item [Migration flexibility:] Defines which areas in memory can be used as migration candidates. Higher flexibility offers more potential for performance improvement and increases book-keeping cost.
+\item [Migration flexibility:] Defines which areas in memory can be used as migration candidates. 
+%Higher flexibility offers more potential for performance improvement and increases book-keeping cost.
 \item [Remap table:] A structure that keeps track of migrated pages and is able to provide a relay address given a requested address.
 \item [Activity tracking:] Logic and structures needed to profile memory requests and predict future ``hot'' pages.
 \item [Migration trigger:] Defines when migration occurs. Usually the trigger can be interval-based or threshold-based.
 \item [Migration driver/datapath:] Defines the path followed and the hardware modules involved in performing migrations.
 \end{description}
 
-Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures. Table \ref{tbl:breakdown} shows a comparison of each mechanism's elements. The following subsections provide a detailed description of each building block. For each block, we present MemPod's, THM's and HMA's approach. Where applicable, we also present alternative proposals found in the literature. The design choices for the various building blocks are largely
+Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures. Table \ref{tbl:breakdown} shows a comparison of each mechanism's elements. The following subsections provide a detailed description of each building block. For each block, we present MemPod's, THM's and HMA's approach.
+The design choices for the various building blocks are largely
 orthogonal.  Thus, we describe each separately, with description of the options
 and tradeoffs.
 
@@ -129,8 +123,6 @@ The remap table should provide the remap, or relay, address for each original
 page address.  Some other structures may also be necessary to avoid expensive
 table searches when an inverse lookup is needed (e.g., to identify pages
 currently mapped to slow or fast memory).
-
-Recent work \cite{ramos-small-rt} proposes the use of arbitrarily small remap tables. When the remap table inevitably fills up two possible solutions exist: (a) migration is disabled or (b) the OS is invoked to update page tables and flush the TLB. After OS's intervention, the remap table is cleared and migration remains active.
 
 \ignore{
 However, a ``naive'' remap table design can fail when re-migration of pages is allowed. A content-aware remap table is necessary in order to support re-migration. Figure \ref{fig:remap_table_comparison} presents a side-by-side comparison of the operation of these two tables and demonstrates how a naive table can fail.
@@ -161,7 +153,9 @@ original address of each page currently mapped to fast memory.
  
 %During the second migration in our example in Figure \ref{fig:remap_table_comparison}, the issue was caused because we updated the remap entry of the holding page (10) instead of the entry of the content page (100). An attempt to recursively follow the remap table's entries until we determine which one to update risks looping infinitely because of cycles (e.g., if page 10 is re-migrated back to address 10). Even if a smart algorithm is utilized to delete entries of non-migrated pages, the complexity of the recursive algorithm will only be bounded by the size of the remap table as, in the worst case, the entire table will be traversed. It's important to note that a content-aware remap table entry now points to a pair of values: (1) \textit{relay address} (where the requested page is located) and (2) \textit{content address} (which page is currently held). %MemPod requires 8MB per Pod and 32MB total for its sontent-aware remap table structure.
 
-	
+Recent works \cite{ramos-small-rt} propose other alternatives, as well.
+They use arbitrarily small remap tables. When the remap table inevitably fills up two possible solutions exist: (a) migration is disabled or (b) the OS is invoked to update page tables and flush the TLB. After OS's intervention, the remap table is cleared and migration remains active.
+
 %\end{description}
 
 
@@ -199,7 +193,6 @@ The overhead of maintaining a set of counters per memory page (or other granular
 	
 	\textbf{MemPod approach:} MemPod requires an MEA map structure of K entries, where K is the number of hot pages we wish to identify at each interval. Our evaluation presented in Section \ref{sec:Results} finds a good number of MEA counters to be 128. Each entry maps a page's address to a counter. Through our evaluation, we identified a good counter size to be 4 bits and 21 bits are needed to address each page within a Pod, leading to a total storage cost of 1.56KB. Using the MEA counters, MemPod's activity tracking profiles \textit{all pages in memory} with minimal hardware cost. 
 
-\remark{62 bits sounds like way too many.}
 	
 %As described in Section \ref{sec:MEA}, MEA is guaranteed to return the set of K hottest pages under certain assumptions that are not commonly held in a stream of memory requests. As demonstrated, MEA strikes a balance between most frequently occurring and most recently used page addresses, a fortunate and welcomed consequence in locality exposure. A new limitation arises when MEA counters are used: The system will be presented with the set of K hottest pages, however the counters' values cannot provide an order. The hottest page could have a lower counter value than any other page.
 %\end{description}
@@ -209,13 +202,15 @@ counters are automatically cached along with their corresponding remap table ent
 MEA cannot be cached as it updates \textit{all} counters on an access. 
 However, the space needed by MEA is small enough to easily fit on chip,
 and its size need not scale with increasing memory capacity (it scales with
-the maximum desired migrations per interval).
+the maximum desired migrations per interval times the log of the
+memory per pod).
 
 %(didn't understand the point of this paragraph) -- It is also important to note that activity tracking updates should be moved off the critical path. Extreme tracking accuracy is not necessary for correct operation of any migration mechanism. Even if the tracking mechanism is not as accurate as it could be, all memory requests will be able to retrieve correct information as long as the state of memory and remap structure are consistent. Updating a remap table entry however, needs to be performed accurately without any ambiguity to alleviate the risk of inconsistent state.
 
 \subsubsection{Migration Triggers}
 
-Deciding when to perform migrations is not always a trivial task. Migrations add significant delays to a system and, as such, they must be initiated wisely. Any penalties incurred should be amortized by the performance improvement from placing a page in the fast memory. Requests that arrive while migrations are being performed have to be delayed to ensure functionally correct memory behavior. Throughout the literature, two triggers are most commonly used whenever state must be updated based on tracking information (MC scheduling, migrations, dynamic voltage and frequency scaling etc.). Interval-based (or epoch-based) triggers occur with a set frequency, while threshold-based solutions trigger whenever a predetermined criterion is met. 
+Each solution must decide when to perform migrations. 
+Migrations add significant delays to a system and any penalties incurred should be amortized by the performance improvement from placing a page in the fast memory. Requests that arrive while migrations are being performed have to be delayed to ensure functionally correct memory behavior. Throughout the literature, two triggers are most commonly used whenever state must be updated based on tracking information (MC scheduling, migrations, dynamic voltage and frequency scaling etc.). Interval-based (or epoch-based) triggers occur with a set frequency, while threshold-based solutions trigger whenever a predetermined criterion is met. 
 Both interval-based and threshold-based approaches face the same challenge of identifying the optimal interval or threshold value. 
 %(this just all seems too obvious to state)  -- Factors like a system's architecture, application's behavior, as well as semi-random factors (for example higher temperatures can lead to more frequent DRAM refreshes) make the optimal value differ from system to system. Designers usually opt for the value that provides the best results on average. The optimal value should not be too small as it will trigger some potentially expensive procedure frequently, but it cannot be too large as that reduces the ability to adapt to application phase variations. 
 
@@ -232,7 +227,7 @@ Both interval-based and threshold-based approaches face the same challenge of id
 
 \subsubsection{Migration Datapath}
 
-Regardless of the choice for each migration building block described so far, once migration is triggered, the migration manager has to follow the following 
+Regardless of the choice for each migration building block described so far, once migration is triggered, the migration manager has to follow these 
 steps. First, migration candidates need to be identified. Traditionally, one page (or a segment depending on the migration granularity) from the slow memory and one from fast memory. The two identified candidates need to be swapped. First one or both pages will be read and stored in temporary buffers and then written at their remapped locations.
 
 %Describing the actual migration datapath is often overlooked in migration publications. 
@@ -242,8 +237,6 @@ and the unavailability of those CPUs during migration.
 
 MemPod implements the migration driver within each Pod. As the Pod has direct communication with the MCs, added delays are kept to a minimum,
 and no traffic is generated at the global switch (saving energy and eliminating contention).
-\remark{I don't see the point of pointing out the cpu can go on and execute
-5 non-memory operations, when migrations will take forever.}
 %and the CPUs are free to keep executing non-memory instructions. 
 In HMA, the OS orchestrates everything. Some CPU cores have to be stalled and used to service the OS interrupt, causing the migrated pages to traverse through communication mediums and caches on each way. THM does not fully describe its datapath, but it appears that CPUs are used in this case as well. 
 However, to make a generous comparison, we do not model the penalty introduced by using CPUs for migration in our HMA and THM simulations presented in Section \ref{sec:Results}.
@@ -254,8 +247,6 @@ However, to make a generous comparison, we do not model the penalty introduced b
 	\textbf{THM} does not introduce a cost for identifying the candidate pages as it follows a deterministic algorithm. The page that caused the competing counter to exceed the set threshold will be the slow memory candidate, while there is exactly one fast page candidate per segment.
 
     \textbf{HMA} attempts to fill the entire fast memory with migrated pages. The number of swaps that will be performed per interval can be as high as the number of pages in fast memory. Inevitably some hot pages will already reside in the fast memory and they will not be migrated to a different location in fast memory. 
-\remark{these costs are not that hard to estimate -- we just haven't done
-the work to do so.  You'll get crucified saying things like this.}
 %HMA introduces costs that are hard to estimate. 
 HMA introduces several costs due to its software-driven architecture.
 They include sorting all the activity tracking counters, traversing and updating page tables, flushing TLBs, and the cold-start effects of re-filling
@@ -264,11 +255,9 @@ the TLBs.
 
 	\textbf{In MemPod,} with the use of MEA counters, identifying the fast-memory page candidate is as simple as checking that it's not part of the K hot pages. The identification algorithm starts at the very first fast memory location and iterates sequentially until it detects a page address that is not in the set of hottest pages. For the next migration, the identification algorithm simply continues from where it was left. If a hot page already resides in the fast memory it is ignored.
 
-\remark{This section is titled ``Migration datapath''.  Why are we talking
-about MEA counters and hot page identification?  I'm really confused again...\\A.P.: I was trying to point out the individual penalties of each mechanism but I gues it drifted into how each mechanism selects migration candidates. We could move this discussion to the ``Page Relocation'' subsection or in a new subsection.}
-
 %\end{description}
 
+\ignore{
 \subsection{Scalability to Future Memories}
 
 \remark{Nuwan's comment:\\I feel like this section has a lot of repetition from what was already stated earlier in this section. It could either be shortened quiet a bit or removed (but if we remove it, we need to make sure the references earlier in the paper about how we expect MemPod to be better for future memory systems aren't left dangling).}
@@ -285,7 +274,7 @@ At such capacity levels, centralized migration controllers will no longer be sus
 Alternative approaches described in this Section limit the size of the remap table at the cost of disabling migration when full, or invoking the OS before migration resumes. This approach could also be incorporated in future migration mechanisms. We should note that with a limited remap table size, or even an available number of counters less than the number of fast pages, MemPod would still offer the potential of migrating \textit{any} slow memory page to the limited set of fast pages (as long as it's within the same Pod) available for migration, in contrast to THM, where only those segments that happened to fit in the new limited size will be able to migrate, forbidding migration of the rest of the slow pages. HMA would remain intact from this limitation since no remap tables are necessary.
 
 \remark{I don't believe I saw those ``alternative approaches'' mentioned.\\A.P.: There was only one in the remap table subsection.}
-
+}
 
 
 

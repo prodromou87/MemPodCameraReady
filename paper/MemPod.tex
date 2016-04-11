@@ -84,9 +84,13 @@
 %
 %Research has addressed optimization of flat-address-space memories by optimally placing ``hot page'' in the faster memory. Software managed schemes have high overheads and are coarse grained and hence slow to adapt to changes in application phases. Recently proposed hardware managed schemes operate at finer granularity than software by either using simple cache like demand driven placement or using a centralized fixed mapping scheme. The former does not consider hotness of data, whereas the latter will not scale to large memories due to its centralized approach.
 
-In the near future die-stacked DRAM will be present alongside off-chip memories in hybrid memory systems. Research on this subject revolves around using the stacked memory as a cache or as part of a flat address space. In this paper we propose MemPod, a scalable and efficient memory management mechanism for flat address space hybrid memories. MemPod monitors memory activity and periodically migrates the most frequently accessed memory pages to the faster on-chip memory. We propose a partitioned architectural organization that scales with memory system capabilities and adapt algorithms from big data analytics to develop an efficient, low-cost activity tracking technique. 
+In the near future die-stacked DRAM will be increasingly
+present in conjunction with 
+off-chip memories in hybrid memory systems. Research on this subject revolves around using the stacked memory as a cache or as part of a flat address space. In this paper we propose MemPod, a scalable and efficient memory management mechanism for flat address space hybrid memories. MemPod monitors memory activity and periodically migrates the most frequently accessed memory pages to the faster on-chip memory. We propose a partitioned architectural organization that scales with memory system capabilities and adapt algorithms from big data analytics to develop an efficient, low-cost activity tracking technique. 
 
-Our results with multi-programmed workloads show that MemPod improves Average Main Memory Time (AMMT) by up to 29\% (11\% on average) compared to the state of the art, and that MemPod is the most viable mechanism as memories become larger and faster in the future. MemPod's novel activity tracking approach leads to significant cost reduction ($\sim$6000x lower storage space requirements) and remarkable improvement in future prediction accuracy (58\% on average) over maintaining a separate counter per page as was done in some prior studies. 
+Our results with multi-programmed workloads show that MemPod improves Average Main Memory Access Time by up to 29\% (11\% on average) compared to the state of the art, and that will increase as the differentials between memory speeds
+widens.
+MemPod's novel activity tracking approach leads to significant cost reduction ($\sim$6000x lower storage space requirements) and improved future prediction accuracy over prior work which maintains a separate counter per page.
 
 \end{abstract}
 

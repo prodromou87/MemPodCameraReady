@@ -5,10 +5,7 @@
 \subsection{Evaluation Framework}
 \label{sub:Evaluation}
 
-\remark{Try not to use past tense in describing what we did -- again, makes
-it sound like old work rather than new.}
-
-The goal of our evaluation framework is to quantitatively and qualitatively assess MemPod's capabilities and compare it against state-of-the-art proposed mechanisms. Throughout our evaluation section, we study MemPod's performance running as part of an eight-core CPU. We extend Ramulator \cite{kim-ramulator} to support flat address space hybrid memories. We model the MemPod architecture,
+The goal of our evaluation framework is to quantitatively and qualitatively assess MemPod's capabilities and compare it against state-of-the-art proposed mechanisms. Throughout our evaluation section, we study MemPod's performance running with an eight-core CPU. We extend Ramulator \cite{kim-ramulator} to support flat address space hybrid memories. We model the MemPod architecture,
 as well as HMA and THM in our simulation framework. Ramulator enables 
 cycle-level memory simulation and includes a simple CPU front-end capable of approximating resource-induced stalls. We chose to evaluate MemPod under a realistic memory configuration consisting of 1GB 3D-stacked HBM \cite{JEDEC-HBM-REVISED} and 8GB of off-chip DDR4-1600. Table \ref{tab:specs} Provides a more detailed description of the simulated system's configuration.
 
@@ -28,18 +25,17 @@ did you use 8 unique inputs?}
 
 We also extended Ramulator with cacheing for the activity tracking and/or remap tables depending on the simulated mechanism. Cache misses inject memory requests into the stream of requests fed by our trace files to retrieve the missing information. No priority is given to these cache miss requests over regular requests. When caches for hybrid memory management techniques are disabled, the simulator assumes that any information needed by any mechanism exists on chip and is accessible without any delay. The migration process was implemented in detail as well. In order to read an entire 2KB DRAM page from memory, 32 read requests need to be sent for each of the two migration candidates and then another set of 32 requests for each of the two write-backs.
 
-\remark{Prefer Average Main Memory Access Time (AMMAT), since it is more
-obviously just a minor variant of AMAT and thus more clear what it is.}
-
-As we use Ramulator with recorded traces, we chose to report Average Main Memory Access Time (AMMAT) in our results. Even though Ramulator has the ability to approximate IPC, AMMAT is computed with much greater fidelity with this tool,
+As we use Ramulator with recorded traces, we chose to report Average Main Memory Access Time (AMMAT) in our results. Even though Ramulator has the ability to approximate IPC with a simple CPU model, 
+AMMAT is computed with much greater fidelity with this tool,
 as it models the memory system in great detail. AMMAT is the average time 
 spent accessing and waiting for main memory by each request (lower is better). Due to space limitations we are not able to show results for individual workloads in most of the graphs in this paper. In those graphs, we only present the average of all mixed workloads, average of all homogeneous workloads, and overall average.
 
-\remark{It is not clear how you incorporate memory manager cache misses
-and migrations into AMMAT, since they add accesses rather than lengthen the
-average access.}
-
-
+In our AMMAT experiments, we typically introduce additional accesses to the
+system (migrations, bookkeeping cache misses).  The cost of the additional
+misses is accounted to the total memory stall time, but the total memory 
+stall time is divided by the number of original misses captured in our traces
+-- that is, the denominator in our AMMAT equation does not change between
+experiments.
 \begin{table}
   \includegraphics[width=0.46\textwidth]{figures/workloads_checkmarks.pdf}
   \caption{Mixed workloads description}
@@ -49,11 +45,7 @@ average access.}
 \subsection{Simulation Results}
 \label{sub:SimResults}
 
-\subsubsection{Page Tracking Design Space}
-
-\remark{Never use the word ``optimal'' in a paper unless you have a formal
-proof (which I never do, so I never use the word optimal -- ever).
-Computer scientists are very picky about the word.}
+\subsubsection{Page Tracking and Migration Design Space}
 
 MemPod's activity tracking overhead and migration traffic is impacted by
 the number and size of the MEA counters, as well as the epoch (interval) 
@@ -62,22 +54,18 @@ which the counters accumulate.  We examine each of these design space
 parameters in this section.
 The number of MEA counters dictates the highest possible number of 
 migrations that can be performed at each interval, while the epoch length will determine MemPod's ability to better adapt to phase changes in a workload. The size of each MEA counter sacrifices accuracy when smaller counters are used 
-but can also save space on the chip.
-
-\remark{What is the epoch length in this experiment?}
-
-\remark{Probably cannot redo it, but you cannot investigate epoch length
-and number of counters separately -- they must be varied together.}
+but can also save space on the chip.  For these initial experiments,
+the epoch length was 500$\mu$s. 
 
 We first examine the number of MEA counters, by keeping the epoch length constant and exponentially increasing the number of counters from 16 to 512. In order to minimize the impact of other factors, we execute this experiment with 16 bits per counter and remap table caches disabled. 
 %In other words, each counter was given more than enough space and all required information such as the remap table resides entirely on the chip and is accessible at no cost. 
 
-Figure \ref{fig:num_counters} shows AMMAT normalized to the case when 16 counters are used, along with the average number of migrations per Pod per epoch (secondary axis). The results indicate that each Pod does utilize the higher number of counters and consequently perform more migrations per interval. However performance is degraded due to the overhead of migrations when more than 128 counters are used. Using 128 counters, AMMT is improved by 6\% over the baseline with 16 MEA counters. 
+Figure \ref{fig:num_counters} shows AMMAT normalized to the case when 16 counters are used, along with the average number of migrations per Pod per epoch (secondary axis). The results indicate that each Pod does utilize the higher number of counters and consequently perform more migrations per interval. However performance is degraded due to the overhead of migrations when more than 128 counters are used. Using 128 counters, AMMAT is improved by 6\% over the baseline with 16 MEA counters. 
 
 \begin{figure}[h]
 	\centering
   \includegraphics[width=0.46\textwidth]{figures/avg_num_counters_normalized.pdf}
-  \caption{\# of MEA Counters Vs Normalized AMMT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
+  \caption{\# of MEA Counters Vs Normalized AMMAT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
   \label{fig:num_counters}
 \end{figure}
 
@@ -85,31 +73,36 @@ Figure \ref{fig:interval} shows the same experiment, but with a varying epoch le
 
 \begin{figure}[h]
   \includegraphics[width=0.46\textwidth]{figures/interval_length_normalized.pdf}
-  \caption{Interval Length Vs Normalized AMMT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
+  \caption{Interval Length Vs Normalized AMMAT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
   \label{fig:interval}
 \end{figure}
 
 The size (in bits) of each counter defines the area requirements of our MEA tracking mechanism. \remark{Nuwan's comment on next sentence:\\I don't understand what this sentence is trying to say. Please reword/clarify. Why do we not saturate the counters instead of overflowing?\\A.P.: Not sure I understand this comment.} 
 \remark{Dean -- my same question -- why don't we use saturating counters???}
-We modified MEA to remove map entries with counter values equal to or less than zero (instead of strictly equal to zero) in order to support counter saturation. We opted not to immediately remove an overflowed counter even though its value is now zero, as the existence of the correct counter set is crucial to the algorithm's accuracy. For this experiment we used the optimal parameter values identified in the previous experiments and set the number of MEA counters to 128 and interval length to 100us. 
+%We modified MEA to remove map entries with counter values equal to or less than zero (instead of strictly equal to zero) in order to support counter saturation. We opted not to immediately remove an overflowed counter even though its value is now zero, as the existence of the correct counter set is crucial to the algorithm's accuracy. For this experiment we used the optimal parameter values identified in the previous experiments and set the number of MEA counters to 128 and interval length to 100us. 
 %All caching was disabled in order to study the direct impact of this variable.
 
-Figure \ref{fig:counter_size} presents the impact of counter size on AMMAT and average number of migrations. We first observe that 8 bits are sufficient for our workloads, as larger sizes report identical results. Our second observation is that two bit counters report a negligible performance degradation (0.3\% on average) over 8 bit counters and a reduced average number of migrations.
+Figure \ref{fig:counter_size} presents the impact of counter size on AMMAT and average number of migrations. We see only minor differences in these results,
+in large part because of the competing effects of accurate counting (with
+large counters) and more temporal effects (with small counters).
+The small counters better capture recency, because with small counters it
+requires fewer divisions to eliminate a high-access page from the pool and
+replace it with a new page.  We do see a definite sweet spot at 4 bits,
+where both effects seem to be in play.  We confirmed this by re-running the
+experiments in Section~\ref{sec:mea} with 4-bit instead of 16-bit counters,
+and saw that prediction accuracy did improve slightly.  Although the marginal
+gains are small, we use 4-bit counters in our subsequent experiments.
+
+
+We first observe that 8 bits are sufficient for our workloads, as larger sizes report identical results. Our second observation is that two bit counters report a negligible performance degradation (0.3\% on average) over 8 bit counters and a reduced average number of migrations.
 
 \begin{figure}[h]
   \includegraphics[width=0.46\textwidth]{figures/counter_size_normalized.pdf}
-  \caption{Counter size (in bits) Vs Normalized AMMT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
+  \caption{Counter size (in bits) Vs Normalized AMMAT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
   \label{fig:counter_size}
 \end{figure}
 
 The most interesting observation comes from assigning 4 bits to each counter. On average, performance is boosted slightly (up to 3\% and 0.6\% on average) even compared to using larger counters, while migration count is low. %Since a difference is observed, we can conclude that these smaller counters ``lose'' information that in turn benefits overall execution. The reported result is a welcomed artifact of the MEA algorithm combined with application behavior. 
-
-\remark{I've said it before, but I have to repeat it -- you CANNOT report
-an  anomalous result like the 4-bit result in figure 9 unless you can
-explain it (e.g. run other experiments that show whatever phenomenon is
-causing it).  Otherwise these results just completely erode reviewer confidence
-in your results.}
-
 
 Based on our results, we identify 4 bits per counter to be the optimal value. Each one of the 128 MEA entries needs 21 bits for addressing the 1125K pages per Pod and 4 bits for its counter, leading to an area cost of only 400B per Pod and $\sim$1.5KB total. Compared to the state of the art, MemPod's activity tracking requirement is $\sim$341x smaller than THM's (512KB) and $\sim$6100x smaller than HMA's (9MB).
 
@@ -118,7 +111,7 @@ Based on our results, we identify 4 bits per counter to be the optimal value. Ea
 
 \begin{figure*}[t]
   \includegraphics[width=\textwidth]{figures/performance_over_nlm.pdf}
-  \caption{Performance Comparison: AMMT is normalized to a hybrid memory without any migration mechanism.}
+  \caption{Performance Comparison: AMMAT is normalized to a hybrid memory without any migration mechanism.}
   \label{fig:performance}
 \end{figure*}
 
@@ -127,9 +120,12 @@ Figure \ref{fig:performance} presents a performance comparison of MemPod, HMA, T
 Based on the results we derive some interesting observations:
 \begin{itemize}[leftmargin=0.4cm]
 \setlength\itemsep{0em}
-	\item \TODO{I should revise this point.} In some workloads migration is harmful to performance, as observed with the bwaves workload, where a no-migration scheme reports higher performance (lower AMMT). We observe that in those cases, MemPod leads to deteriorated performance compared to THM. However, in the case of zeusmp, MemPod increases performance, while THM and HMA report higher AMMT than the no-migration scheme.
 	\item MemPod outperforms the state-of-the-art competitors in the majority of our workloads, and in several cases scoring very close to an HBM-only configuration. 
-	\item On average MemPod reports 25\% higher AMMT than HBM-only, while THM and HMA report 39\% and 41\% respectively.
+	\item On average MemPod reports 25\% higher AMMAT than HBM-only, while THM and HMA report 39\% and 41\% respectively.
+	\item In some workloads migration overall is harmful to performance, 
+as observed with the bwaves workload, where a no-migration scheme reports 
+higher performance (lower AMMAT). We observe that in those cases, MemPod leads to deteriorated performance compared to THM. However, in the case of zeusmp, 
+MemPod increases performance, while THM and HMA report higher AMMAT than the no-migration scheme.
 	\item All mechanisms outperform HBM-only when executing the libquantum experiment. In the case of libquantum, the working set size fits entirely in our fast memory. As a result, after some migrations, the entire working set will be present in HBM.  With an HBM-only system and no migrations, pages
 are inserted sequentially by address.  In a migration-based system, 
 simultaneously-hot pages are inserted together after each epoch.  As the
@@ -151,12 +147,11 @@ the row buffer hit rate?\\A.P.:THM's RBH rate is 90\% (higher than MemPod) but 7
 
 Migration mechanisms will be forced to include a cache as activity tracking and remap table structures are too large to store on-chip. The use of a cache will unavoidably hinder performance. In this experiment we evaluate the impact of a cache on each mechanism's performance. As described in Section \ref{sec:Architecture}, each mechanism has different cache requirements. THM caches its counters and remap table together with its SRT structure. HMA has no need for a remap table but has high storage requirements for its counting mechanism. MemPod must cache only its remap table as MEA counters will be on chip. We simulated each mechanism with 16, 32 and 64 KB of cache. For MemPod, the available cache capacity was divided equally over four Pods. All mechanisms use the stacked memory as backing store for their tracking information.
 
-HMA's design further complicates this study, as sorting all activity counters at each epoch is performed by the OS, utilizing the cpu's cache instead of the dedicated migration cache. In our results, we present ``HMA-OPT'', an HMA flavor that does not take into account any penalties for OS interrupts, TLB shootdowns or Page Table (PT) updates, walks and misses. Even though sorting all of HMA's counters will be a costly procedure, in this experiment we assume a ``best-case scenario'' where the entire sorting process is overlapped with requests being serviced from the memory and we don't penalize HMA for sorting. We also do not model the application-level effects of starting with a cold TLB after each interval.
+HMA's design further complicates this study, as sorting all activity counters at each epoch is performed by the OS, utilizing the cpu's cache instead of the dedicated migration cache. In our results, we present ``HMA-OPT'', an HMA flavor that does not take into account any penalties for OS interrupts, TLB shootdowns, Page Table (PT) updates, walks and misses, or sorting of the large
+pool of counters.
+We also do not model the application-level effects of starting with a cold TLB after each interval.
 
-\remark{Our MemPod tables are smaller now, right?  We need to re-run these 
-experiments.}
-
-Figure \ref{fig:cache} shows our results obtained by taking the average AMMT from all our workloads for each mechanism. HMA-OPT reports the lowest AMMT, albeit unrealistic and MemPod outperforms every other mechanism regardless of the cache size. MemPod outperforms THM by 9\% with a 64kB cache, while HMA-OPT outperforms MemPod by 9\%.
+Figure \ref{fig:cache} shows our results obtained by taking the average AMMAT from all our workloads for each mechanism. HMA-OPT reports the lowest AMMAT, albeit unrealistic and MemPod outperforms every other mechanism regardless of the cache size. MemPod outperforms THM by 9\% with a 64kB cache, while HMA-OPT outperforms MemPod by 9\%.
 
 \subsubsection{Scalability}
 
@@ -166,8 +161,31 @@ Figure \ref{fig:cache} shows our results obtained by taking the average AMMT fro
   \label{fig:scalability}
 \end{figure}
 
-We simulated all mechanism under an overclocked memory configuration in order to evaluate how each one scales with memory technology advances. For this experiment, we used a 4GHz HBM as our stacked memory and a DDR4-2400 as our off-chip memory. Figure \ref{fig:scalability} shows our average AMMT results. The bar labeled ``DDR4-2400'' shows the results from a 9GB configuration with off-chip DDR4 memory only and ``HBMoc'' shows a 9GB configuration with overclocked HBM only. We first observe that HMA-OPT (no penalties added for TLB shootdowns, Page Table updates, sorting counters or OS interrupt) due to its high number of migrations and low prediction accuracy increases AMMT by 8\% compared to a Two-Level Memory without migration (TLM). THM and MemPod reduce AMMT by 13\% and 24\% respectively, compared to TLM. With this memory configuration, MemPod reports AMMT improvements of 42\% over HMA-OPT, and 15\% over THM. 
-\remark{This is a weird and convoluted comparison -- drop it. ``Compared to the results obtained with a non-overclocked memory, HMA demostrated the worse scalability, improving its average AMMT by 18\%. TLM was improved by 30.5\%, THM by 33\% and MemPod by 35\%.''}
+MemPod is designed to be scalable with future technology.  If we grow memory
+sizes by increasing the number of pods, the size of the remap table and the 
+size of the MEA counters will remain constant (per pod, and thus per memory
+page) if the memory per pod remains constant.  If instead we increase
+memory capacity per pod, the size of the remap table (per memory page)
+will go up only with the log of the per-pod memory. If we choose to scale
+the number of counters with the size of memory per pod, it will go up
+similarly; however, if we do not scale up the counters at the same rate
+(e.g., four times the memory, but double the counters), then the cost
+of the counters (per memory page) will go down.
 
-\remark{You suddenly introduce the term TLM here when you haven't been using
-it all paper.}
+Additionally, the memory traffic caused by migrations will remain distributed
+and off the primary processor interconnect.
+
+We also expect the latency differential between main memory levels to 
+continue to grow.  This will happen as 3D memory parts mature, and as
+we integrate new memory technologies into the system (e.g. hybrid
+volatile and non-volatile memory systems).
+To examine this, we model a system where both the 3D DRAM and the DDR memory
+are faster, but the 3D DRAM is accelerated further resulting in a higher
+latency ratio between the two. 
+In particular, we simulate a 4GHz HBM as our stacked memory and a DDR4-2400 as our off-chip memory. 
+We assume no cacheing effects in this experiment.
+Figure \ref{fig:scalability} shows our AMMAT results. The bar labeled ``DDR4-2400'' shows the results from a 9GB configuration with off-chip DDR4 memory only and ``HBMoc'' shows a 9GB configuration with overclocked HBM only. We first observe that HMA-OPT due to its high number of 
+migrations and low prediction accuracy increases AMMAT by 8\% compared to a 
+Two-Level Memory without migration (TLM). THM and MemPod reduce AMMAT by 13\% and 24\% respectively, compared to TLM. With this memory configuration, MemPod 
+reports AMMAT improvements of 42\% over HMA-OPT, and 15\% over THM. 
+
