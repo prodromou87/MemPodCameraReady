@@ -11,7 +11,7 @@ and assume that those regions will be hot in the next interval. To accurately id
 At the end of each interval the counters are sorted to identify the highest 
 ranked (i.e., most accessed) regions. However, application phase changes could render this approach unsuccessful. Additionally, the number of necessary counters increases linearly as memory capacities grow.
 
-To address the above limitations, we adopt a technique based on the Majority Element Algorithm $(MEA)$. MEA was originally proposed by Karp et al. \cite{karp-mea} and was studied in-depth by Charikar et al. \cite{charikar-mea} for database management and big data analytics. This heuristic has formally been proven to correctly identify the $K$ most frequently occuring elements of a set, when each of those elements appears more than $N \over K+1$ (i.e. has majority), where $N$ is the number of elements in that set. 
+To address the above limitations, we adopt a technique based on the Majority Element Algorithm $(MEA)$. MEA was originally proposed by Karp et al. \cite{karp-mea} and was studied in-depth by Charikar et al. \cite{charikar-mea} for database management and big data analytics. This heuristic has formally been proven to correctly identify the $K$ most frequently occuring elements of a set, when each of those elements appears more than $N \over K+1$ (i.e. has majority), where $N$ is the number of elements in the input set. 
 
 %MemPod uses the ``Majority Element Algorithm'' $(MEA)$ for its activity tracking needs. MEA attempts to identify the \textit{majority} elements in a set. For example in an array with integers, MEA can be used to identify the \textit{K majority numbers}. Majority elements are the most frequently occurring elements, as long as they exist more than $N \over K+1$ times in the information stream (i.e. they have majority), where N is the number of elements in the array.
 
@@ -136,7 +136,7 @@ benchmark grouping than by tier.\\A.P.: Fixed.}
 When we instead examine the effectiveness in identifying future hot pages,
 we see a different story.  Figure \ref{fig:mea_2} presents a comparison of MEA and FC in terms of prediction accuracy. We compare each mechanism's 
 ``predictions'' against the top three page tiers of the following interval based on oracular knowledge. 
-Using 128 counters, MEA will return \textit{up to} 128 predictions based in the past interval, while FC will return an overall ranking of each page accessed. 
+Using 128 counters, MEA will return \textit{up to} 128 predictions based on the past interval, while FC will return an overall ranking of each page accessed. 
 In order to be able to directly compare accuracy, 
 we take the top N pages from the full counters
 each interval,
@@ -157,7 +157,7 @@ that exceed the size of the interval.  In that case, the past interval has
 little overlap with the next interval, but recent accesses are much more
 likely to be overlapped.
 Lbm shows an interesting result, where MEA reports 
-a reasonable number of hits (outside of the first tier) in a workload where 
+a high number of hits (outside of the first tier) in a workload where 
 FC failed entirely.  This can happen with a large working set where the 
 application does a fairly constant amount of work per page.  Full counters,
 then, will record the highest access counts for pages the application is done

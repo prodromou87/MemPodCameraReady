@@ -101,11 +101,11 @@ The design of a complete memory manager can be broken down into the following 5 
 %Higher flexibility offers more potential for performance improvement and increases book-keeping cost.
 \item [Remap table:] A structure that keeps track of migrated pages and is able to provide a relay address given a requested address.
 \item [Activity tracking:] Logic and structures needed to profile memory requests and predict future ``hot'' pages.
-\item [Migration trigger:] Defines when migration occurs. Usually the trigger can be interval-based or threshold-based.
+\item [Migration trigger:] Defines when migration occurs. Commonly the trigger can be event, interval or threshold-based.
 \item [Migration driver/datapath:] Defines the path followed and the hardware modules involved in performing migrations.
 \end{description}
 
-Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures. Table \ref{tbl:breakdown} shows a comparison of each mechanism's elements. The following subsections provide a detailed description of each building block. For each block, we present MemPod's, THM's and HMA's approach.
+Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures. Table \ref{tbl:breakdown} shows a comparison of each mechanism's elements. The following subsections provide a detailed description of each building block. For each block, we present the approach followed by MemPod, THM, HMA and CAMEO.
 The design choices for the various building blocks are largely
 orthogonal.  Thus, we describe each separately, with description of the options
 and tradeoffs.
@@ -142,9 +142,11 @@ The naive remap table design fails simply because pages are allowed to re-migrat
 
 	\textbf{THM approach:} Migration is restricted in ``segments''. In a memory configuration with a 1:8 fast:slow memory capacity ratio, each segment will have 9 pages; one in fast memory and the rest in slow. Each segment's 9 pages compete for a position at the one fast memory page available. This solution is elegant enough to allow re-migration with low storage overhead, limiting however the migration potential: If two or more hot pages coexist in a segment, only one can reside in fast memory at any given time. At the same time, if none of the segment's pages are hot, the fast memory page slot cannot be utilized by some other segment's page. %THM requires $\sim$5.6MB for its \textit{Segment Remap Table}.
 
+	\textbf{CAMEO approach:} Migration is restricted in segments called ``Congruence Groups'' but performed at a granularity of a line. In CAMEO's case, lines belonging to the same congruence group do not compete for a fast memory location, instead each access to slow memory triggers migration evicting the currently residing line. Due to the high migration restriction level CAMEO has the same drawbacks as THM.
+
 	\textbf{HMA approach:} Any page can migrate to any other page address without the need of a dedicated remap table structure. The OS-based migration scheme imposes no limitations, as the OS takes care of updating the page tables and flushing the TLB. However, OS intervention and the penalties incurred due to cold TLBs can lead to high overheads.
 	
-	\textbf{MemPod approach:} Migration is restricted to be within a Pod.
+	\textbf{MemPod approach:} Migration is restricted to take place within a Pod.
 Each Pod uses a remap table to allow page re-migration.  In addition to the
 remap table, our algorithm also needs to identify all pages currently 
 mapped to fast memory (to identify a candidate to be evicted in favor of a
@@ -189,6 +191,8 @@ The overhead of maintaining a set of counters per memory page (or other granular
 %\begin{description}
 	\textbf{THM approach:} One 8-bit competing counter tracks each memory segment. A segment's competing counter is incremented by one when a page in its slow memory is accessed and decremented by one when the segment's fast page is accessed. The counter's value can then trigger migration when it exceeds a dynamically-set threshold. A ``monitoring region'' of memory where migrations are disabled is used by THM in order to update threshold values. Competing counters represent a trade-off between area overhead and accuracy and are susceptible to some error, as a cold page accessed at the right moment could trigger a migration and be placed in the fast memory.
 
+	\textbf{CAMEO approach:} Activity tracking is not required by CAMEO, since migration decisions are reactive to accesses in slow memory (i.e. not based on the hotness of each line).
+
 	\textbf{HMA approach:} Full activity tracking per OS page (4KB) for all memory regions. HMA uses the least efficient tracking mechanism in exchange for perfect counting knowledge at a fine granularity. Full activity tracking also introduces the complexity of sorting all the counters to identify hot pages. THM and MemPod do not require explicit sorting.
 	
 	\textbf{MemPod approach:} MemPod requires an MEA map structure of K entries, where K is the number of hot pages we wish to identify at each interval. Our evaluation presented in Section \ref{sec:Results} finds a good number of MEA counters to be 128. Each entry maps a page's address to a counter. Through our evaluation, we identified a good counter size to be 4 bits and 21 bits are needed to address each page within a Pod, leading to a total storage cost of 1.56KB. Using the MEA counters, MemPod's activity tracking profiles \textit{all pages in memory} with minimal hardware cost. 
@@ -199,7 +203,7 @@ The overhead of maintaining a set of counters per memory page (or other granular
 
 Less efficient designs need to cache some of their counters while the rest are stored in main memory to alleviate the area overhead. THM's segment-based 
 counters are automatically cached along with their corresponding remap table entries in THM's ``Segment Remap Table'' (SRT) and restored whenever necessary, at the cost of a memory access. 
-MEA cannot be cached as it updates \textit{all} counters on an access. 
+MEA cannot be cached efficiently as it updates \textit{all} counters on an access when its map structure is full. 
 However, the space needed by MEA is small enough to easily fit on chip,
 and its size need not scale with increasing memory capacity (it scales with
 the maximum desired migrations per interval times the log of the
@@ -210,7 +214,7 @@ memory per pod).
 \subsubsection{Migration Triggers}
 
 Each solution must decide when to perform migrations. 
-Migrations add significant delays to a system and any penalties incurred should be amortized by the performance improvement from placing a page in the fast memory. Requests that arrive while migrations are being performed have to be delayed to ensure functionally correct memory behavior. Throughout the literature, two triggers are most commonly used whenever state must be updated based on tracking information (MC scheduling, migrations, dynamic voltage and frequency scaling etc.). Interval-based (or epoch-based) triggers occur with a set frequency, while threshold-based solutions trigger whenever a predetermined criterion is met. 
+Migrations add significant delays to a system and any penalties incurred should be amortized by the performance improvement from placing a page in the fast memory. Requests that arrive while migrations are being performed have to be delayed to ensure functionally correct memory behavior. Throughout the literature, three triggers are most commonly used whenever state must be updated based on tracking information (MC scheduling, migrations, dynamic voltage and frequency scaling etc.). Interval-based (or epoch-based) triggers occur with a set frequency, while threshold-based solutions trigger whenever a predetermined criterion is met. Finally, event-based triggers react to predefined events and activate with a ``if-this-then-that'' logic. 
 Both interval-based and threshold-based approaches face the same challenge of identifying the optimal interval or threshold value. 
 %(this just all seems too obvious to state)  -- Factors like a system's architecture, application's behavior, as well as semi-random factors (for example higher temperatures can lead to more frequent DRAM refreshes) make the optimal value differ from system to system. Designers usually opt for the value that provides the best results on average. The optimal value should not be too small as it will trigger some potentially expensive procedure frequently, but it cannot be too large as that reduces the ability to adapt to application phase variations. 
 
@@ -227,24 +231,25 @@ Both interval-based and threshold-based approaches face the same challenge of id
 
 \subsubsection{Migration Datapath}
 
-Regardless of the choice for each migration building block described so far, once migration is triggered, the migration manager has to follow these 
-steps. First, migration candidates need to be identified. Traditionally, one page (or a segment depending on the migration granularity) from the slow memory and one from fast memory. The two identified candidates need to be swapped. First one or both pages will be read and stored in temporary buffers and then written at their remapped locations.
+Regardless of the choice for each migration building block described so far, once migration is triggered, the migration manager has to follow a number of 
+steps: First, migration candidates need to be identified. Traditionally, one page (or a segment/line depending on the migration granularity) from the slow memory and one from fast memory. The two identified candidates need to be swapped. First one or both pages will be read and stored in temporary buffers and then written at their remapped locations.
 
 %Describing the actual migration datapath is often overlooked in migration publications. 
-Without dedicated page migration driver hardware, migration will have to be orchestrated by the OS and CPU cores. Consequences include communication delay, 
+Without dedicated migration driver hardware, migrations will have to be orchestrated by the OS and CPU cores. Consequences include communication delay, 
 potentially some pollution of the processors' caches 
 and the unavailability of those CPUs during migration. 
 
-MemPod implements the migration driver within each Pod. As the Pod has direct communication with the MCs, added delays are kept to a minimum,
+MemPod implements the migration driver within each Pod. As each Pod has direct communication with its member MCs, added delays are kept to a minimum,
 and no traffic is generated at the global switch (saving energy and eliminating contention).
 %and the CPUs are free to keep executing non-memory instructions. 
-In HMA, the OS orchestrates everything. Some CPU cores have to be stalled and used to service the OS interrupt, causing the migrated pages to traverse through communication mediums and caches on each way. THM does not fully describe its datapath, but it appears that CPUs are used in this case as well. 
-However, to make a generous comparison, we do not model the penalty introduced by using CPUs for migration in our HMA and THM simulations presented in Section \ref{sec:Results}.
+In HMA, the OS orchestrates everything. Some CPU cores have to be stalled and used to service the OS interrupt, causing the migrated pages to traverse through communication mediums and caches on each way. THM does not fully describe its datapath, but it appears that CPUs are used in this case as well. CAMEO describes its swapping operation to be transparent to the OS by using existing writeback and fill queues. Its mechanism relies on the two memories sending writeback or demand read requests to each other, which further implies some added logic in Memory Controllers, as well as communication between MCs.
+
+To make a generous comparison, we do not model the penalty introduced by using CPUs or global communication mediums for migration in our HMA, THM and CAMEO simulations presented in Section \ref{sec:Results}.
 
 %We assume that channel parallelism is utilized when reading and writing the candidate pages. In other words, the two read commands will be sent in parallel, as well as the write commands that follow. Consequently, The hardware penalty for one page swap is the time required to read an entire page from and then write it to the slow memory. We also assume that writing the two candidates back incurs row buffer hits since the page was just opened in the previous step. In this study, we evaluate all mechanisms under the same memory organization and as such, the memory time required for one migration is the same across all mechanisms. However, each mechanism introduces some unique penalties:
 %\begin{description}
 
-	\textbf{THM} does not introduce a cost for identifying the candidate pages as it follows a deterministic algorithm. The page that caused the competing counter to exceed the set threshold will be the slow memory candidate, while there is exactly one fast page candidate per segment.
+	\textbf{THM and CAMEO} do not introduce a cost for identifying the candidate pages as it follows a deterministic algorithm. The page or line that triggered migration will be the slow memory candidate, while there is exactly one fast page candidate per segment.
 
     \textbf{HMA} attempts to fill the entire fast memory with migrated pages. The number of swaps that will be performed per interval can be as high as the number of pages in fast memory. Inevitably some hot pages will already reside in the fast memory and they will not be migrated to a different location in fast memory. 
 %HMA introduces costs that are hard to estimate. 
@@ -266,61 +271,10 @@ As main memory capacities grow to terabytes, storing activity tracking informati
 \remark{Keep in mind that MemPod actually has the highest costs, according
 to your tables, so it is actually going to suffer the most as capacity scales.}
 
-
-
 \remark{Again, I just don't know yet why this is true...  
 At such capacity levels, centralized migration controllers will no longer be sustainable due to the severity of the introduced request serialization penalty. Further, as applications become more data-centric, it's safe to assume that memory traffic would also scale up, as well as sustainable bandwidth expectations. }
 
-Alternative approaches described in this Section limit the size of the remap table at the cost of disabling migration when full, or invoking the OS before migration resumes. This approach could also be incorporated in future migration mechanisms. We should note that with a limited remap table size, or even an available number of counters less than the number of fast pages, MemPod would still offer the potential of migrating \textit{any} slow memory page to the limited set of fast pages (as long as it's within the same Pod) available for migration, in contrast to THM, where only those segments that happened to fit in the new limited size will be able to migrate, forbidding migration of the rest of the slow pages. HMA would remain intact from this limitation since no remap tables are necessary.
+Alternative approaches described in this Section limit the size of the remap table at the cost of disabling migration when full, or invoking the OS before migration resumes. This approach could also be incorporated in future migration mechanisms. We should note that with a limited remap table size, or even an available number of counters less than the number of fast pages, MemPod would still offer the potential of migrating \textit{any} slow memory page to the limited set of fast pages (as long as it's within the same Pod) available for migration, in contrast to THM and CAMEO, where only those segments that happened to fit in the new limited size will be able to migrate, forbidding migration of the rest of the slow pages. HMA would remain intact from this limitation since no remap tables are necessary.
 
 \remark{I don't believe I saw those ``alternative approaches'' mentioned.\\A.P.: There was only one in the remap table subsection.}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
