@@ -64,7 +64,7 @@ We first identify the optimal number of counters and epoch length by running a s
 \begin{figure}[h]
 	\centering
   \includegraphics[width=0.46\textwidth]{figures/revised/new/DSE.pdf}
-  \caption{\# Average AMMAT under various MemPod configurations.}
+  \caption{Average AMMAT from all workloads under various MemPod configurations.}
   \label{fig:dse}
 \end{figure}
 
@@ -92,21 +92,19 @@ The small counters better capture recency, because with small counters it
 requires fewer divisions \remark{A.P.: Is ``divisions'' the correct word here?} to eliminate a high-access page from the pool and
 replace it with a new page.
 
-Figure \ref{fig:counter_size_old} shows the same experiment with MemPod's varibles set to 100us intervals and 128 counters (the second-best performing flavor). This figure demonstrates that as the interval and number of counters increases (i.e. less focus on temporal locality required), the optimal counter size grows from 2 to 4 bits.
+Figure \ref{fig:counter_size_old} shows the same experiment with MemPod's parameters set to 100us intervals and 128 counters (the second-best performing MemPod flavor). This figure demonstrates that as the interval and number of counters increases (i.e. less focus on temporal locality required), the optimal counter size grows from 2 to 4 bits.
 
-
-\begin{figure}[h]
-  \includegraphics[width=0.46\textwidth]{figures/revised/new/ctr_size.pdf}
-  \caption{Counter size (in bits) Vs Normalized AMMAT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
-  \label{fig:counter_size}
+\begin{figure}
+	\begin{subfigure}{\linewidth}
+    	\includegraphics[width=\linewidth]{figures/revised/new/ctr_size.pdf}
+    	\caption{MemPod @ 50us, 64 MEA counters \\ \hfill}\label{fig:counter_size}
+	\end{subfigure}
+	\begin{subfigure}[b]{\linewidth}
+    	\includegraphics[width=\linewidth]{figures/revised/old/ctr_size.pdf}
+    	\caption{MemPod @ 100us, 128 MEA counters}\label{fig:counter_size_old}
+	\end{subfigure}
+	\caption{Counter size (in bits) Vs Normalized AMMAT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
 \end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=0.46\textwidth]{figures/revised/old/ctr_size.pdf}
-  \caption{Counter size (in bits) Vs Normalized AMMAT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
-  \label{fig:counter_size_old}
-\end{figure}
-
 
 Based on our results, we identify 2 bits per counter to be the optimal value. Each one of the 64 MEA entries needs 21 bits for addressing the 1.1M pages per Pod and 2 bits for its counter, leading to an area cost of only 184B (64 MEA counters $\times$ 23 bits) per Pod and 736B total. Compared to the state of the art, MemPod's activity tracking requirement is $\sim$712x smaller than THM's (512KB) and $\sim$13000x smaller than HMA's (9MB).
 
@@ -172,16 +170,16 @@ In this experiment we evaluate the impact of a cache on MemPod's performance. We
 
 In our implementation, each cache miss injects a read request to retrieve missing data. Since all of MemPod's cache misses will occur due to Remap Table updates or lookups it becomes a blocking request for the affected Pod. All incoming traffic needs to be delayed until the missing data is retrieved. In-flight requests are not affected by incoming cache misses. Each Pod operates (and blocks) independently allowing other Pods to continue servicing incoming traffic.
 
-\begin{figure}
-  \includegraphics[width=0.46\textwidth]{figures/revised/new/cache_impact.pdf}
-  \caption{Cache Impact. AMMAT normalized to stock MemPod (no cache)}
-  \label{fig:cache_impact}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[width=0.46\textwidth]{figures/revised/new/cache_norm_tlm.pdf}
-  \caption{Cache Impact. AMMAT normalized to stock TLM (no migrations)}
-  \label{fig:cache_norm_tlm}
+\begin{figure}[h]
+	\begin{subfigure}{\linewidth}
+    	\includegraphics[width=\linewidth]{figures/revised/new/cache_impact.pdf}
+    	\caption{Cache Impact. AMMAT normalized to stock MemPod (no cache) \\ \hfill}\label{fig:cache_impact}
+	\end{subfigure}
+	\begin{subfigure}[b]{\linewidth}
+    	\includegraphics[width=\linewidth]{figures/revised/new/cache_norm_tlm.pdf}
+    	\caption{Cache Impact. AMMAT normalized to stock TLM (no migrations)}\label{fig:cache_norm_tlm}
+	\end{subfigure}
+	\caption{Sensitivity Analysis: Cache Size}
 \end{figure}
 
 Figures \ref{fig:cache_impact} and \ref{fig:cache_norm_tlm} show our results obtained by taking the average AMMAT from all our workloads for each cache size. Figure \ref{fig:cache_impact} shows the obtained average AMMAT normalized to MemPod's performance without a cache. For 16, 32 and 64kB of cache, the impact on MemPod's performance is 17, 14 and 12\% respectively. Figure \ref{fig:cache_norm_tlm} shows our results normalized to a two-level memory configuration without any migration mechanism. With 16, 32 and 64kB of cache, MemPod reports 4.3, 6.3 and 8\% AMMAT improvement.

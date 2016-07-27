@@ -19,7 +19,7 @@
 \usepackage{enumitem}% http://ctan.org/pkg/enumitem
 %\usepackage{program}
 
-\usepackage{subcaption}
+\usepackage[font=scriptsize]{subcaption}
 
 %Page dimensions
 \setlength{\pdfpagewidth}{8.5in}
@@ -66,6 +66,10 @@
 
 %switch the % above to stop printing remarks.
 
+% Prodromou: Switch alternative results onor off
+\newif\ifOldResults
+\OldResultstrue
+%\OldResultsfalse
 
 
 %%%%%%%%%%%---SETME-----%%%%%%%%%%%%%
@@ -101,8 +105,11 @@ MemPod's novel activity tracking approach leads to significant cost reduction ($
 %\input{sections/RelatedWork.tex}
 \input{sections/MEA.tex}
 \input{sections/Architecture.tex}
+\ifOldResults
 \input{sections/Results.tex}
+\else
 \input{sections/AltResults.tex}
+\fi
 \input{sections/Conclusions.tex}
 
 %\bstctlcite{bstctl:etal, bstctl:nodash, bstctl:simpurl}
