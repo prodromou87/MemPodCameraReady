@@ -124,7 +124,7 @@ Based on the results we derive some interesting observations:
 \begin{itemize}[leftmargin=0.4cm]
 \setlength\itemsep{0em}
 	\item MemPod outperforms the state-of-the-art competitors in the majority of our workloads, and in several cases scoring very close to an HBM-only configuration. 
-	\item On average, CAMEO reports AMMAT degradation by 41\% over the no-migration scheme. The negative impact is caused by our high slow:fast memory capacity ratio leading to intra-segment conflicts. Larger segments also counteract the application's spatial locality benefits, causing a ping-pong effect. From our experiments, we observe CAMEO to be the leading mechanism regarding the amount of data moved between memories, moving 3.9GB of data on average per 8-core experiment. For comparison purposes, MemPod moved 3GB on average, however migration traffic was divided between Pods, resulting in 790MB per Pod. THM moved 865MB on average and finally HMA moved 578MB due to its large intervals. We also frequently observed wasted migrations with CAMEO, where a line is evicted shortly after migration without being touched in the time it spent residing in fast memory.\remark {A.P.: Should we make this a subsection on its own?}
+	\item On average, CAMEO reports AMMAT degradation by 41\% over the no-migration scheme. The negative impact is caused by our high slow:fast memory capacity ratio leading to intra-segment conflicts. Larger segments also counteract the application's spatial locality benefits, causing a ping-pong effect. From our experiments, we observe CAMEO to be the leading mechanism regarding the amount of data moved between memories, moving 3.9GB of data on average per 8-core experiment. For comparison purposes, MemPod moved 3GB on average, however migration traffic was divided between Pods, resulting in 790MB per Pod. THM moved 865MB on average and finally HMA moved 578MB due to its large intervals. We also frequently observed redundant migrations with CAMEO, where a line is evicted shortly after migration without being touched in the time it spent residing in fast memory. Optimizations such as intellingent line allocation to segments can significantly improve CAMEO's performance and reduce intra-segment conflicts, however to maintain a fair evaluation, CAMEO is evaluated under the same memory organization as the rest of the mechanisms.\remark {A.P.: Should we make this a subsection on its own?}
 	\item On average MemPod reports 21\% higher AMMAT than HBM-only, while THM and HMA report 33\% and 40\% respectively.
 	
 	\item In some workloads migration overall is harmful to performance, 
@@ -133,18 +133,18 @@ higher performance (lower AMMAT). We observe that in those cases, MemPod leads t
 MemPod increases performance, while THM, HMA and CAMEO report higher AMMAT than the no-migration scheme.
 
 	\item HMA and MemPod outperform HBM-only when executing the libquantum experiment. In the case of libquantum, the working set size fits entirely in our fast memory. As a result, after some migrations, the entire working set will be present in HBM.  With an HBM-only system and no migrations, pages
-are inserted sequentially \remark{A.P.: Sequentially should be randomly?} by address.  In a migration-based system, 
+are inserted sequentially by address.  In a migration-based system, 
 simultaneously-hot pages are inserted together after each epoch.  As the
 DRAM row buffer is bigger than a page, we find that the co-location of
 simultaneously-hot pages increases row buffer hit rate from 7\% (HBM only)
-to 90\% (MemPod), with 87\% of those taking place in fast memory.  HMA also sees an improvement in row buffer hit rate.
+to 90\% (MemPod), with 87\% of those taking place in fast memory.  HMA also sees an improvement in row buffer hit rate. THM and CAMEO cannot take advantage of the small footprint due to their restricted migration flexibility (only one hot page/line per segment can reside in fast memory).
 \remark{Don't know how to explain THM, but the effect is smaller -- what is
 the row buffer hit rate?\\A.P.: THM's results were wrong. The updated results and graph show that it doesn't outperform HBM.}
 %However, correct timing is the driving factor behind this impressive performance increase. Our results show the row-buffer hit ratio to be \TODO{??x} times higher than the HBM-only memory system (and random page assignment). Apparently, page migrations resulted in an in-HBM page order that increases page hits and exploits a much higher degree of memory parallelism from the application. This result could be further explored and intentionally recreated in some future work.
 \end{itemize}
 
 \subsubsection{Caching Effect}
-
+\ignore{
 \begin{figure}
   \includegraphics[width=0.46\textwidth]{figures/cache_impact.pdf}
   \caption{Cache Impact. AMMAT normalized to stock TLM (no migrations)}
@@ -153,6 +153,9 @@ the row buffer hit rate?\\A.P.: THM's results were wrong. The updated results an
 
 \remark{A.P.: I don't have CAMEO results with caching yet. Not sure if it will be ready on time but I'm working on it.}
 
+\remark{A.P.: Need to change the structure of this section due to issues with results.}
+
+
 Migration mechanisms will be forced to include a cache as activity tracking and remap table structures are too large to store on-chip. The use of a cache will unavoidably hinder performance. In this experiment we evaluate the impact of a cache on each mechanism's performance. As described in Section \ref{sec:Architecture}, each mechanism has different cache requirements. THM caches its counters and remap table together with its SRT structure. HMA has no need for a remap table but has high storage requirements for its counting mechanism. MemPod must cache only its remap table as MEA counters will be on chip. We simulated each mechanism with 16, 32 and 64 KB of cache. For MemPod, the available cache capacity was divided equally over four Pods. All mechanisms use the stacked memory as backing store for their tracking information.
 
 HMA's design further complicates this study, as sorting all activity counters at each epoch is performed by the OS, utilizing the cpu's cache instead of the dedicated migration cache. In our results, we present ``HMA-OPT'', an HMA flavor that does not take into account any penalties for OS interrupts, TLB shootdowns, Page Table (PT) updates, walks and misses, or sorting of the large
@@ -160,6 +163,21 @@ pool of counters.
 We also do not model the application-level effects of starting with a cold TLB after each interval.
 
 Figure \ref{fig:cache} shows our results obtained by taking the average AMMAT from all our workloads for each mechanism. HMA-OPT reports the lowest AMMAT, albeit unrealistic and MemPod outperforms every other mechanism regardless of the cache size. MemPod outperforms THM by 9\% with a 64kB cache, while HMA-OPT outperforms MemPod by 9\%.
+}
+
+Migration mechanisms will be forced to include a cache as activity tracking and remap table structures are too large to store on-chip. The use of a cache will unavoidably hinder performance. As described in Section \ref{sec:Architecture}, each mechanism has different cache requirements. THM caches its counters and remap table together with its SRT structure. HMA has no need for a remap table but has high storage requirements for its counting mechanism. MemPod must cache only its remap table as MEA counters will be on chip. 
+
+In this experiment we evaluate the impact of a cache on MemPod's performance. We simulated the optimal MemPod configuration identified over the course of this section with 16, 32 and 64 KB of cache. The available cache capacity was divided equally over four Pods. We implemented MemPod's caching logic to use the stacked memory as backing store, leading to 2.8MBs per Pod to be dedicated for this purpose for an overall 1\% reduction of the available stacked memory capacity.
+
+In our implementation, each cache miss injects a read request to retrieve missing data. Since all of MemPod's cache misses will occur due to Remap Table updates or lookups it becomes a blocking request for the affected Pod. All incoming traffic needs to be delayed until the missing data is retrieved. In-flight requests are not affected by incoming cache misses. Each Pod operates (and blocks) independently allowing other Pods to continue servicing incoming traffic.
+
+Show graph with cache impact
+
+Show graph with performance normalized to TLM
+
+Figures \ref{fig:cache_impact} and \ref{fig:cache_norm_tlm} show our results obtained by taking the average AMMAT from all our workloads for each cache size. Figure \ref{fig:cache_impact} shows the obtained average AMMAT normalized to MemPod's performance without a cache. For 16, 32 and 64kB of cache, the impact on MemPod's performance is 18, 15 and 13\% respectively. Figure \ref{fig:cache_norm_tlm} shows our results normalized to a two-level memory configuration without any migration mechanism. With 16, 32 and 64kB of cache, MemPod reports 3.6, 5.6 and 7.3\% AMMAT improvement.
+
+The cache impact is significantly high mainly due to the blocking nature of cache misses. However, a less conservative design could reduce this effect by allowing incoming requests to proceed if they do not depend on any missing information, at some hardware cost. Better cache organization could also help alleviate the issue.
 
 \subsubsection{Scalability}
 
