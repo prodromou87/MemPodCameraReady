@@ -72,7 +72,7 @@ Figure \ref{fig:num_counters} shows AMMAT normalized to the case when 16 counter
   \label{fig:num_counters}
 \end{figure}
 
-Figure \ref{fig:interval} shows the same experiment, but with a varying epoch length. Caches were again disabled, each counter was given 16 bits and the number of MEA counters was set to 128. We observe that on average, MemPod reports the lowest AMMAT with interval length of 100$\mu$s (1.2\% improvement over 50 $\mu$s on average). As the interval length increases, more migrations are performed and AMMAT increases. Dropping below 100$\mu$s has a negative effect on AMMAT due to some epochs being entirely consumed by migrations. For comparison purposes, HMA \cite{meswani-HPCA21} identified the best epoch length to be 100ms (1000x larger) in order to support all the lengthy processes that take place during a migration event for that method.
+Figure \ref{fig:interval} shows the same experiment, but with a varying epoch length. Remap table caches were again disabled, each counter was given 16 bits and the number of MEA counters was set to 128. We observe that on average, MemPod reports the lowest AMMAT with interval length of 100$\mu$s (1.2\% improvement over 50 $\mu$s on average). As the interval length increases, more migrations are performed and AMMAT increases. Dropping below 100$\mu$s has a negative effect on AMMAT due to some epochs being entirely consumed by migrations. For comparison purposes, HMA \cite{meswani-HPCA21} identified the best epoch length to be 100ms (1000x larger) in order to support all the lengthy processes that take place during a migration event for that method.
 
 \begin{figure}[h]
   \includegraphics[width=0.46\textwidth]{figures/revised/old/interval.pdf}

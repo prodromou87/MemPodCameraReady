@@ -20,7 +20,7 @@ Our clustered migration mechanism is designed to address key challenges associat
 %  \label{tab:comparison}
 %\end{table*}
 
-\begin{table}
+\begin{table}[t]
   \ifOldResults
   \includegraphics[width=\linewidth]{figures/comparison_table.pdf}
   \else
@@ -32,9 +32,9 @@ Our clustered migration mechanism is designed to address key challenges associat
 
 \subsection{Clustered Migration Architecture}
 
- Figure \ref{fig:architecture_complete} presents an overview of MemPod. MemPod's design was kept modular to facilitate system integration and scalability. A number of memory ``Pods'' are injected between the LLC and the system's memory controllers (MCs). Each Pod clusters a number of MCs and enforces migrations to only occur among its member MCs. Pods do not communicate with each other, preventing inter-Pod migrations. To the rest of the system, Pods are exposed as MCs. With MemPod's transparent design, each Pod will now be receiving all the requests originally addressed to any of the Pod's member MCs. 
+ Figure \ref{fig:architecture_complete} presents an overview of MemPod. MemPod's design was kept modular to facilitate system integration and scalability. A number of memory ``Pods'' are injected between the Last Level Cache (LLC) and the system's memory controllers (MCs). Each Pod clusters a number of MCs and enforces migrations to only occur among its member MCs. Pods do not communicate with each other, preventing inter-Pod migrations. To the rest of the system, Pods are exposed as MCs. With MemPod's transparent design, each Pod will now be receiving all the requests originally addressed to any of the Pod's member MCs. 
  
-\begin{figure}
+\begin{figure}[h]
  \includegraphics[width=0.47\textwidth]{figures/mempod_org.pdf}
  \caption{MemPod high-level architecture}
  \label{fig:architecture_complete}
@@ -101,7 +101,7 @@ Finally, a clustered design ensures that we are never moving data across the ent
 The design of a complete memory manager can be broken down into the following 5 ``building blocks'':
 \begin{description}[style=unboxed,leftmargin=0cm]
 \setlength\itemsep{0em}
-\item [Migration flexibility:] Defines which areas in memory can be used as migration candidates. 
+\item [Migration flexibility:] Defines a mapping of slow-memory regions to regions in fast memory that they can migrate to. 
 %Higher flexibility offers more potential for performance improvement and increases book-keeping cost.
 \item [Remap table:] A structure that keeps track of migrated pages and is able to provide a relay address given a requested address.
 \item [Activity tracking:] Logic and structures needed to profile memory requests and predict future ``hot'' pages.
@@ -111,7 +111,7 @@ The design of a complete memory manager can be broken down into the following 5 
 
 Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures. Table \ref{tbl:breakdown} shows a comparison of each mechanism's elements. The following subsections provide a detailed description of each building block. For each block, we present the approach followed by MemPod, THM, HMA and CAMEO.
 The design choices for the various building blocks are largely
-orthogonal.  Thus, we describe each separately, with description of the options
+orthogonal.  Thus, we describe each separately, with descriptions of the options
 and tradeoffs.
 
 \subsubsection{Migration Flexibility and Remap Table Size}

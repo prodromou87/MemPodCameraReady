@@ -8,8 +8,8 @@
 
 Die-stacked memory will increasingly be part of future systems, 
 attempting to alleviate 
-the memory wall problem~\cite{wulf-can95}. Processor manufacturers are 
-already announcing products featuring 3D-stacked memory \cite{KnightsLanding,NVIDIA,black-micro2013,AMD-FURY} and memory standards have been developed~\cite{jedec-wideio,JEDEC-HBM,pawlowski-hotchips2011}. 
+the memory wall problem~\cite{wulf-can95}. Memory standards have been developed~\cite{jedec-wideio,JEDEC-HBM,pawlowski-hotchips2011} and processor manufacturers are 
+already announcing products featuring 3D-stacked memory \cite{KnightsLanding,NVIDIA,black-micro2013,AMD-FURY}. 
 Currently, this technology is limited to 8GB per stack~\cite{JEDEC-HBM-REVISED}
 which does not fully address the capacity demands of modern systems. 
 Therefore, die-stacked memories are expected to coexist with larger, 
@@ -24,8 +24,7 @@ to the software and improves the performance of latency-sensitive applications. 
 
 %Instead of using stacked-memory as cache, some recent research \cite{sim-micro2014,meswani-HPCA21,CAMEO} proposed both hardware and hardware-supported OS dynamic memory management mechanisms to manage it as a \emph{``flat address space memory''}. Memory accesses are being monitored in hardware and the goal is to identify ``hot'' memory pages and migrate them into the fast memory, in order to improve performance. Such a configuration extends the exposed main memory capacity, serving capacity-constrained workloads better than a DRAM cache organization, while at the same time eliminating the issue of tag placement and retrieval. Additionally, a flat address space organization could be incorporated in a system without the presence of a dynamic memory management mechanism and it would still operate correctly and boost performance simply because of the presence of a fast memory region and static memory allocation from the OS. Like a DRAM cache, this memory organization is also transparent to the application programmer.
 
-In a flat address space configuration, the capacity of stacked memory is 
-available and can be allocated and used by applications. Dynamic memory 
+In a flat address space configuration, the capacity of stacked memory can be allocated and used by applications. Dynamic memory 
 managers proposed in the literature~\cite{sim-micro2014,meswani-HPCA21,cameo} 
 monitor and profile memory accesses and attempt to transparently migrate 
 frequently accessed pages to the fast portion of memory. While exposing
@@ -46,7 +45,7 @@ higher memory technology performance differentials.
 MemPod's novel microarchitectural design clusters existing memory controllers into memory ``Pods". Each Pod operates independently and in parallel allowing for better scalability and integration to future systems with larger and faster memories with possibly a higher number of channels. For MemPod's activity tracking requirements we incorporate the \emph{``Majority Element Algorithm'' (MEA)} heuristic \cite{karp-mea,charikar-mea}, originally proposed for database management and big data analytics. Our evaluation shows MEA to be capable of high prediction accuracy with very low hardware overhead. To the best of our knowledge, MEA has 
 not previously been proposed for activity tracking in hardware.
 
-Our evaluation results with homogeneous and mixed 8-core multi-programmed workloads show MemPod to outperform the current state-of-the-art by 11\% on average and up to 29\% in terms of Average Main Memory Access Time (i.e. the average time a request spends waiting for main memory). Modeling future memory configurations, our results show MemPod to be the most scalable mechanism as memory technology improves. The use of MEA activity tracking requires $\sim0.01\%$ of the storage space required by the Full Counters (FC) approach used in previous research studies which uses one access counter per memory page or region, while at the same time achieving more accurate prediction
+Our evaluation results with homogeneous and mixed 8-core multi-programmed workloads show MemPod to outperform the current state-of-the-art by 11\% on average and up to 29\% in terms of Average Main Memory Access Time (AMMAT) (i.e. the average time a request spends waiting for main memory). Modeling future memory configurations, our results show MemPod to be the most scalable mechanism as memory technology improves. The use of MEA activity tracking requires $\sim0.01\%$ of the storage space required by the Full Counters (FC) approach used in previous research studies which uses one access counter per memory page or region, while at the same time achieving more accurate prediction
 of future hot pages.
 \remark{A.P.: Added a small explanation of FC after Nuwan's comment}
 \remark{took out the number since our definition of accuracy was very arbitrary}
