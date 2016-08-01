@@ -90,9 +90,9 @@
 %
 %Research has addressed optimization of flat-address-space memories by optimally placing ``hot page'' in the faster memory. Software managed schemes have high overheads and are coarse grained and hence slow to adapt to changes in application phases. Recently proposed hardware managed schemes operate at finer granularity than software by either using simple cache like demand driven placement or using a centralized fixed mapping scheme. The former does not consider hotness of data, whereas the latter will not scale to large memories due to its centralized approach.
 
-In the near future die-stacked DRAM will be increasingly
+In the near future, die-stacked DRAM will be increasingly
 present in conjunction with 
-off-chip memories in hybrid memory systems. Research on this subject revolves around using the stacked memory as a cache or as part of a flat address space. In this paper we propose MemPod, a scalable and efficient memory management mechanism for flat address space hybrid memories. MemPod monitors memory activity and periodically migrates the most frequently accessed memory pages to the faster on-chip memory. We propose a partitioned architectural organization allowing MemPod to scale efficiently with memory system capabilities. We also adapt algorithms from big data analytics to develop an efficient, low-cost activity tracking technique. 
+off-chip memories in hybrid memory systems. Research on this subject revolves around using the stacked memory as a cache or as part of a flat address space. In this paper we propose MemPod, a scalable and efficient memory management mechanism for flat address space hybrid memories. MemPod monitors memory activity and periodically migrates the most frequently accessed memory pages to the faster on-chip memory. We propose a partitioned architectural organization allowing MemPod to scale efficiently with memory system capabilities. Further, we adapt algorithms from big data analytics to develop an efficient, low-cost activity tracking technique. 
 
 Our results with multi-programmed workloads show that MemPod improves average main memory access time by up to 29\% (11\% on average) compared to the state of the art, and that will increase as the differential between memory speeds
 widens.

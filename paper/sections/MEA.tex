@@ -90,8 +90,7 @@ alone.
 MEA's area overhead grows slowly with the amount of memory per pod.  The 
 number of counters can be kept constant, but the size of the 
 ID or tag grows with the log of the memory size.
-Its $O(N)$ time 
-complexity works well for analyzing a stream of access requests in real time, and eliminates the need for sorting the counters.
+Its $O(N)$ complexity works well for analyzing a stream of access requests in real time, and eliminates the need for sorting the counters.
 
 %In a memory management scheme that uses Full Counters and a scenario where we want to identify the 100 ``hottest'' pages, we would need one full counter per memory page and on top of that we would have to periodically sort all those counters to pick the top 100. With the use of MEA counters we only need a map with 100 entries regardless of the actual number of pages in main memory. In an 8GB memory with 2kB pages and looking for the top 100 pages, MEA needs $\sim$5K times fewer bits than the full counters' storage requirements (4MB Vs 850B). Considering all the potential benefits MEA can offer in theory, we compared its counting and prediction accuracy against the Full Counters (FC) scheme. 
 
