@@ -3,11 +3,12 @@
 The design of a complete memory manager can be broken down into the following 5 ``building blocks'':
 \begin{description}[style=unboxed,leftmargin=0cm]
 \setlength\itemsep{0em}
-\item [Migration flexibility:] Defines a mapping of slow memory regions to regions in fast memory they can migrate to. 
+\item [Migration flexibility:] This is defined by the possible mappings in 
+fast memory that a particular memory region (page) can map to.
 %Higher flexibility offers more potential for performance improvement and increases book-keeping cost.
 \item [Remap table:] A structure that keeps track of migrated pages and is able to provide a relay address given a requested address.
 \item [Activity tracking:] Logic and structures needed to profile memory requests and predict future ``hot'' pages.
-\item [Migration trigger:] Defines when migration occurs. Commonly the trigger can be event, interval or threshold-based.
+\item [Migration trigger:] Defines when migration occurs. Commonly the trigger can be event, interval, or threshold-based.
 \item [Migration driver/datapath:] Defines the path followed and the hardware modules involved in performing migrations.
 \end{description}
 
