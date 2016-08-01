@@ -106,16 +106,18 @@ Figure \ref{fig:counter_size_old} shows the same experiment with MemPod's parame
 	\caption{Counter size (in bits) Vs Normalized AMMAT (primary axis) and average \# of Migrations per Pod per interval (secondary axis)}
 \end{figure}
 
-Based on our results, we identify 2 bits per counter to be the optimal value. Each one of the 64 MEA entries needs 21 bits for addressing the 1.1M pages per Pod and 2 bits for its counter, leading to an area cost of only 184B (64 MEA counters $\times$ 23 bits) per Pod and 736B total. Compared to the state of the art, MemPod's activity tracking requirement is $\sim$712x smaller than THM's (512KB) and $\sim$13000x smaller than HMA's (9MB).
-
-\subsubsection{Performance Comparison}
-\label{sub:performance}
-
 \begin{figure*}[t]
   \includegraphics[width=\textwidth]{figures/revised/new/comparison_no_cache.pdf}
   \caption{Performance Comparison: AMMAT is normalized to a hybrid memory without any migration mechanism.}
   \label{fig:performance}
 \end{figure*}
+
+Based on our results, we identify 2 bits per counter to be the optimal value. Each one of the 64 MEA entries needs 21 bits for addressing the 1.1M pages per Pod and 2 bits for its counter, leading to an area cost of only 184B (64 MEA counters $\times$ 23 bits) per Pod and 736B total. Compared to the state of the art, MemPod's activity tracking requirement is $\sim$712x smaller than THM's (512KB) and $\sim$13000x smaller than HMA's (9MB).
+
+
+
+\subsubsection{Performance Comparison}
+\label{sub:performance}
 
 Figure \ref{fig:performance} presents a performance comparison of MemPod, HMA, THM, CAMEO and a configuration with 9GBs of on-chip HBM memory, normalized to the performance of a hybrid memory configuration without migration capabilities. We evaluated all mechanisms with migration-related caching disabled. 
 
@@ -198,12 +200,6 @@ For 16, 32 and 64kB of cache, the impact on MemPod's performance (when compared 
 
 \subsubsection{Scalability}
 
-\begin{figure}
-  \includegraphics[width=0.46\textwidth]{figures/revised/new/scalability_speed.pdf}
-  \caption{Scalability to faster memories. AMMAT normalized to a DDR4-only memory.}
-  \label{fig:scalability}
-\end{figure}
-
 MemPod is designed to be scalable with future technology.  If we grow memory
 sizes by increasing the number of pods, the size of the remap table and the 
 size of the MEA counters will remain constant (per pod, and thus per memory
@@ -227,5 +223,12 @@ are faster, but the 3D DRAM is accelerated further resulting in a higher
 latency ratio between the two. 
 In particular, we simulate a 4GHz HBM as our stacked memory and a DDR4-2400 as our off-chip memory. Since we are modelling a future system, we reduced the fixed penalty for HMA's sorting process from 5 cycles per counter to 3 in order to model future faster processors.
 We assume no cacheing effects in this experiment.
+
+\begin{figure}[h]
+  \includegraphics[width=0.46\textwidth]{figures/revised/new/scalability_speed.pdf}
+  \caption{Scalability to faster memories. AMMAT normalized to a DDR4-only memory.}
+  \label{fig:scalability}
+\end{figure}
+
 Figure \ref{fig:scalability} shows our AMMAT results, normalized to a configuration with 9GBs of off-chip DDR4-2400. The label ``HBMoc'' shows a 9GB configuration with overclocked HBM only. We first observe that CAMEO now reports a 1\% AMMAT degradation. The increase in speed differential between stacked and off-chip memory appears to be beneficial for CAMEO, however we can still observe the impacts of intra-segment conflicts. Compared to a configuration with no migration support (TLM), HMA improves AMMAT by 2\%, THM by 13\% and MemPod by 24\%. The overclocked HBM-only configuration is 40\% faster compared to TLM.
 
