@@ -1,0 +1,60 @@
+\section{Memory Manager Building Blocks}
+
+The design of a complete memory manager can be broken down into the following 5 ``building blocks'':
+\begin{description}[style=unboxed,leftmargin=0cm]
+\setlength\itemsep{0em}
+\item [Migration flexibility:] Defines a mapping of slow memory regions to regions in fast memory they can migrate to. 
+%Higher flexibility offers more potential for performance improvement and increases book-keeping cost.
+\item [Remap table:] A structure that keeps track of migrated pages and is able to provide a relay address given a requested address.
+\item [Activity tracking:] Logic and structures needed to profile memory requests and predict future ``hot'' pages.
+\item [Migration trigger:] Defines when migration occurs. Commonly the trigger can be event, interval or threshold-based.
+\item [Migration driver/datapath:] Defines the path followed and the hardware modules involved in performing migrations.
+\end{description}
+
+Each of the above building blocks introduces some trade-off. For example, allowing more flexibility in migration locations can lead to higher performance benefits, at the cost of larger book-keeping structures.  The design choices for the various building blocks are largely
+orthogonal.  Thus, architects can select an approach to each building block suitable to their system's capabilities and limitations and simply combine them to create a desirable memory management mechanism.
+
+\subsection{Migration Flexibility and Remap Table Size}
+\label{sec:relocation}
+
+Migrating pages can provide the highest benefit when no restrictions are imposed on the available migration locations.  This amount of flexibility, however,
+requires more bookkeeping and can incur a higher cost.
+
+A hardware-driven migration mechanism requires some kind of remap table,
+commonly implemented as a hash structure, indexed by a page's address and pointing to the migrated (or relay) page address if one exists. On a page migration, the remap table is updated to reflect the new address of a migrated page. 
+
+The remap table should provide the remap, or relay, address for each original
+page address.  Some other structures may also be necessary to avoid expensive
+table searches when an inverse lookup is needed (e.g., to identify pages
+currently mapped to slow or fast memory).
+
+\subsection{Activity Tracking}
+\label{sec:tracking}
+
+Activity tracking is a critical element of any management mechanism for hybrid memories. In most studies on the subject, activity tracking becomes a synonym for identifying hot regions by counting the number of accesses to each one. In a more generalized approach, it could potentially be extended to track patterns, parallelism, bit flips/faults or any other information useful to the underlying mechanism.
+
+The overhead of maintaining a set of counters per memory page (or other granularity) will be high. Space requirements will increase linearly as memory capacities grow and the cost of sorting all the counters can overshadow any potential benefits in performance. Furthermore, our evaluation presented in Section \ref{sec:MEA} demonstrates that using full counters to ensure 100\% accurate counting may still lead to poor prediction accuracy. Frequently encountered cost-reducing solutions in the literature consist of increasing the activity tracking granularity in order to reduce the number of counters needed (i.e. track a group of pages together), limiting the bit width of counters, and caching a subset of the tracking state while the full set resides in main memory. 
+
+
+\subsection{Migration Triggers}
+
+Each memory management policy must decide when to trigger migrations. 
+Migrations add significant delays to a system and any penalties incurred should be amortized by the performance improvement from placing a page in the fast memory. Requests that arrive while migrations are being performed have to be delayed to ensure functionally correct memory behavior. Throughout the literature, three triggers are most commonly used whenever state must be updated based on tracking information (MC scheduling, migrations, dynamic voltage and frequency scaling etc.). Interval-based (or epoch-based) triggers occur with a set frequency, while threshold-based solutions trigger whenever a predetermined criterion is met. Finally, event-based triggers react to predefined events and activate with a ``if-this-then-that'' logic. 
+Both interval-based and threshold-based approaches face the same challenge of identifying the optimal interval or threshold value. 
+
+\subsection{Migration Datapath}
+
+Regardless of the choice for each migration building block described so far, once migration is triggered, the migration manager has to follow a number of 
+steps: First, migration candidates need to be identified. Traditionally, one page (or a segment/line depending on the migration granularity) from the slow memory and one from fast memory. The two identified candidates need to be swapped. First one or both pages will be read and stored in temporary buffers and then written at their remapped locations.
+
+%Describing the actual migration datapath is often overlooked in migration publications. 
+Without dedicated migration driver hardware, migrations will have to be orchestrated by the OS and CPU cores. Consequences include communication delay, 
+potentially some pollution of the processors' caches 
+and the unavailability of those CPUs during migration. 
+
+MemPod implements the migration driver within each Pod. As each Pod has direct communication with its member MCs, added delays are kept to a minimum,
+and no traffic is generated at the global switch (saving energy and eliminating contention).
+%and the CPUs are free to keep executing non-memory instructions. 
+In HMA, the OS orchestrates everything. Some CPU cores have to be stalled and used to service the OS interrupt, causing the migrated pages to traverse through communication mediums and caches on each way. THM does not fully describe its datapath, but it appears that CPUs are used in this case as well. CAMEO describes its swapping operation to be transparent to the OS by using existing writeback and fill queues. Its mechanism relies on the two memories sending writeback or demand read requests to each other, which further implies some added logic in Memory Controllers, as well as communication between MCs.
+
+To make a generous comparison, we do not model the penalty introduced by using CPUs or global communication mediums for migration in our HMA, THM and CAMEO simulations presented in Section \ref{sec:Results}.
