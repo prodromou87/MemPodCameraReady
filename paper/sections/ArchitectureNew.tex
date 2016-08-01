@@ -6,17 +6,6 @@ Our clustered migration mechanism is designed to address key challenges associat
 
 %we present a complete description of our micro-architectural design, followed by a breakdown of the important design decisions, along with the corresponding challenge addressed by each one.
 
-
-\begin{table*}[t]
-  \ifOldResults
-  \includegraphics[width=\linewidth]{figures/comparison_table.pdf}
-  \else
-  \includegraphics[width=\textwidth]{figures/revised/new/comparison_table.pdf}
-  \fi
-  \caption{Breakdown of state-of-the-art designs}
-  \label{tbl:breakdown}
-\end{table*}
-
 \subsection{Clustered Migration Architecture}
 
  Figure \ref{fig:architecture_complete} presents an overview of MemPod. MemPod's design was kept modular to facilitate system integration and scalability. A number of memory ``Pods'' are injected between the Last Level Cache (LLC) and the system's memory controllers (MCs). Each Pod clusters a number of MCs and enforces migrations to only occur among its member MCs. Pods do not communicate with each other, preventing inter-Pod migrations. To the rest of the system, Pods are exposed as MCs. With MemPod's transparent design, each Pod will now be receiving all the requests originally addressed to any of the Pod's member MCs. 
@@ -68,6 +57,16 @@ while a design with a Pod number equal to the number of MCs would imply that mig
 we set the number of Pods to four, as shown in Figure~\ref{fig:architecture_complete}.
 
 \subsection{Building Blocks}
+
+\begin{table*}[t]
+  \ifOldResults
+  \includegraphics[width=\linewidth]{figures/comparison_table.pdf}
+  \else
+  \includegraphics[width=\textwidth]{figures/revised/new/comparison_table.pdf}
+  \fi
+  \caption{Breakdown of state-of-the-art designs}
+  \label{tbl:breakdown}
+\end{table*}
 
 % Flexibility and Remap Table
 MemPod imposes little migration restrictions since each slow page can migrate to any fast page location as long as it's within the same Pod. To support high flexibility MemPod requires a Remap Table structure capable of tracking all pages at each Pod and upon a lookup return the new address. The page table is updated to reflect changes with each migration. In addition to the remap table, our algorithm also needs to identify all pages currently mapped to fast memory (to identify a candidate to be evicted in favor of a new hot page). We do this with a smaller, inverted table that gives the original address of each page currently mapped to fast memory.
