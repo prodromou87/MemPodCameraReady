@@ -78,18 +78,10 @@ Figure \ref{fig:dse} shows our results obtained by taking the average AMMAT from
 	\item Our results also indicate that each Pod does utilize the higher number of counters and consequently perform more migrations per interval. However all of the evaluated MemPod configurations report degraded performance when the number of counters exceed the optimal (right-hand side of the diagonal in the presented matrix) due to the overhead of migrations. \remark {A.P.: We might want to skip this point}
 \end{itemize}
 
-The size (in bits) of each counter defines the area requirements of our MEA tracking mechanism. \remark{Nuwan's comment on next sentence:\\I don't understand what this sentence is trying to say. Please reword/clarify. Why do we not saturate the counters instead of overflowing?\\A.P.: Not sure I understand this comment.} 
-\remark{Dean -- my same question -- why don't we use saturating counters???}
-%We modified MEA to remove map entries with counter values equal to or less than zero (instead of strictly equal to zero) in order to support counter saturation. We opted not to immediately remove an overflowed counter even though its value is now zero, as the existence of the correct counter set is crucial to the algorithm's accuracy. For this experiment we used the optimal parameter values identified in the previous experiments and set the number of MEA counters to 128 and interval length to 100us. 
-%All caching was disabled in order to study the direct impact of this variable.
+The size (in bits) of each counter defines the area requirements of our MEA tracking mechanism. Based on our observations so far, we expect that smaller intervals would also benefit from smaller counters due to the temporal effects of the counter size variable. We also expect that as interval lengths increase, the optimal counter size will also increase to accommodate the temporal locality trade-off. 
 
-Based on our observations so far, we expect that smaller intervals would also benefit from smaller counters due to the temporal effects of the counter size variable. We also expect that as interval lengths increase, the optimal counter size will also increase to accommodate the temporal locality trade-off. 
-
-Figure \ref{fig:counter_size} presents AMMAT results normalized to a configuration with 2-bit counters as well as the average number of migrations per Pod per epoch (secondary axis). We first observe that 8 bits are sufficient for our workloads, as larger sizes report identical results. We also observe that reducing the counter size to less than 8 bits benefits performance and verifies our expectations. Finally, for this MemPod configuration 2 bit counters offer the best performance. We see only minor differences in these results,
-in large part because of the competing effects of accurate counting (with
-large counters) and more temporal effects (with small counters).
-The small counters better capture recency, because with small counters it
-requires fewer divisions \remark{A.P.: Is ``divisions'' the correct word here?} to eliminate a high-access page from the pool and
+Figure \ref{fig:counter_size} presents AMMAT results normalized to a configuration with 2-bit counters as well as the average number of migrations per Pod per epoch (secondary axis). We first observe that 8 bits are sufficient for our workloads, as larger sizes report identical results. We also observe that reducing the counter size to less than 8 bits benefits performance and verifies our expectations. Finally, for this MemPod flavor 2 bit counters offer the best performance. We see only minor differences in these results,
+in large part because of the competing effects of accurate counting (with large counters) and more temporal effects (with small counters). Small counters better capture recency, because fewer divisions are required  \remark{A.P.: Is ``divisions'' the correct word here?} to eliminate a high-access page from the pool and
 replace it with a new page.
 
 Figure \ref{fig:counter_size_old} shows the same experiment with MemPod's parameters set to 100us intervals and 128 counters. This figure demonstrates that as the interval and number of counters increases (i.e. less focus on temporal locality required), the optimal counter size grows from 2 to 4 bits.
@@ -112,7 +104,7 @@ Figure \ref{fig:counter_size_old} shows the same experiment with MemPod's parame
   \label{fig:performance}
 \end{figure*}
 
-Based on our results, we identify 2 bits per counter to be the optimal value. Each one of the 64 MEA entries needs 21 bits for addressing the 1.1M pages per Pod and 2 bits for its counter, leading to an area cost of only 184B (64 MEA counters $\times$ 23 bits) per Pod and 736B total. Compared to the state of the art, MemPod's activity tracking requirement is $\sim$712x smaller than THM's (512KB) and $\sim$13000x smaller than HMA's (9MB).
+Based on our results, we identify 2 bits per counter to be the optimal value. Each one of the 64 MEA entries needs 21 bits for addressing the 1.1M pages per Pod and 2 bits for its counter, leading to an area cost of only 184B per Pod and 736B total. Compared to the state of the art, MemPod's activity tracking requirement is $\sim$712x smaller than THM's (512KB) and $\sim$13000x smaller than HMA's (9MB).
 
 
 

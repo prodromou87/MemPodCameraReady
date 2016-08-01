@@ -31,9 +31,8 @@ When a memory request arrives, the Pod monitors the request, updates any
 necessary migration-related activity tracking counters, and forwards 
 the request to the intended recipient MC. The migration logic within a Pod does not need to be invoked during a response from any MC and can be bypassed to reduce memory access latency. A drawback of clustering MCs into Pods is the serialization of potentially parallel requests to different MCs of a single Pod. As such, activity tracking within a Pod as well as the subsequent forwarding of requests must be as efficient as possible. 
 
-MemPod's clustered architecture also aids in reducing global traffic during migrations compared to non-partitioned mechanisms.  Because migration
-traffic happens within a Pod, this architecture significantly reduces global
-traffic and enables highly parallel migrations.
+MemPod's clustered architecture also reduces global traffic during migrations compared to non-partitioned mechanisms. Because migration
+traffic happens within a Pod, this architecture significantly reduces global traffic and enables highly parallel migrations.
 %  Higher global traffic could require the global switch (or crossbar) to have higher bandwidth resulting in increased energy costs and could also introduce performance penalties. Furthermore, with Pods servicing migrations transparently, the system's CPUs will be able to keep executing non-memory instructions during migrations. 
 
 \subsubsection*{Memory Pod}

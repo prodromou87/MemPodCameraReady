@@ -24,7 +24,7 @@ requires more bookkeeping and can incur a higher cost.
 A hardware-driven migration mechanism requires some kind of remap table,
 commonly implemented as a hash structure, indexed by a page's address and pointing to the migrated (or relay) page address if one exists. On a page migration, the remap table is updated to reflect the new address of a migrated page. 
 
-The remap table should provide the remap, or relay, address for each original
+The remap table should provide the remap (relay) address for each original
 page address.  Some other structures may also be necessary to avoid expensive
 table searches when an inverse lookup is needed (e.g., to identify pages
 currently mapped to slow or fast memory).
