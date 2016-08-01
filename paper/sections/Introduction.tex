@@ -47,33 +47,18 @@ not previously been proposed for activity tracking in hardware.
 
 Our evaluation results with homogeneous and mixed 8-core multi-programmed workloads show MemPod to outperform the current state-of-the-art by 11\% on average and up to 29\% in terms of Average Main Memory Access Time (AMMAT) (i.e. the average time a request spends waiting for main memory). Modeling future memory configurations, our results show MemPod to be the most scalable mechanism as memory technology improves. The use of MEA activity tracking requires $\sim0.01\%$ of the storage space required by the Full Counters (FC) approach used in previous research studies which uses one access counter per memory page or region, while at the same time achieving more accurate prediction
 of future hot pages.
-\remark{A.P.: Added a small explanation of FC after Nuwan's comment}
-\remark{took out the number since our definition of accuracy was very arbitrary}
-
-\remark{It's very hard to claim this as a contribution.  It's just a list of
-properties anyone could come up with.  So I de-emphasized a bit and removed
-as a claimed contribrution.}
 
 We identify the fundamental building blocks of any flat address space dynamic 
 memory management mechanism, and describe the solution for each block in 
 prior proposed systems and MemPod, along with their various tradeoffs. 
-%System designers can choose any solution for each of these elements and create a new management scheme in a plug-and-play fashion. Each building block is associated with its corresponding trade-off. In Section \ref{sec:Architecture} we provide a description of each block, along with a side-by-side comparison of MemPod's approach and what the state-of-the-art mechanisms propose.
 
-\remark{without the ``building block'' as a contribution, this list
-seems pretty sparse, so I removed the contributions list.}
 
 The contributions of this paper are:
 
 \begin{itemize}
 \setlength\itemsep{0em}
 \item Novel activity tracking algorithm (Section \ref{sec:MEA}).
+\item Breakdown of the basic building blocks of a flat address space dynamic memory management mechanism (Section \ref{sec:buildingblocks}).
 \item Novel clustered microarchitecture (Section \ref{sec:Architecture}).
-\item Breakdown of the basic building blocks of a flat address space dynamic memory management mechanism (Section \ref{sec:Architecture}).
 \item Evaluation of MemPod's effectiveness and its sensitivity to design parameters (Section \ref{sec:Results}).
 \end{itemize}
-
-\remark{Now this section ends abruptly.  Should end with the usual
-``This paper is organized as follows...'' or a quick summary of numerical
-results/gains.}
-
-%In Section \ref{sec:Background} of this paper we present background and related work regarding memory management schemes. Section \ref{sec:MEA} presents our novel activity tracking in detail along with an in-depth evaluation of its capabilities compared to traditionally used mechanisms. Section \ref{sec:Architecture} gives a detailed overview of MemPod's architecture, presented side-by-side with the state-of-the-art mechanisms we compare against. Our architecture section is organized based on the fundamental basic blocks of management mechanisms in order to present the management problem in its entirety. Section \ref{sec:Results} presents our experimental methodology and evaluation results and finally, Section \ref{sec:Conclusions} concludes the paper.
