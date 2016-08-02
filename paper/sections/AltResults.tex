@@ -25,7 +25,7 @@ We use benchmarks from the SPEC2006 suite \cite{spec} as our workloads. Using Sn
 \remark{I guarantee reviewers are going to ask -- when running 8 copies, 
 did you use 8 unique inputs?}
 
-We also extended Ramulator with cacheing for the activity tracking and/or remap tables depending on the simulated mechanism. Cache misses inject memory requests into the stream of requests fed by our trace files to retrieve the missing information. No priority is given to these cache miss requests over regular requests. When caches for hybrid memory management techniques are disabled, the simulator assumes that any information needed by any mechanism exists on chip and is accessible without any delay. The migration process was implemented in detail as well. In order to read an entire 2KB DRAM page from memory, 32 read requests need to be sent for each of the two migration candidates and then another set of 32 requests for each of the two write-backs.
+We also extended Ramulator with caching for the activity tracking and/or remap tables depending on the simulated mechanism. Cache misses inject memory requests into the stream of requests fed by our trace files to retrieve the missing information. No priority is given to these cache miss requests over regular requests. When caches for hybrid memory management techniques are disabled, the simulator assumes that any information needed by any mechanism exists on chip and is accessible without any delay. The migration process was implemented in detail as well. In order to read an entire 2KB DRAM page from memory, 32 read requests need to be sent for each of the two migration candidates and then another set of 32 requests for each of the two write-backs.
 
 As we use Ramulator with recorded traces, we chose to report Average Main Memory Access Time (AMMAT) in our results. Even though Ramulator has the ability to approximate IPC with a simple CPU model, 
 AMMAT is computed with much greater fidelity with this tool, as it models the memory system in great detail. AMMAT is the average time spent accessing and waiting for main memory by each request (lower is better). Due to space limitations we are not able to show results for individual workloads in most of the graphs in this paper. In those graphs, we only present the average of all mixed workloads, average of all homogeneous workloads, and overall average.
@@ -223,7 +223,7 @@ In our implementation, each cache miss injects a read request to retrieve missin
 
 \begin{figure}[h]
   \includegraphics[width=0.46\textwidth]{figures/revised/new/cache_norm_tlm.pdf}
-  \caption{Scalability to faster memories. AMMAT normalized to a DDR4-only memory.}
+  \caption{Scalability to faster memories. AMMAT normalized to a TLM memory.}
   \label{fig:cache_norm_tlm}
 \end{figure}
 
@@ -256,7 +256,7 @@ To examine this, we model a system where both the 3D DRAM and the DDR memory
 are faster, but the 3D DRAM is accelerated further resulting in a higher
 latency ratio between the two. 
 In particular, we simulate a 4GHz HBM as our stacked memory and a DDR4-2400 as our off-chip memory. Since we are modelling a future system, we reduced the fixed penalty for HMA's sorting process from 7ms to 4.2ms (40\% reduction) in order to model future faster processors.
-We assume no cacheing effects in this experiment.
+We assume no caching effects in this experiment.
 
 \begin{figure}[h]
   \includegraphics[width=0.46\textwidth]{figures/revised/new/scalability_speed.pdf}

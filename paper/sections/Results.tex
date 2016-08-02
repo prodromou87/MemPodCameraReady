@@ -25,7 +25,7 @@ We use benchmarks from the SPEC2006 suite \cite{spec} as our workloads. Using Sn
 \remark{I guarantee reviewers are going to ask -- when running 8 copies, 
 did you use 8 unique inputs?}
 
-We also extended Ramulator with cacheing for the activity tracking and/or remap tables depending on the simulated mechanism. Cache misses inject memory requests into the stream of requests fed by our trace files to retrieve the missing information. No priority is given to these cache miss requests over regular requests. When caches for hybrid memory management techniques are disabled, the simulator assumes that any information needed by any mechanism exists on chip and is accessible without any delay. The migration process was implemented in detail as well. In order to read an entire 2KB DRAM page from memory, 32 read requests need to be sent for each of the two migration candidates and then another set of 32 requests for each of the two write-backs.
+We also extended Ramulator with caching for the activity tracking and/or remap tables depending on the simulated mechanism. Cache misses inject memory requests into the stream of requests fed by our trace files to retrieve the missing information. No priority is given to these cache miss requests over regular requests. When caches for hybrid memory management techniques are disabled, the simulator assumes that any information needed by any mechanism exists on chip and is accessible without any delay. The migration process was implemented in detail as well. In order to read an entire 2KB DRAM page from memory, 32 read requests need to be sent for each of the two migration candidates and then another set of 32 requests for each of the two write-backs.
 
 As we use Ramulator with recorded traces, we chose to report Average Main Memory Access Time (AMMAT) in our results. Even though Ramulator has the ability to approximate IPC with a simple CPU model, 
 AMMAT is computed with much greater fidelity with this tool,
@@ -217,7 +217,7 @@ To examine this, we model a system where both the 3D DRAM and the DDR memory
 are faster, but the 3D DRAM is accelerated further resulting in a higher
 latency ratio between the two. 
 In particular, we simulate a 4GHz HBM as our stacked memory and a DDR4-2400 as our off-chip memory. 
-We assume no cacheing effects in this experiment.
+We assume no caching effects in this experiment.
 Figure \ref{fig:scalability} shows our AMMAT results, normalized to a configuration with 9GBs of off-chip DDR4-2400. The label ``HBMoc'' shows a 9GB configuration with overclocked HBM only. We first observe that CAMEO now reports a 1\% AMMAT degradation. The increase in speed differential between stacked and off-chip memory appears to be beneficial, however we can still observe the impacts of intra-segment conflicts. Compared to a configuration with no migration support (TLM), HMA improves AMMAT by 6\%, THM by 12\% and MemPod by 22\%. The overclocked HBM-only configuration is 40\% faster compared to TLM.
 
 \ignore{
