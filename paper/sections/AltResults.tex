@@ -84,7 +84,7 @@ replace it with a new page.
 
 Figure \ref{fig:counter_size_old} shows the same experiment with MemPod's parameters set to 100us intervals and 128 counters. This figure demonstrates that as the interval and number of counters increases (i.e. less focus on temporal locality required), the optimal counter size grows from 2 to 4 bits.
 
-\begin{figure}
+\begin{figure}[h]
 	\begin{subfigure}{\linewidth}
     	\includegraphics[width=\linewidth]{figures/revised/new/ctr_size.pdf}
     	\caption{MemPod @ 50us, 64 MEA counters \\ \hfill}\label{fig:counter_size}
@@ -164,21 +164,21 @@ In this experiment we evaluate the impact of a cache on MemPod's performance and
 
 In our implementation, each cache miss injects a read request to retrieve missing data. Since all of MemPod's cache misses will occur due to Remap Table updates or lookups it becomes a blocking request for the affected page. All incoming requests to that page need to be delayed until the missing data is retrieved. In-flight requests are not affected by incoming cache misses.
 
-\ignore{
-\begin{figure}[h]
-	\begin{subfigure}{\linewidth}
-    	\includegraphics[width=\linewidth]{figures/revised/new/cache_impact.pdf}
-    	\caption{AMMAT normalized to each mechanism w/o caching \\ \hfill}\label{fig:cache_impact}
-	\end{subfigure}
-	\begin{subfigure}[b]{\linewidth}
-    	\includegraphics[width=\linewidth]{figures/revised/new/cache_norm_tlm.pdf}
-    	\caption{AMMAT normalized to stock TLM (no migrations)}\label{fig:cache_norm_tlm}
-	\end{subfigure}
-	\caption{Sensitivity Analysis: Cache Size}
-\end{figure}
-}
+%\ignore{
+%\begin{figure}[h]
+%	\begin{subfigure}{\linewidth}
+%    	\includegraphics[width=\linewidth]{figures/revised/new/cache_impact.pdf}
+%    	\caption{AMMAT normalized to each mechanism w/o caching \\ \hfill}\label{fig:cache_impact}
+%	\end{subfigure}
+%	\begin{subfigure}[b]{\linewidth}
+%    	\includegraphics[width=\linewidth]{figures/revised/new/cache_norm_tlm.pdf}
+%    	\caption{AMMAT normalized to stock TLM (no migrations)}\label{fig:cache_norm_tlm}
+%	\end{subfigure}
+%	\caption{Sensitivity Analysis: Cache Size}
+%\end{figure}
+%}
 
-\begin{figure}
+\begin{figure}[h]
   \includegraphics[width=0.46\textwidth]{figures/revised/new/cache_norm_tlm.pdf}
   \caption{Scalability to faster memories. AMMAT normalized to a DDR4-only memory.}
   \label{fig:cache_norm_tlm}
