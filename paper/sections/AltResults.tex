@@ -1,5 +1,5 @@
 % !TEX root = ../MemPod.tex
-\section{Results (Alternative)}
+\section{Results}
 \label{sec:Results}
 
 \subsection{Evaluation Framework}
@@ -111,7 +111,9 @@ Based on our results, we identify 2 bits per counter to be the optimal value. Ea
 
 Figure \ref{fig:performance} presents a performance comparison of MemPod, HMA, THM, CAMEO and a configuration with 9GBs of on-chip HBM memory, normalized to the performance of a hybrid memory configuration without migration capabilities. We evaluated all mechanisms with migration-related caching disabled. 
 
-In order to model HMA's penalties more accurately, we profiled sorting 4.5M integers using quicksort ( NlogN complexity) on a real system with a recent Intel Core i7 processor running at 2.1GHz. Our experiment showed that sorting all of HMA's activity tracking counters takes 1.95s on average. When we scale this overhead to our simulated 3.2GHz core, the expected delay would be approximately 1.2s, which is much larger than the proposed optimal interval size for HMA. In our following experiments we assume a highly optimized sorting technique for HMA and we add a fixed penalty of 5 processor cycles per counter (7ms total sorting overhead per interval).
+In order to model HMA's penalties more accurately, we profiled sorting 4.5M integers using quicksort ( NlogN complexity) on a real system with a recent Intel Core i7 processor running at 2.1GHz. Our experiment showed that sorting all of HMA's activity tracking counters takes 1.95s on average. When we scale this overhead to our simulated 3.2GHz core, the expected delay would be approximately 1.2s, which is much larger than the proposed optimal interval size for HMA. We instead assumed a very generously reduced overhead of 7ms per interval, assuming we could sort in parallel and discard obvious low values before sorting.
+
+In our following experiments we assume a highly optimized sorting technique for HMA and we add a fixed penalty of 5 processor cycles per counter (7ms total sorting overhead per interval).
 
 Based on the results we derive some interesting observations:
 \begin{itemize}
@@ -211,7 +213,7 @@ volatile and non-volatile memory systems).
 To examine this, we model a system where both the 3D DRAM and the DDR memory
 are faster, but the 3D DRAM is accelerated further resulting in a higher
 latency ratio between the two. 
-In particular, we simulate a 4GHz HBM as our stacked memory and a DDR4-2400 as our off-chip memory. Since we are modelling a future system, we reduced the fixed penalty for HMA's sorting process from 5 cycles per counter to 3 in order to model future faster processors.
+In particular, we simulate a 4GHz HBM as our stacked memory and a DDR4-2400 as our off-chip memory. Since we are modelling a future system, we reduced the fixed penalty for HMA's sorting process from 7ms to 4.2ms (40\% reduction) in order to model future faster processors.
 We assume no cacheing effects in this experiment.
 
 \begin{figure}[h]
