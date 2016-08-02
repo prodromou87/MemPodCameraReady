@@ -54,10 +54,17 @@ size over
 which the counters accumulate.  We examine each of these design space
 parameters in this section.
 The number of MEA counters dictates the highest possible number of 
-migrations that can be performed at each interval by each Pod, while the epoch length will determine MemPod's ability to better adapt to phase changes in a workload. Furthermore, due to the MEA algorithm's behavior, a small number of counters favors temporal locality more than a larger number of counters. The size of each MEA counter sacrifices accuracy when smaller counters are used 
-but can also save space on the chip.  
+migrations that can be performed at each interval by each Pod, while the epoch length will determine MemPod's ability to better adapt to phase changes in a workload. Furthermore, a small number of counters favors less aggressive
+migration at each interval boundary.
+% temporal locality more than a larger number of counters. 
+The size of each MEA counter sacrifices accuracy when smaller counters are 
+used 
+but can also save space on the chip.  Smaller counters also sacrifice
+previous-interval counter accuracy for recency, as it makes it easier to
+replace a counter for a previously hot page no longer being accessed.
 
-We first identify the optimal number of counters and epoch length by running a series of experiments. We executed all combinations of epoch length and number of counters pairs with epoch lengths of 25-500us and for each one we exponentially increase the number of MEA counters per pod from 16 to 512. In order to minimize the impact of other factors, we execute this experiment with 16 bits per counter and remap table caches disabled. 
+We first identify the optimal number of counters and epoch length by running a series of experiments. We executed all combinations of epoch length and number of counters pairs with epoch lengths of 25-500us.
+We also exponentially increase the number of MEA counters per pod from 16 to 512. In order to minimize the impact of other factors, we execute this experiment with 16 bits per counter and remap table caches disabled. 
 
 \begin{figure}[h]
 	\centering
@@ -66,21 +73,37 @@ We first identify the optimal number of counters and epoch length by running a s
   \label{fig:dse}
 \end{figure}
 
-Figure \ref{fig:dse} shows our results obtained by taking the average AMMAT from all workloads under each MemPod configuration. Based on the results we derive some interesting observations:
+Figure \ref{fig:dse} shows our results obtained by taking the average AMMAT from all workloads under each MemPod configuration. Based on the results we derive some observations:
 
 \begin{itemize}
 \setlength\itemsep{0em}
 	\item MemPod achieves the best performance (lower AMMAT) with 50us intervals and 64 counters per Pod. MemPod's lightweight operation allows for such small intervals. For comparison purposes, HMA \cite{meswani-HPCA21} identified the best epoch length to be 100ms (2000x larger) in order to support all the lengthy processes that take place during a migration event for that method.
-	\item The lowest AMMAT values lie on the diagonal of our result matrix, demonstrating that as intervals grow, more migrations (and thus more MEA counters) are required to improve performance.
-	\item Small intervals with many counters and large intervals with few counters report the largest AMMAT values. We attribute these numbers to each mechanism's ability to adapt to phase changes. Under small intervals it seems beneficial to favor temporal locality since it's more likely we are in the same execution phase after several intervals. Under larger intervals, it's likely that execution is at a different phase between migrations and as such focusing on temporal locality is most likely counter-productive. In this case MemPod needs to identify continuously-used hot pages to increase its odds for successful migrations.
+	\item The lowest AMMAT values lie on the diagonal of our result matrix.
+This implies that the key determinant is the number of migrations, as the
+maximum migration rate is (very roughly) a constant across the diagonal.
+	\item Few counters and long intervals (inability to react well to
+phase changes), at least in this sweep of parameters, appears to be worse than
+many counters and small intervals (overly aggressive migration activity).
+\ignore{Small intervals with many counters and large intervals with few counters report the largest AMMAT values. We attribute these numbers to each mechanism's ability to adapt to phase changes. Under small intervals it seems beneficial to favor temporal locality since it's more likely we are in the same execution phase after several intervals. Under larger intervals, it's likely that execution is at a different phase between migrations and as such focusing on temporal locality is most likely counter-productive. In this case MemPod needs to identify continuously-used hot pages to increase its odds for successful migrations.
+
 	\item Our results also indicate that each Pod does utilize the higher number of counters and consequently perform more migrations per interval. However all of the evaluated MemPod configurations report degraded performance when the number of counters exceed the optimal (right-hand side of the diagonal in the presented matrix) due to the overhead of migrations. \remark {A.P.: We might want to skip this point}
+}
 \end{itemize}
 
-The size (in bits) of each counter defines the area requirements of our MEA tracking mechanism. Based on our observations so far, we expect that smaller intervals would also benefit from smaller counters due to the temporal effects of the counter size variable. We also expect that as interval lengths increase, the optimal counter size will also increase to accommodate the temporal locality trade-off. 
-
-Figure \ref{fig:counter_size} presents AMMAT results normalized to a configuration with 2-bit counters as well as the average number of migrations per Pod per epoch (secondary axis). We first observe that 8 bits are sufficient for our workloads, as larger sizes report identical results. We also observe that reducing the counter size to less than 8 bits benefits performance and verifies our expectations. Finally, for this MemPod flavor 2 bit counters offer the best performance. We see only minor differences in these results,
+The size (in bits) of each counter defines the area requirements of our MEA tracking mechanism. 
+\ignore{Based on our observations so far, we expect that smaller intervals would also benefit from smaller counters due to the temporal effects of the counter size variable. We also expect that as interval lengths increase, the optimal counter size will also increase to accommodate the temporal locality trade-off. 
+}
+Figure \ref{fig:counter_size} presents AMMAT results normalized to a configuration with 2-bit counters as well as the average number of migrations per Pod per epoch (secondary axis). We first observe that 8 bits are sufficient for our workloads, as larger sizes report identical results. We also observe that reducing the counter size to even less than 8 bits benefits performance,
+although very marginally.  Small counters, as mentioned, favors recency.
+The smaller the interval, the more important recency becomes over accurate
+counting; plus, the fewer bits required for accurate counting since there
+are fewer events.
+Finally, for 50 us intervals, 2 bit counters offer the best performance
+(but again, the differences are small).
+\ignore{. We see only minor differences in these results,
 in large part because of the competing effects of accurate counting (with large counters) and more temporal effects (with small counters). Small counters better capture recency, because fewer divisions are required  \remark{A.P.: Is ``divisions'' the correct word here?} to eliminate a high-access page from the pool and
 replace it with a new page.
+}
 
 Figure \ref{fig:counter_size_old} shows the same experiment with MemPod's parameters set to 100us intervals and 128 counters. This figure demonstrates that as the interval and number of counters increases (i.e. less focus on temporal locality required), the optimal counter size grows from 2 to 4 bits.
 
@@ -102,7 +125,9 @@ Figure \ref{fig:counter_size_old} shows the same experiment with MemPod's parame
   \label{fig:performance}
 \end{figure*}
 
-Based on our results, we identify 2 bits per counter to be the optimal value. Each one of the 64 MEA entries needs 21 bits for addressing the 1.1M pages per Pod and 2 bits for its counter, leading to an area cost of only 184B per Pod and 736B total. Compared to the state of the art, MemPod's activity tracking requirement is $\sim$712x smaller than THM's (512KB) and $\sim$13000x smaller than HMA's (9MB).
+Based on these results, we use 64 MEA 2-bit counters over 50us intervals
+for subsequent results in this paper.
+Each one of the 64 MEA entries needs 21 bits for addressing the 1.1M pages per Pod and 2 bits for its counter, leading to an area cost of only 184B per Pod and 736B total. Compared to the state of the art, MemPod's activity tracking requirement is $\sim$712x smaller than THM's (512KB) and $\sim$13000x smaller than HMA's (9MB).
 
 
 
@@ -111,15 +136,31 @@ Based on our results, we identify 2 bits per counter to be the optimal value. Ea
 
 Figure \ref{fig:performance} presents a performance comparison of MemPod, HMA, THM, CAMEO and a configuration with 9GBs of on-chip HBM memory, normalized to the performance of a hybrid memory configuration without migration capabilities. We evaluated all mechanisms with migration-related caching disabled. 
 
-In order to model HMA's penalties more accurately, we profiled sorting 4.5M integers using quicksort ( NlogN complexity) on a real system with a recent Intel Core i7 processor running at 2.1GHz. Our experiment showed that sorting all of HMA's activity tracking counters takes 1.95s on average. When we scale this overhead to our simulated 3.2GHz core, the expected delay would be approximately 1.2s, which is much larger than the proposed optimal interval size for HMA. We instead assumed a very generously reduced overhead of 7ms per interval, assuming we could sort in parallel and discard obvious low values before sorting.
+In order to model HMA's penalties more accurately, we profiled sorting 4.5M integers using quicksort ( NlogN complexity) on a real system with a recent Intel Core i7 processor running at 2.1GHz. Our experiment showed that sorting all of HMA's activity tracking counters, at these memory sizes, takes 1.95s on 
+average. When we scale this overhead to our simulated 3.2GHz core, the expected delay would be approximately 1.2s, which is much larger than the proposed optimal interval size for HMA. We instead assumed a very generously reduced overhead of 7ms per interval, assuming we could sort in parallel and discard obvious low values before sorting.
 
-In our following experiments we assume a highly optimized sorting technique for HMA and we add a fixed penalty of 5 processor cycles per counter (7ms total sorting overhead per interval).
+\ignore{In our following experiments we assume a highly optimized sorting technique for HMA and we add a fixed penalty of 5 processor cycles per counter (7ms total sorting overhead per interval).
+}
 
-Based on the results we derive some interesting observations:
+Based on the results we make the following observations:
 \begin{itemize}
 \setlength\itemsep{0em}
-	\item MemPod outperforms the state-of-the-art competitors in the majority of our workloads, and in several cases scoring very close to an HBM-only configuration. MemPod improves AMMAT over a two-level memory without migrations by 19\% on average.
-	\item On average, CAMEO reports AMMAT degradation by 41\% over the no-migration scheme. The negative impact is caused by our high slow:fast memory capacity ratio leading to intra-segment conflicts. Larger segments also counteract the application's spatial locality benefits, causing a ping-pong effect. From our experiments, we observe CAMEO to be the leading mechanism regarding the amount of data moved between memories for migrations, moving 3.9GB of data on average per 8-core experiment. For comparison purposes, MemPod moved 3.1GB on average, however migration traffic was divided between Pods, resulting in 804MB per Pod. THM moved 865MB on average and finally HMA moved 578MB due to its large intervals. We also frequently observed redundant migrations with CAMEO, where a line is evicted shortly after migration without being touched in the time it spent residing in fast memory. Optimizations such as intelligent line allocation to segments can significantly improve CAMEO's performance and reduce intra-segment conflicts, however to maintain a fair evaluation, CAMEO is evaluated under the same memory organization as the rest of the mechanisms.\remark {A.P.: Should we make this a subsection on its own?}
+	\item MemPod outperforms the state-of-the-art competitors in the majority of our workloads, and in several cases is very close to an HBM-only 
+configuration. MemPod improves AMMAT over a two-level memory 
+without migrations by 19\% on average.
+	\item On average, CAMEO reports AMMAT degradation of 41\% over the no-migration scheme. The negative impact is caused by our high ratio of
+slow to fast memory capacity.  Given CAMEO's algorithm, 9 slow lines
+compete for one fast line.  At that ratio, it is much more likely for
+two or more lines to thrash competing for the one spot.
+From our experiments, we observe CAMEO to force the most movement despite the
+fact that each move ismuch smaller.  CAMEO moves 3.9GB of data on average per 
+8-core experiment. For comparison purposes, MemPod moved 3.1GB on average, however migration traffic was divided between Pods, resulting in 804MB per Pod. 
+THM moved 865MB on average and HMA moved 578MB due to its large intervals. 
+We also frequently observed frequent wasted migrations with CAMEO, where a 
+line is 
+evicted before it is touched. 
+\ignore{Optimizations such as intelligent line allocation to segments can significantly improve CAMEO's performance and reduce intra-segment conflicts, however to maintain a fair evaluation, CAMEO is evaluated under the same memory organization as the rest of the mechanisms.\remark {A.P.: Should we make this a subsection on its own?}
+}
 	\item On average MemPod reports 21\% higher AMMAT than HBM-only, while THM and HMA report 33\% and 40\% respectively.
 	
 	\item In some workloads migration overall is harmful to performance, 
@@ -155,7 +196,7 @@ Migration mechanisms will be forced to include a cache as activity tracking and 
 
 HMA's design further complicates this study, as sorting all activity counters at each epoch is performed by the OS, utilizing the cpu's cache instead of the dedicated migration cache. In our results, we present ``HMA-OPT'', an HMA flavor that does not take into account any penalties for OS interrupts, TLB shootdowns, Page Table (PT) updates, walks and misses, or sorting of the large
 pool of counters.
-We also do not model the application-level effects of starting with a cold TLB after each interval.
+We also do not model the application-level effects of starting with a cold TLB after each interval, which only affects HMA.
 
 Figure \ref{fig:cache} shows our results obtained by taking the average AMMAT from all our workloads for each mechanism. HMA-OPT reports the lowest AMMAT, albeit unrealistic and MemPod outperforms every other mechanism regardless of the cache size. MemPod outperforms THM by 9\% with a 64kB cache, while HMA-OPT outperforms MemPod by 9\%.
 }
@@ -188,7 +229,8 @@ In our implementation, each cache miss injects a read request to retrieve missin
 
 Figure \ref{fig:cache_norm_tlm} shows our results obtained by taking the average AMMAT from all our workloads for each cache size for each mechanism. We present AMMAT results normalized to a two-level memory configuration without any migration mechanism. With 16, 32 and 64kB of cache, MemPod reports 4, 7 and 9\% AMMAT improvement over TLM and outperforms the other mechanisms.
 
-For 16, 32 and 64kB of cache, the impact on MemPod's performance (when compared to its performance without a cache) is 16, 14 and 12\% respectively. THM reports impacts of 12, 10 and 9\%. Interestingly, HMA reports lower performance impact with smaller cache sizes rather than larger. Our investigation revealed that the extra cache misses caused by a smaller cache lead to a reduced number of incoming requests to be serviced per interval. As a result, HMA's activity tracking counters have lower values at the end of the interval, leading to fewer migrations. As demonstrated earlier in Section \ref{sec:MEA}, HMA (using Full Counters) has a low prediction accuracy. As such, by reducing the number of migrations, we observe the number of requests serviced by the fast memory to increase drastically, due to those hot pages that were not mistakenly evicted.
+For 16, 32 and 64kB of cache, the impact on MemPod's performance (when compared to its performance without a cache) is 16, 14 and 12\% respectively. THM reports impacts of 12, 10 and 9\%. Interestingly, HMA reports lower performance impact with smaller cache sizes rather than larger. Our investigation revealed that the extra cache misses caused by a smaller cache lead to a reduced number of incoming requests to be serviced per interval. As a result, HMA's activity tracking counters have lower values at the end of the interval, leading to fewer migrations. As demonstrated earlier in Section \ref{sec:MEA}, HMA (using Full Counters) has a low prediction accuracy. As such, by reducing the number of migrations, we observe the number of requests serviced by the fast memory to 
+increase, due to hot pages that were not replaced as aggressively.
 
 \subsubsection{Scalability}
 
