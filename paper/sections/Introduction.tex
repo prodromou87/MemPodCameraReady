@@ -8,7 +8,7 @@
 
 Die-stacked memory will increasingly be part of future systems, 
 attempting to alleviate 
-the memory wall problem~\cite{wulf-can95}. Memory standards have been developed~\cite{jedec-wideio,JEDEC-HBM,pawlowski-hotchips2011} and processor manufacturers are 
+the memory wall ~\cite{wulf-can95}. Memory standards have been developed~\cite{jedec-wideio,JEDEC-HBM,pawlowski-hotchips2011} and processor manufacturers are 
 already announcing products featuring 3D-stacked memory \cite{KnightsLanding,NVIDIA,black-micro2013,AMD-FURY}. 
 Currently, this technology is limited to 8GB per stack~\cite{JEDEC-HBM-REVISED}
 which does not fully address the capacity demands of modern systems. 
@@ -18,7 +18,7 @@ referred to as ``Two-Level Memory'' (TLM) \cite{cameo,meswani-HPCA21}.
 
 %Recent proposals in the literature \cite{chou-micro2014,qureshi-micro2012} demonstrate that when stacked memory is used as a large high-bandwidth last level cache, we need to re-evaluate traditional SRAM cache optimizations. Tag placement and granularity must be carefully studied and double access (tag check and data retrieval) in order to serve one request must be avoided due to the high latency of accessing a DRAM structure. Despite the associated challenges, state-of-the-art proposals manage to achieve high performance improvement through elegant solutions. Such a management scheme offers transparent operation and does not require added hardware structures to support it. On the downside, the extra memory capacity is not available to the software and some space is wasted to store tags instead of useful information.
 
-Stacked memory can be used as a large, high-bandwidth last level cache, or as part of main memory in a ``flat address space''. When used as a cache, recent research~\cite{chou-micro2014,qureshi-micro2012} demonstrates the need to re-evaluate traditional SRAM-based cache organizations. Tag placement and granularity needs to be re-evaluated, and we should avoid double memory accesses for tag 
+Stacked memory can be used as a large, high-bandwidth last level cache, or as part of main memory in a ``flat address space''. When used as a cache, recent research~\cite{chou-micro2014,qureshi-micro2012} demonstrates the need to re-evaluate traditional SRAM-based cache organizations. Tag placement and granularity need to be re-evaluated, and we should avoid double memory accesses for tag 
 check and data retrieval. Managing stacked memory as a cache is transparent 
 to the software and improves the performance of latency-sensitive applications. However, capacity-sensitive applications do not gain significant improvements as the stacked memory's (typically significant) capacity is not utilized for additional storage.
 

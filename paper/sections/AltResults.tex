@@ -6,8 +6,8 @@
 \label{sub:Evaluation}
 
 The goal of our evaluation framework is to quantitatively and qualitatively assess MemPod's capabilities and compare it against state-of-the-art proposed mechanisms. Throughout our evaluation section, we study MemPod's performance running with an eight-core CPU. We extend Ramulator \cite{kim-ramulator} to support flat address space hybrid memories. We model the MemPod architecture,
-as well as HMA, THM and CAMEO in our simulation framework. Ramulator enables 
-cycle-level memory simulation and includes a simple CPU front-end capable of approximating resource-induced stalls. We chose to evaluate MemPod under a realistic memory configuration consisting of 1GB 3D-stacked HBM \cite{JEDEC-HBM-REVISED} and 8GB of off-chip DDR4-1600. Table \ref{tab:specs} Provides a more detailed description of the simulated system's configuration.
+as well as HMA, THM, and CAMEO in our simulation framework. Ramulator enables 
+cycle-level memory simulation and includes a simple CPU front-end capable of approximating resource-induced stalls. We evaluate MemPod under a realistic memory configuration consisting of 1GB 3D-stacked HBM \cite{JEDEC-HBM-REVISED} and 8GB of off-chip DDR4-1600. Table \ref{tab:specs} Provides a more detailed description of the simulated system's configuration.
 
 \begin{table}[t]
   \includegraphics[width=0.46\textwidth]{figures/specs_table.pdf}
@@ -18,17 +18,17 @@ cycle-level memory simulation and includes a simple CPU front-end capable of app
 \subsection{Experimental Methodology}
 \label{sub:Experimental}
 
-We use benchmarks from the SPEC2006 suite \cite{spec} as our workloads. Using Sniper \cite{sniper}, we recorded memory request traces while simultaneously executing 8 benchmarks on a simulated 8-core CPU. We then feed these multi-programmed memory traces into Ramulator, executing all workloads to completion. Our complete set of workloads consists of 15 ``homogeneous'' workloads, where 8 copies of the same benchmark are run in parallel (we simply refer to these workloads by the benchmark's name in later results), as well as 12 workloads featuring a random mix of 8 benchmarks each (referred to as mix1-12). Each benchmark was executed and traced under its reference input. When running homogeneous workloads, Sniper ensures that memory pages are not shared between workloads. A breakdown of the mixed workloads is shown in Table \ref{tab:workloads}.
+We use benchmarks from the SPEC2006 suite \cite{spec} as our workloads. Using Sniper \cite{sniper}, we record memory request traces while simultaneously executing 8 benchmarks on a simulated 8-core CPU. We then feed these multi-programmed memory traces into Ramulator, executing all workloads to completion. Our complete set of workloads consists of 15 ``homogeneous'' workloads, where 8 copies of the same benchmark are run in parallel (we simply refer to these workloads by the benchmark's name in later results), as well as 12 workloads featuring a random mix of 8 benchmarks each (referred to as mix1-12). Each benchmark is executed and traced under its reference input. When running homogeneous workloads, Sniper ensures that memory pages are not shared between workloads. A breakdown of the mixed workloads is shown in Table \ref{tab:workloads}.
 
 \remark {A.P.: I'm trying to point out that same benchmarks send memory requests to different pages.}
 
 \remark{I guarantee reviewers are going to ask -- when running 8 copies, 
 did you use 8 unique inputs?}
 
-We also extended Ramulator with caching for the activity tracking and/or remap tables depending on the simulated mechanism. Cache misses inject memory requests into the stream of requests fed by our trace files to retrieve the missing information. No priority is given to these cache miss requests over regular requests. When caches for hybrid memory management techniques are disabled, the simulator assumes that any information needed by any mechanism exists on chip and is accessible without any delay. The migration process was implemented in detail as well. In order to read an entire 2KB DRAM page from memory, 32 read requests need to be sent for each of the two migration candidates and then another set of 32 requests for each of the two write-backs.
+We also extended Ramulator with caching for the activity tracking and/or remap tables depending on the simulated mechanism. Bookkeeping-related cache misses inject memory requests into the stream of requests fed by our trace files to retrieve the missing information. No priority is given to these cache miss requests over regular requests. In experiments where the caches for hybrid memory management techniques are disabled, the simulator assumes that any information needed by any mechanism exists on chip and is accessible without any delay. The migration process was implemented in detail as well. In order to read an entire 2KB DRAM page from memory, 32 read requests need to be sent for each of the two migration candidates and then another set of 32 requests for each of the two write-backs.
 
-As we use Ramulator with recorded traces, we chose to report Average Main Memory Access Time (AMMAT) in our results. Even though Ramulator has the ability to approximate IPC with a simple CPU model, 
-AMMAT is computed with much greater fidelity with this tool, as it models the memory system in great detail. AMMAT is the average time spent accessing and waiting for main memory by each request (lower is better). Due to space limitations we are not able to show results for individual workloads in most of the graphs in this paper. In those graphs, we only present the average of all mixed workloads, average of all homogeneous workloads, and overall average.
+As we use Ramulator with recorded traces, we report Average Main Memory Access Time (AMMAT) in our results. Even though Ramulator has the ability to approximate IPC with a simple CPU model, 
+AMMAT is computed with much greater fidelity with this tool, as it models the memory system in great detail. AMMAT is the average time spent accessing and waiting for main memory by each request (lower is better). 
 
 In our AMMAT experiments, we typically introduce additional accesses to the
 system (migrations, bookkeeping cache misses).  The overhead of the additional
@@ -36,6 +36,8 @@ misses is accounted to the total memory stall time, but the total memory
 stall time is divided by the number of original LLC misses (main memory requests) captured in our traces
 -- that is, the denominator in our AMMAT equation does not change between
 experiments and equals the number of requests in our trace file.
+
+Due to space limitations we are not able to show results for individual workloads in most of the graphs in this paper. In those graphs, we only present the average of all mixed workloads, average of all homogeneous workloads, and overall average.
 
 \begin{table}
   \includegraphics[width=0.46\textwidth]{figures/workloads_checkmarks.pdf}
@@ -120,7 +122,8 @@ Figure \ref{fig:counter_size_old} shows the same experiment with MemPod's parame
 \end{figure}
 
 \begin{figure*}[t]
-  \includegraphics[width=\textwidth]{figures/revised/new/comparison_no_cache.pdf}
+  \includegraphics[width=\textwidth]{figures/revised/new/comparison_no_cache_a.pdf}
+  \includegraphics[width=\textwidth]{figures/revised/new/comparison_no_cache_b.pdf}
   \caption{Performance Comparison: AMMAT is normalized to a hybrid memory without any migration mechanism.}
   \label{fig:performance}
 \end{figure*}
@@ -134,7 +137,7 @@ Each one of the 64 MEA entries needs 21 bits for addressing the 1.1M pages per P
 \subsubsection{Performance Comparison}
 \label{sub:performance}
 
-Figure \ref{fig:performance} presents a performance comparison of MemPod, HMA, THM, CAMEO and a configuration with 9GBs of on-chip HBM memory, normalized to the performance of a hybrid memory configuration without migration capabilities. We evaluated all mechanisms with migration-related caching disabled. 
+Figure \ref{fig:performance} presents a performance comparison of MemPod, HMA, THM, CAMEO and a configuration with 9GBs of on-chip HBM memory, normalized to the performance of a hybrid memory configuration without migration capabilities. We evaluat all mechanisms with migration-related caching disabled. 
 
 In order to model HMA's penalties more accurately, we profiled sorting 4.5M integers using quicksort ( NlogN complexity) on a real system with a recent Intel Core i7 processor running at 2.1GHz. Our experiment showed that sorting all of HMA's activity tracking counters, at these memory sizes, takes 1.95s on 
 average. When we scale this overhead to our simulated 3.2GHz core, the expected delay would be approximately 1.2s, which is much larger than the proposed optimal interval size for HMA. We instead assumed a very generously reduced overhead of 7ms per interval, assuming we could sort in parallel and discard obvious low values before sorting.
@@ -153,10 +156,10 @@ slow to fast memory capacity.  Given CAMEO's algorithm, 9 slow lines
 compete for one fast line.  At that ratio, it is much more likely for
 two or more lines to thrash competing for the one spot.
 From our experiments, we observe CAMEO to force the most movement despite the
-fact that each move ismuch smaller.  CAMEO moves 3.9GB of data on average per 
+fact that each move is much smaller.  CAMEO moves 3.9GB of data on average per 
 8-core experiment. For comparison purposes, MemPod moved 3.1GB on average, however migration traffic was divided between Pods, resulting in 804MB per Pod. 
 THM moved 865MB on average and HMA moved 578MB due to its large intervals. 
-We also frequently observed frequent wasted migrations with CAMEO, where a 
+We also frequently observe wasted migrations with CAMEO, where a 
 line is 
 evicted before it is touched. 
 \ignore{Optimizations such as intelligent line allocation to segments can significantly improve CAMEO's performance and reduce intra-segment conflicts, however to maintain a fair evaluation, CAMEO is evaluated under the same memory organization as the rest of the mechanisms.\remark {A.P.: Should we make this a subsection on its own?}
@@ -180,28 +183,8 @@ the row buffer hit rate?\\A.P.: THM's results were wrong. The updated results an
 \end{itemize}
 
 \subsubsection{Caching Effect}
-\ignore{
-\begin{figure}
-  \includegraphics[width=0.46\textwidth]{figures/cache_impact.pdf}
-  \caption{Cache Impact. AMMAT normalized to stock TLM (no migrations)}
-  \label{fig:cache}
-\end{figure}
 
-\remark{A.P.: I don't have CAMEO results with caching yet. Not sure if it will be ready on time but I'm working on it.}
-
-\remark{A.P.: Need to change the structure of this section due to issues with results.}
-
-
-Migration mechanisms will be forced to include a cache as activity tracking and remap table structures are too large to store on-chip. The use of a cache will unavoidably hinder performance. In this experiment we evaluate the impact of a cache on each mechanism's performance. As described in Section \ref{sec:Architecture}, each mechanism has different cache requirements. THM caches its counters and remap table together with its SRT structure. HMA has no need for a remap table but has high storage requirements for its counting mechanism. MemPod must cache only its remap table as MEA counters will be on chip. We simulated each mechanism with 16, 32 and 64 KB of cache. For MemPod, the available cache capacity was divided equally over four Pods. All mechanisms use the stacked memory as backing store for their tracking information.
-
-HMA's design further complicates this study, as sorting all activity counters at each epoch is performed by the OS, utilizing the cpu's cache instead of the dedicated migration cache. In our results, we present ``HMA-OPT'', an HMA flavor that does not take into account any penalties for OS interrupts, TLB shootdowns, Page Table (PT) updates, walks and misses, or sorting of the large
-pool of counters.
-We also do not model the application-level effects of starting with a cold TLB after each interval, which only affects HMA.
-
-Figure \ref{fig:cache} shows our results obtained by taking the average AMMAT from all our workloads for each mechanism. HMA-OPT reports the lowest AMMAT, albeit unrealistic and MemPod outperforms every other mechanism regardless of the cache size. MemPod outperforms THM by 9\% with a 64kB cache, while HMA-OPT outperforms MemPod by 9\%.
-}
-
-Migration mechanisms will be forced to include a cache as activity tracking and remap table structures are too large to store on-chip. The use of a cache will unavoidably hinder performance. Each mechanism has different cache requirements. THM caches its counters and remap table together with its SRT structure. HMA has no need for a remap table but has high storage requirements for its counting mechanism. MemPod must cache only its remap table as MEA counters will be on chip. 
+Migration mechanisms will be forced to include a cache as activity tracking and remap table structures are too large to store on-chip. The use of a cache will unavoidably hinder performance. Each mechanism has different cache requirements. THM caches its counters and remap table together with its SRT structure. HMA has no need for a remap table but has high storage requirements for its counting mechanism. MemPod must cache only its remap table as MEA counters easily fit on chip. 
 
 In this experiment we evaluate the impact of a cache on MemPod's performance and we also compare it against HMA and THM when operating with a cache. MemPod was configured with the optimal parameter values identified over the course of this section. Every mechanism was evaluated with 16, 32 and 64 KB of cache. For MemPod, the cache capacity is distributed equally over its four Pods. A part of stacked memory was partitioned to serve as each mechanism's backing store.
 
@@ -227,7 +210,7 @@ In our implementation, each cache miss injects a read request to retrieve missin
   \label{fig:cache_norm_tlm}
 \end{figure}
 
-Figure \ref{fig:cache_norm_tlm} shows our results obtained by taking the average AMMAT from all our workloads for each cache size for each mechanism. We present AMMAT results normalized to a two-level memory configuration without any migration mechanism. With 16, 32 and 64kB of cache, MemPod reports 4, 7 and 9\% AMMAT improvement over TLM and outperforms the other mechanisms.
+Figure \ref{fig:cache_norm_tlm} shows our results obtained by taking the average AMMAT from all our workloads for each cache size for each mechanism. We present AMMAT results normalized to a two-level memory configuration without any migration mechanism. With 16, 32 and 64kB of cache, MemPod reports 4, 7 and 9\% AMMAT improvement over a 2-Level Memory (2LM) with no migration capability and outperforms the other mechanisms.
 
 For 16, 32 and 64kB of cache, the impact on MemPod's performance (when compared to its performance without a cache) is 16, 14 and 12\% respectively. THM reports impacts of 12, 10 and 9\%. Interestingly, HMA reports lower performance impact with smaller cache sizes rather than larger. Our investigation revealed that the extra cache misses caused by a smaller cache lead to a reduced number of incoming requests to be serviced per interval. As a result, HMA's activity tracking counters have lower values at the end of the interval, leading to fewer migrations. As demonstrated earlier in Section \ref{sec:MEA}, HMA (using Full Counters) has a low prediction accuracy. As such, by reducing the number of migrations, we observe the number of requests serviced by the fast memory to 
 increase, due to hot pages that were not replaced as aggressively.

@@ -40,13 +40,12 @@ The overhead of maintaining a set of counters per memory page (or other granular
 \subsection{Migration Triggers}
 
 Each memory management policy must decide when to trigger migrations. 
-Migrations add significant delays to a system and any penalties incurred should be amortized by the performance improvement from placing a page in the fast memory. Requests that arrive while migrations are being performed have to be delayed to ensure functionally correct memory behavior. Throughout the literature, three triggers are most commonly used whenever state must be updated based on tracking information (MC scheduling, migrations, dynamic voltage and frequency scaling etc.). Interval-based (or epoch-based) triggers occur with a set frequency, while threshold-based solutions trigger whenever a predetermined criterion is met. Finally, event-based triggers react to predefined events and activate with a ``if-this-then-that'' logic. 
-Both interval-based and threshold-based approaches face the same challenge of identifying the optimal interval or threshold value. 
+Migrations add significant delays to a system and any penalties incurred should be amortized by the performance improvement from placing a page in the fast memory. Requests that arrive while migrations are being performed have to be delayed to ensure functionally correct memory behavior. Throughout the literature, three triggers are most commonly used whenever state must be updated based on tracking information (MC scheduling, migrations, dynamic voltage and frequency scaling etc.). Interval-based (or epoch-based) triggers occur with a set frequency, while threshold-based solutions trigger whenever a predetermined criterion is met. Finally, event-based triggers react to predefined events. Both interval-based and threshold-based approaches face the same challenge of identifying the optimal interval or threshold value. 
 
 \subsection{Migration Datapath}
 
 Regardless of the choice for each migration building block described so far, once migration is triggered, the migration manager has to follow a number of 
-steps: First, migration candidates need to be identified. Traditionally, one page (or a segment/line depending on the migration granularity) from the slow memory and one from fast memory. The two identified candidates need to be swapped. First one or both pages will be read and stored in temporary buffers and then written at their remapped locations.
+steps: First, migration candidates need to be identified. Traditionally, one page (or a segment/line depending on the migration granularity) from the slow memory and one from fast memory. Then, the two identified candidates need to be swapped. During the swap process, one or both pages will be read and stored in temporary buffers and then written at their remapped locations.
 
 %Describing the actual migration datapath is often overlooked in migration publications. 
 Without dedicated migration driver hardware, migrations will have to be orchestrated by the OS and CPU cores. Consequences include communication delay, 
@@ -58,4 +57,4 @@ and no traffic is generated at the global switch (saving energy and eliminating 
 %and the CPUs are free to keep executing non-memory instructions. 
 In HMA, the OS orchestrates everything. Some CPU cores have to be stalled and used to service the OS interrupt, causing the migrated pages to traverse through communication mediums and caches on each way. THM does not fully describe its datapath, but it appears that CPUs are used in this case as well. CAMEO describes its swapping operation to be transparent to the OS by using existing writeback and fill queues. Its mechanism relies on the two memories sending writeback or demand read requests to each other, which further implies some added logic in Memory Controllers, as well as communication between MCs.
 
-To make a generous comparison, we do not model the penalty introduced by using CPUs or global communication mediums for migration in our HMA, THM and CAMEO simulations presented in Section \ref{sec:Results}.
+To make a generous comparison, we do not model the penalty introduced by using CPUs or global communication mediums for migration in our HMA, THM, and CAMEO simulations presented in Section \ref{sec:Results}.
