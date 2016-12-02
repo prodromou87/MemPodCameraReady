@@ -6,8 +6,8 @@
 \label{sub:Evaluation}
 
 The goal of our evaluation framework is to quantitatively and qualitatively assess MemPod's capabilities and compare it against state-of-the-art proposed mechanisms. Throughout our evaluation section, we study MemPod's performance running with an eight-core CPU. We extend Ramulator \cite{kim-ramulator} to support flat address space hybrid memories. We model the MemPod architecture,
-as well as HMA, THM and CAMEO in our simulation framework. Ramulator enables 
-cycle-level memory simulation and includes a simple CPU front-end capable of approximating resource-induced stalls. We chose to evaluate MemPod under a realistic memory configuration consisting of 1GB 3D-stacked HBM \cite{JEDEC-HBM-REVISED} and 8GB of off-chip DDR4-1600. Table \ref{tab:specs} Provides a more detailed description of the simulated system's configuration.
+as well as HMA, THM, and CAMEO in our simulation framework. Ramulator enables 
+cycle-level memory simulation and includes a simple CPU front-end capable of approximating resource-induced stalls. We evaluate MemPod under a realistic memory configuration consisting of 1GB 3D-stacked HBM \cite{JEDEC-HBM-REVISED} and 8GB of off-chip DDR4-1600. Table \ref{tab:specs} Provides a more detailed description of the simulated system's configuration.
 
 \begin{table}[t]
   \includegraphics[width=0.46\textwidth]{figures/specs_table.pdf}
@@ -18,26 +18,24 @@ cycle-level memory simulation and includes a simple CPU front-end capable of app
 \subsection{Experimental Methodology}
 \label{sub:Experimental}
 
-We use benchmarks from the SPEC2006 suite \cite{spec} as our workloads. Using Sniper \cite{sniper}, we recorded memory request traces while simultaneously executing 8 benchmarks on a simulated 8-core CPU. We then feed these multi-programmed memory traces into Ramulator, executing all workloads to completion. Our complete set of workloads consists of 15 ``homogeneous'' workloads, where 8 copies of the same benchmark are run in parallel (we simply refer to these workloads by the benchmark's name in later results), as well as 12 workloads featuring a random mix of 8 benchmarks each (referred to as mix1-12). Each benchmark was executed and traced under its reference input. When running homogeneous workloads, Sniper ensures that memory pages are not shared between workloads. A breakdown of the mixed workloads is shown in Table \ref{tab:workloads}.
+We use benchmarks from the SPEC2006 suite \cite{spec} as our workloads. Using Sniper \cite{sniper}, we record memory request traces while simultaneously executing 8 benchmarks on a simulated 8-core CPU. We then feed these multi-programmed memory traces into Ramulator, executing all workloads to completion. Our complete set of workloads consists of 15 ``homogeneous'' workloads, where 8 copies of the same benchmark are run in parallel (we simply refer to these workloads by the benchmark's name in later results), as well as 12 workloads featuring a random mix of 8 benchmarks each (referred to as mix1-12). Each benchmark is executed and traced under its reference input. When running homogeneous workloads, Sniper ensures that memory pages are not shared between workloads. A breakdown of the mixed workloads is shown in Table \ref{tab:workloads}.
 
 \remark {A.P.: I'm trying to point out that same benchmarks send memory requests to different pages.}
 
 \remark{I guarantee reviewers are going to ask -- when running 8 copies, 
 did you use 8 unique inputs?}
 
-We also extended Ramulator with caching for the activity tracking and/or remap tables depending on the simulated mechanism. Cache misses inject memory requests into the stream of requests fed by our trace files to retrieve the missing information. No priority is given to these cache miss requests over regular requests. When caches for hybrid memory management techniques are disabled, the simulator assumes that any information needed by any mechanism exists on chip and is accessible without any delay. The migration process was implemented in detail as well. In order to read an entire 2KB DRAM page from memory, 32 read requests need to be sent for each of the two migration candidates and then another set of 32 requests for each of the two write-backs.
+We also extended Ramulator with caching for the activity tracking and/or remap tables depending on the simulated mechanism. All bookkeeping-related cache misses inject memory requests into the stream of requests fed by our trace files to retrieve the missing information. No priority is given to these cache miss requests over regular requests. In experiments where the caches for hybrid memory management techniques are disabled, the simulator assumes that any information needed by any mechanism exists on chip and is accessible without any delay. The migration process is implemented in detail as well. In order to read an entire 2KB DRAM page from memory, 32 read requests need to be sent for each of the two migration candidates and then another set of 32 requests for each of the two write-backs.
 
-As we use Ramulator with recorded traces, we chose to report Average Main Memory Access Time (AMMAT) in our results. Even though Ramulator has the ability to approximate IPC with a simple CPU model, 
+As we use Ramulator with recorded traces, we report Average Main Memory Access Time (AMMAT) in our results. Even though Ramulator has the ability to approximate IPC with a simple CPU model, 
 AMMAT is computed with much greater fidelity with this tool,
 as it models the memory system in great detail. AMMAT is the average time 
-spent accessing and waiting for main memory by each request (lower is better). Due to space limitations we are not able to show results for individual workloads in most of the graphs in this paper. In those graphs, we only present the average of all mixed workloads, average of all homogeneous workloads, and overall average.
+spent accessing and waiting for main memory by each request (lower is better). 
 
 In our AMMAT experiments, we typically introduce additional accesses to the
-system (migrations, bookkeeping cache misses).  The overhead of the additional
-misses is accounted to the total memory stall time, but the total memory 
-stall time is divided by the number of original LLC misses (main memory requests) captured in our traces
--- that is, the denominator in our AMMAT equation does not change between
-experiments and equals the number of requests in our trace file.
+system (migrations, bookkeeping cache misses).  The overhead of the additional misses is accounted to the total memory stall time, but the total memory  stall time is divided by the number of original LLC misses (main memory requests) captured in our traces -- that is, the denominator in our AMMAT equation does not change between experiments and equals the number of requests in our trace file.
+
+Due to space limitations we are not able to show results for individual workloads in most of the graphs in this paper. In those graphs, we only present the average of all mixed workloads, average of all homogeneous workloads, and overall average.
 
 \begin{table}
   \includegraphics[width=0.46\textwidth]{figures/workloads_checkmarks.pdf}
@@ -118,7 +116,7 @@ Based on our results, we identify 4 bits per counter to be the optimal value. Ea
   \label{fig:performance}
 \end{figure*}
 
-Figure \ref{fig:performance} presents a performance comparison of MemPod, HMA, THM, CAMEO and a configuration with 9GBs of on-chip HBM memory, normalized to the performance of a hybrid memory configuration without migration capabilities. We evaluated all mechanisms with caching disabled. 
+Figure \ref{fig:performance} presents a performance comparison of MemPod, HMA, THM, CAMEO and a configuration with 9GBs of on-chip HBM memory, normalized to the performance of a hybrid memory configuration without migration capabilities. We evaluat all mechanisms with caching disabled. 
 
 Based on the results we derive some interesting observations:
 \begin{itemize}[leftmargin=0.4cm]
